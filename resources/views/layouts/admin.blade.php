@@ -47,6 +47,26 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             z-index: 1000;
             transition: all 0.3s;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        /* Custom scrollbar for sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.5);
         }
         
         .sidebar-brand {
@@ -106,6 +126,67 @@
         .nav-link i {
             width: 20px;
             margin-right: 10px;
+        }
+        
+        /* Dropdown Navigation Styles */
+        .dropdown-nav .nav-link.dropdown-toggle {
+            cursor: pointer;
+        }
+        
+        .dropdown-nav .nav-link.dropdown-toggle .fa-chevron-down {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+        
+        .dropdown-nav .nav-link.dropdown-toggle[aria-expanded="true"] .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+        
+        .submenu {
+            background: rgba(0,0,0,0.2);
+            border-left: 3px solid rgba(255,255,255,0.3);
+            margin-left: 1.5rem;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .submenu .nav-link {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .submenu .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding-left: 1.5rem;
+        }
+        
+        .submenu .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border-right: 2px solid white;
+        }
+        
+        .submenu .nav-link i {
+            width: 16px;
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        /* Collapse animation */
+        .collapse {
+            transition: height 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .collapse:not(.show) {
+            height: 0 !important;
+            opacity: 0;
+        }
+        
+        .collapse.show {
+            opacity: 1;
         }
         
         .content-wrapper {
@@ -203,20 +284,28 @@
                 </a>
             </div>
             
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.news.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.news.index') }}">
+            <!-- Berita Menu with Dropdown -->
+            <div class="nav-item dropdown-nav">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'active' : '' }}" 
+                   href="#" data-bs-toggle="collapse" data-bs-target="#beritaMenu" aria-expanded="{{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'true' : 'false' }}">
                     <i class="fas fa-newspaper"></i>
                     Berita
+                    <i class="fas fa-chevron-down ms-auto"></i>
                 </a>
-            </div>
-            
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.news-categories.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.news-categories.index') }}">
-                    <i class="fas fa-tags"></i>
-                    Kategori Berita
-                </a>
+                <div class="collapse {{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'show' : '' }}" id="beritaMenu">
+                    <div class="submenu">
+                        <a class="nav-link {{ request()->routeIs('admin.news.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.news.index') }}">
+                            <i class="fas fa-newspaper"></i>
+                            Kelola Berita
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.news-categories.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.news-categories.index') }}">
+                            <i class="fas fa-tags"></i>
+                            Kategori Berita
+                        </a>
+                    </div>
+                </div>
             </div>
             
             <div class="nav-item">
@@ -227,52 +316,62 @@
                 </a>
             </div>
             
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.faculties.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.faculties.index') }}">
-                    <i class="fas fa-building"></i>
-                    Fakultas
+            <!-- Akademik Menu with Dropdown -->
+            <div class="nav-item dropdown-nav">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'active' : '' }}" 
+                   href="#" data-bs-toggle="collapse" data-bs-target="#akademikMenu" aria-expanded="{{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'true' : 'false' }}">
+                    <i class="fas fa-university"></i>
+                    Akademik
+                    <i class="fas fa-chevron-down ms-auto"></i>
                 </a>
+                <div class="collapse {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'show' : '' }}" id="akademikMenu">
+                    <div class="submenu">
+                        <a class="nav-link {{ request()->routeIs('admin.faculties.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.faculties.index') }}">
+                            <i class="fas fa-building"></i>
+                            Fakultas
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.study-programs.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.study-programs.index') }}">
+                            <i class="fas fa-graduation-cap"></i>
+                            Program Studi
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.lecturers.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.lecturers.index') }}">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            Dosen
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.students.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.students.index') }}">
+                            <i class="fas fa-user-graduate"></i>
+                            Mahasiswa
+                        </a>
+                    </div>
+                </div>
             </div>
             
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.study-programs.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.study-programs.index') }}">
-                    <i class="fas fa-graduation-cap"></i>
-                    Program Studi
+            <!-- Media Menu with Dropdown -->
+            <div class="nav-item dropdown-nav">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') ? 'active' : '' }}" 
+                   href="#" data-bs-toggle="collapse" data-bs-target="#mediaMenu" aria-expanded="{{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') ? 'true' : 'false' }}">
+                    <i class="fas fa-photo-video"></i>
+                    Media
+                    <i class="fas fa-chevron-down ms-auto"></i>
                 </a>
-            </div>
-            
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.lecturers.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.lecturers.index') }}">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    Dosen
-                </a>
-            </div>
-            
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.students.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.students.index') }}">
-                    <i class="fas fa-user-graduate"></i>
-                    Mahasiswa
-                </a>
-            </div>
-            
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.galleries.index') }}">
-                    <i class="fas fa-images"></i>
-                    Galeri
-                </a>
-            </div>
-            
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.sliders.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.sliders.index') }}">
-                    <i class="fas fa-sliders-h"></i>
-                    Slider
-                </a>
+                <div class="collapse {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') ? 'show' : '' }}" id="mediaMenu">
+                    <div class="submenu">
+                        <a class="nav-link {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.galleries.index') }}">
+                            <i class="fas fa-images"></i>
+                            Galeri
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.sliders.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.sliders.index') }}">
+                            <i class="fas fa-sliders-h"></i>
+                            Slider
+                        </a>
+                    </div>
+                </div>
             </div>
             
             <div class="nav-item">
@@ -389,6 +488,46 @@
                 bsAlert.close();
             });
         }, 5000);
+        
+        // Dropdown navigation handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle dropdown toggle clicks
+            const dropdownToggles = document.querySelectorAll('.dropdown-nav .dropdown-toggle');
+            
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('data-bs-target');
+                    const targetElement = document.querySelector(targetId);
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    
+                    // Close all other dropdowns
+                    dropdownToggles.forEach(otherToggle => {
+                        if (otherToggle !== this) {
+                            const otherTargetId = otherToggle.getAttribute('data-bs-target');
+                            const otherTarget = document.querySelector(otherTargetId);
+                            if (otherTarget) {
+                                otherTarget.classList.remove('show');
+                                otherToggle.setAttribute('aria-expanded', 'false');
+                                otherToggle.classList.remove('active');
+                            }
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    if (isExpanded) {
+                        targetElement.classList.remove('show');
+                        this.setAttribute('aria-expanded', 'false');
+                        this.classList.remove('active');
+                    } else {
+                        targetElement.classList.add('show');
+                        this.setAttribute('aria-expanded', 'true');
+                        this.classList.add('active');
+                    }
+                });
+            });
+        });
     </script>
     
     @stack('scripts')
