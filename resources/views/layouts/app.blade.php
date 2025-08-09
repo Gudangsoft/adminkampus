@@ -37,48 +37,219 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-color: #667eea;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+        }
+
+        /* Navbar Modern Styling */
+        .navbar {
+            background: var(--primary-gradient) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 0.75rem 0;
+        }
+
         .navbar-brand {
-            font-size: 1.25rem !important;
+            font-size: 1.5rem !important;
+            font-weight: 700 !important;
             text-decoration: none !important;
+            color: white !important;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
+
         .navbar-brand:hover {
-            text-decoration: none !important;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            color: white !important;
         }
+
         .navbar-brand img {
             object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
-        .nav-link.active {
-            color: #0d6efd !important;
-            background-color: rgba(13, 110, 253, 0.1);
-            border-radius: 0.375rem;
+
+        /* Modern Navigation Links */
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem !important;
+            margin: 0 0.25rem;
+            border-radius: 50px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
         }
-        .nav-link {
-            transition: all 0.3s ease;
-            border-radius: 0.375rem;
-            margin: 0 2px;
+
+        .navbar-nav .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+            z-index: -1;
         }
-        .nav-link:hover {
-            background-color: rgba(13, 110, 253, 0.1);
+
+        .navbar-nav .nav-link:hover::before {
+            transform: scale(1);
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar-nav .nav-link.active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
             transform: translateY(-1px);
         }
+
+        .navbar-nav .nav-link i {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .navbar-nav .nav-link:hover i {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        /* Active indicator */
+        .navbar-nav .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        /* Mobile optimizations */
+        .navbar-toggler {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
         @media (max-width: 991.98px) {
+            .navbar-nav {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(20px);
+                border-radius: 15px;
+                margin-top: 1rem;
+                padding: 1rem;
+            }
+            
             .navbar-nav .nav-link {
-                margin: 2px 0;
-                padding: 0.75rem 1rem;
+                margin: 0.25rem 0;
+                padding: 0.75rem 1rem !important;
+                border-radius: 12px;
+            }
+            
+            .navbar-nav .nav-link::after {
+                display: none;
+            }
+        }
+
+        /* Smooth animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .navbar-nav .nav-item {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .navbar-nav .nav-item:nth-child(1) { animation-delay: 0.1s; }
+        .navbar-nav .nav-item:nth-child(2) { animation-delay: 0.2s; }
+        .navbar-nav .nav-item:nth-child(3) { animation-delay: 0.3s; }
+        .navbar-nav .nav-item:nth-child(4) { animation-delay: 0.4s; }
+        .navbar-nav .nav-item:nth-child(5) { animation-delay: 0.5s; }
+        .navbar-nav .nav-item:nth-child(6) { animation-delay: 0.6s; }
+        .navbar-nav .nav-item:nth-child(7) { animation-delay: 0.7s; }
+        .navbar-nav .nav-item:nth-child(8) { animation-delay: 0.8s; }
+
+        /* Body padding for fixed navbar */
+        body {
+            padding-top: 90px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        /* Adjust main content spacing */
+        main {
+            min-height: calc(100vh - 90px);
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation for navbar */
+        .navbar {
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
     </style>
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                     @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
-                        <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" height="40" class="me-2">
+                        <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" height="35" class="me-2">
                     @endif
-                    <span class="fw-bold">{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</span>
+                    <span>{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</span>
                 </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -88,37 +259,37 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('home') ? 'active fw-bold' : '' }}" href="{{ route('home') }}">
-                                <i class="fas fa-home me-1"></i>Beranda
+                                <i class="fas fa-home-alt"></i>Beranda
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('news.*') ? 'active fw-bold' : '' }}" href="{{ route('news.index') }}">
-                                <i class="fas fa-newspaper me-1"></i>Berita
+                                <i class="fas fa-newspaper"></i>Berita
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('announcements.*') ? 'active fw-bold' : '' }}" href="{{ route('announcements.index') }}">
-                                <i class="fas fa-bullhorn me-1"></i>Pengumuman
+                                <i class="fas fa-megaphone"></i>Pengumuman
                             </a>
                         </li>
-                                                <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('program-studi.*') ? 'active fw-bold' : '' }}" href="{{ route('program-studi.index') }}">
-                                <i class="fas fa-graduation-cap me-1"></i>Program Studi
+                                <i class="fas fa-graduation-cap"></i>Program Studi
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('fakultas.*') ? 'active fw-bold' : '' }}" href="{{ route('fakultas.index') }}">
-                                <i class="fas fa-building me-1"></i>Fakultas
+                                <i class="fas fa-university"></i>Fakultas
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('mahasiswa.*') ? 'active fw-bold' : '' }}" href="{{ route('mahasiswa.index') }}">
-                                <i class="fas fa-users me-1"></i>Mahasiswa
+                                <i class="fas fa-user-graduate"></i>Mahasiswa
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('gallery.*') ? 'active fw-bold' : '' }}" href="{{ route('gallery.index') }}">
-                                <i class="fas fa-images me-1"></i>Galeri
+                                <i class="fas fa-images"></i>Galeri
                             </a>
                         </li>
                         
@@ -128,7 +299,7 @@
                         @foreach($menuPages as $menuPage)
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is($menuPage->slug) ? 'active fw-bold' : '' }}" href="{{ route('page.show', $menuPage->slug) }}">
-                                <i class="fas fa-file-alt me-1"></i>{{ $menuPage->title }}
+                                <i class="fas fa-file-text"></i>{{ $menuPage->title }}
                             </a>
                         </li>
                         @endforeach
@@ -179,6 +350,110 @@
         
         @include('components.footer')
     </div>
+    
+    <!-- Modern Navbar Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add scroll effect to navbar
+            const navbar = document.querySelector('.navbar');
+            let lastScrollTop = 0;
+
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    // Scrolling up
+                    navbar.style.transform = 'translateY(0)';
+                }
+                
+                // Add backdrop blur effect on scroll
+                if (scrollTop > 50) {
+                    navbar.style.backdropFilter = 'blur(20px)';
+                    navbar.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)';
+                } else {
+                    navbar.style.backdropFilter = 'blur(10px)';
+                    navbar.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                }
+                
+                lastScrollTop = scrollTop;
+            });
+
+            // Add ripple effect to nav links
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Create ripple element
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.6);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                    `;
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    // Remove ripple after animation
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Smooth collapse for mobile menu
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            
+            if (navbarToggler && navbarCollapse) {
+                navbarToggler.addEventListener('click', function() {
+                    setTimeout(() => {
+                        if (navbarCollapse.classList.contains('show')) {
+                            navbarCollapse.style.animation = 'fadeInDown 0.3s ease';
+                        }
+                    }, 10);
+                });
+            }
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
     
     @if(isset($globalSettings['google_analytics']) && $globalSettings['google_analytics'])
         <!-- Google Analytics -->
