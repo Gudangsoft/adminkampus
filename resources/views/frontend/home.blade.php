@@ -4,49 +4,25 @@
 
 @push('styles')
 <style>
-/* Modern Hero Section Styles */
+/* Clean Elegant Hero Section */
 .hero-section {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     position: relative;
     display: flex;
     align-items: center;
     overflow: hidden;
 }
 
-.hero-bg {
+.hero-accent {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
-    background-size: cover;
-    animation: float 6s ease-in-out infinite;
-}
-
-.hero-particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 1px, transparent 1px),
-        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 1px, transparent 1px),
-        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.1) 1px, transparent 1px);
-    background-size: 100px 100px, 150px 150px, 120px 120px;
-    animation: particles 20s linear infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(1deg); }
-}
-
-@keyframes particles {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(-50px, -50px); }
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+    opacity: 0.1;
 }
 
 /* Hero Content */
@@ -78,67 +54,53 @@
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 2rem;
-    animation: slideInUp 1s ease-out;
-}
-
-.text-gradient {
-    background: linear-gradient(45deg, #fff, #f8f9fa, #fff);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradientShift 3s ease-in-out infinite;
-}
-
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    color: #212529;
+    animation: fadeInUp 0.8s ease-out;
 }
 
 .hero-subtitle {
     font-size: 1.2rem;
     line-height: 1.6;
-    opacity: 0.9;
-    animation: slideInUp 1s ease-out 0.2s both;
+    color: #6c757d;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 .hero-actions {
-    animation: slideInUp 1s ease-out 0.4s both;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 .btn-hero-primary {
-    background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+    background: #007bff;
     border: none;
     color: white;
     padding: 15px 30px;
     font-weight: 600;
-    border-radius: 50px;
+    border-radius: 8px;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
 }
 
 .btn-hero-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
     color: white;
 }
 
 .btn-hero-outline {
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    border: 2px solid #007bff;
+    color: #007bff;
     padding: 13px 28px;
     font-weight: 600;
-    border-radius: 50px;
+    border-radius: 8px;
     transition: all 0.3s ease;
-    backdrop-filter: blur(20px);
 }
 
 .btn-hero-outline:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-3px);
+    background: #007bff;
     color: white;
+    transform: translateY(-2px);
 }
 
 /* Hero Stats */
@@ -167,7 +129,7 @@
 /* Hero Visual */
 .hero-visual {
     position: relative;
-    animation: slideInRight 1s ease-out;
+    animation: fadeInRight 0.8s ease-out;
 }
 
 .hero-carousel-modern {
@@ -177,17 +139,17 @@
 }
 
 .hero-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
+    background: white;
+    border-radius: 12px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
 }
 
 .hero-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .hero-card-image {
@@ -204,31 +166,23 @@
 }
 
 .hero-card:hover .hero-card-image img {
-    transform: scale(1.1);
-}
-
-.hero-card-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+    transform: scale(1.05);
 }
 
 .hero-card-content {
     padding: 1.5rem;
-    color: white;
+    color: #212529;
 }
 
 .hero-card-content h3 {
     font-size: 1.3rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
+    color: #007bff;
 }
 
 .hero-card-content p {
-    opacity: 0.9;
+    color: #6c757d;
     margin: 0;
 }
 
@@ -244,106 +198,36 @@
     height: 12px;
     border-radius: 50%;
     border: none;
-    background: rgba(255, 255, 255, 0.3);
+    background: #dee2e6;
     transition: all 0.3s ease;
 }
 
 .hero-indicators button.active {
-    background: white;
-    transform: scale(1.2);
+    background: #007bff;
 }
 
-/* Hero Illustration */
-.hero-illustration {
-    position: relative;
-    height: 500px;
-    width: 100%;
+/* Simple and Clean Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.floating-card {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
-    padding: 20px;
-    color: white;
-    text-align: center;
-    animation: floatingCard 4s ease-in-out infinite;
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
-
-.floating-card.card-1 {
-    top: 20%;
-    left: 10%;
-    animation-delay: 0s;
-}
-
-.floating-card.card-2 {
-    top: 50%;
-    right: 10%;
-    animation-delay: 1s;
-}
-
-.floating-card.card-3 {
-    bottom: 20%;
-    left: 20%;
-    animation-delay: 2s;
-}
-
-@keyframes floatingCard {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(2deg); }
-}
-
-.floating-card i {
-    font-size: 2rem;
-    display: block;
-    margin-bottom: 10px;
-    color: #ff6b6b;
-}
-
-.hero-main-graphic {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
-}
-
-.graphic-circle {
-    width: 100%;
-    height: 100%;
-    border: 3px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    animation: rotate 20s linear infinite;
-}
-
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.graphic-dots {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px);
-    background-size: 20px 20px;
-    border-radius: 50%;
-    animation: rotate 15s linear infinite reverse;
-}
-
-/* Scroll Indicator */
-.scroll-indicator {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
     color: rgba(255, 255, 255, 0.8);
     animation: bounce 2s infinite;
 }
@@ -657,26 +541,27 @@
 @endpush
 
 @section('content')
-<!-- Modern Hero Section -->
+<!-- Clean Hero Section -->
 <section class="hero-section position-relative overflow-hidden">
-    <!-- Animated Background -->
-    <div class="hero-bg"></div>
-    <div class="hero-particles"></div>
+    <!-- Background Elements -->
+    <div class="hero-accent"></div>
     
     <!-- Hero Content -->
     <div class="container position-relative">
         <div class="row align-items-center min-vh-100">
             <div class="col-lg-6">
                 <div class="hero-content">
-                    <div class="hero-badge mb-4">
-                        <i class="fas fa-star me-2"></i>
-                        <span>Kampus Terdepan di Indonesia</span>
+                    <div class="mb-4">
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">
+                            <i class="fas fa-star me-2"></i>
+                            Kampus Terdepan di Indonesia
+                        </span>
                     </div>
                     
                     <h1 class="hero-title mb-4">
                         Masa Depan Cerah <br>
                         Dimulai di <br>
-                        <span class="text-gradient">{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</span>
+                        <span class="text-primary">{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</span>
                     </h1>
                     
                     <p class="hero-subtitle mb-5">
@@ -696,31 +581,29 @@
                     </div>
                     
                     <!-- Quick Stats -->
-                    <div class="hero-stats">
-                        <div class="row g-4">
-                            <div class="col-6 col-md-3">
-                                <div class="stat-item">
-                                    <div class="stat-number">{{ number_format($stats['total_students']) }}+</div>
-                                    <div class="stat-label">Mahasiswa</div>
-                                </div>
+                    <div class="row g-4">
+                        <div class="col-6 col-md-3">
+                            <div class="text-center">
+                                <div class="h3 mb-1 text-primary fw-bold">{{ number_format($stats['total_students']) }}+</div>
+                                <div class="small text-muted">Mahasiswa</div>
                             </div>
-                            <div class="col-6 col-md-3">
-                                <div class="stat-item">
-                                    <div class="stat-number">{{ number_format($stats['total_lecturers']) }}+</div>
-                                    <div class="stat-label">Dosen</div>
-                                </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center">
+                                <div class="h3 mb-1 text-primary fw-bold">{{ number_format($stats['total_lecturers']) }}+</div>
+                                <div class="small text-muted">Dosen</div>
                             </div>
-                            <div class="col-6 col-md-3">
-                                <div class="stat-item">
-                                    <div class="stat-number">{{ number_format($stats['total_study_programs']) }}+</div>
-                                    <div class="stat-label">Program Studi</div>
-                                </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center">
+                                <div class="h3 mb-1 text-primary fw-bold">{{ number_format($stats['total_study_programs']) }}+</div>
+                                <div class="small text-muted">Program Studi</div>
                             </div>
-                            <div class="col-6 col-md-3">
-                                <div class="stat-item">
-                                    <div class="stat-number">{{ number_format($stats['total_faculties']) }}+</div>
-                                    <div class="stat-label">Fakultas</div>
-                                </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center">
+                                <div class="h3 mb-1 text-primary fw-bold">{{ number_format($stats['total_faculties']) }}+</div>
+                                <div class="small text-muted">Fakultas</div>
                             </div>
                         </div>
                     </div>
@@ -761,36 +644,17 @@
                             </div>
                         </div>
                     @else
-                        <div class="hero-illustration">
-                            <div class="floating-card card-1">
+                        <div class="text-center p-5">
+                            <div class="display-1 text-primary mb-4">
                                 <i class="fas fa-graduation-cap"></i>
-                                <span>Pendidikan Berkualitas</span>
                             </div>
-                            <div class="floating-card card-2">
-                                <i class="fas fa-users"></i>
-                                <span>Komunitas Solid</span>
-                            </div>
-                            <div class="floating-card card-3">
-                                <i class="fas fa-rocket"></i>
-                                <span>Karier Cemerlang</span>
-                            </div>
-                            <div class="hero-main-graphic">
-                                <div class="graphic-circle"></div>
-                                <div class="graphic-dots"></div>
-                            </div>
+                            <h3 class="h4 text-primary mb-3">Bergabunglah Bersama Kami</h3>
+                            <p class="text-muted">Wujudkan masa depan gemilang dengan pendidikan berkualitas tinggi</p>
                         </div>
                     @endif
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Scroll Indicator -->
-    <div class="scroll-indicator">
-        <div class="scroll-mouse">
-            <div class="scroll-wheel"></div>
-        </div>
-        <span>Scroll untuk melihat lebih banyak</span>
     </div>
 </section>
 
@@ -799,78 +663,70 @@
     <div class="container">
         <div class="row text-center mb-5">
             <div class="col-12">
-                <h2 class="section-title position-relative d-inline-block mb-4">
-                    Prestasi & Pencapaian Kami
-                </h2>
-                <p class="lead text-muted">Angka-angka yang membanggakan dari perjalanan pendidikan kami</p>
+                <h2 class="h3 fw-bold text-dark mb-3">Prestasi & Pencapaian Kami</h2>
+                <p class="text-muted">Angka-angka yang membanggakan dari perjalanan pendidikan kami</p>
             </div>
         </div>
         
-        <div class="row g-4">
+        <div class="row g-4 mb-5">
             <div class="col-lg-3 col-md-6">
-                <div class="stats-card text-center p-4 h-100">
-                    <div class="stats-icon mb-3">
-                        <i class="fas fa-user-graduate"></i>
+                <div class="card border-0 shadow-sm text-center p-4 h-100">
+                    <div class="text-primary mb-3">
+                        <i class="fas fa-user-graduate fa-3x"></i>
                     </div>
-                    <div class="stats-number" data-count="{{ $stats['total_students'] }}">0</div>
-                    <div class="stats-label">Mahasiswa Aktif</div>
-                    <div class="stats-description">Dari berbagai program studi yang tersedia</div>
+                    <div class="h2 mb-2 text-primary fw-bold">{{ number_format($stats['total_students']) }}</div>
+                    <div class="h6 mb-2">Mahasiswa Aktif</div>
+                    <div class="small text-muted">Dari berbagai program studi yang tersedia</div>
                 </div>
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="stats-card text-center p-4 h-100">
-                    <div class="stats-icon mb-3">
-                        <i class="fas fa-chalkboard-teacher"></i>
+                <div class="card border-0 shadow-sm text-center p-4 h-100">
+                    <div class="text-primary mb-3">
+                        <i class="fas fa-chalkboard-teacher fa-3x"></i>
                     </div>
-                    <div class="stats-number" data-count="{{ $stats['total_lecturers'] }}">0</div>
-                    <div class="stats-label">Dosen Berkualitas</div>
-                    <div class="stats-description">Tenaga pengajar berpengalaman dan profesional</div>
+                    <div class="h2 mb-2 text-primary fw-bold">{{ number_format($stats['total_lecturers']) }}</div>
+                    <div class="h6 mb-2">Dosen Berkualitas</div>
+                    <div class="small text-muted">Tenaga pengajar berpengalaman dan profesional</div>
                 </div>
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="stats-card text-center p-4 h-100">
-                    <div class="stats-icon mb-3">
-                        <i class="fas fa-book-open"></i>
+                <div class="card border-0 shadow-sm text-center p-4 h-100">
+                    <div class="text-primary mb-3">
+                        <i class="fas fa-book-open fa-3x"></i>
                     </div>
-                    <div class="stats-number" data-count="{{ $stats['total_study_programs'] }}">0</div>
-                    <div class="stats-label">Program Studi</div>
-                    <div class="stats-description">Pilihan program sesuai minat dan bakat</div>
+                    <div class="h2 mb-2 text-primary fw-bold">{{ number_format($stats['total_study_programs']) }}</div>
+                    <div class="h6 mb-2">Program Studi</div>
+                    <div class="small text-muted">Pilihan program sesuai minat dan bakat</div>
                 </div>
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="stats-card text-center p-4 h-100">
-                    <div class="stats-icon mb-3">
-                        <i class="fas fa-university"></i>
+                <div class="card border-0 shadow-sm text-center p-4 h-100">
+                    <div class="text-primary mb-3">
+                        <i class="fas fa-university fa-3x"></i>
                     </div>
-                    <div class="stats-number" data-count="{{ $stats['total_faculties'] }}">0</div>
-                    <div class="stats-label">Fakultas</div>
-                    <div class="stats-description">Beragam bidang keilmuan yang komprehensif</div>
+                    <div class="h2 mb-2 text-primary fw-bold">{{ number_format($stats['total_faculties']) }}</div>
+                    <div class="h6 mb-2">Fakultas</div>
+                    <div class="small text-muted">Beragam bidang keilmuan yang komprehensif</div>
                 </div>
             </div>
         </div>
         
         <!-- Additional Stats -->
-        <div class="row mt-5">
+        <div class="row">
             <div class="col-md-4 text-center">
-                <div class="additional-stat">
-                    <h3 class="text-primary mb-2">95%</h3>
-                    <p class="mb-0">Tingkat Kelulusan</p>
-                </div>
+                <div class="h3 text-primary mb-2">95%</div>
+                <p class="mb-0 text-muted">Tingkat Kelulusan</p>
             </div>
             <div class="col-md-4 text-center">
-                <div class="additional-stat">
-                    <h3 class="text-success mb-2">88%</h3>
-                    <p class="mb-0">Alumni Bekerja</p>
-                </div>
+                <div class="h3 text-success mb-2">88%</div>
+                <p class="mb-0 text-muted">Alumni Bekerja</p>
             </div>
             <div class="col-md-4 text-center">
-                <div class="additional-stat">
-                    <h3 class="text-warning mb-2">A</h3>
-                    <p class="mb-0">Akreditasi Institusi</p>
-                </div>
+                <div class="h3 text-warning mb-2">A</div>
+                <p class="mb-0 text-muted">Akreditasi Institusi</p>
             </div>
         </div>
     </div>
@@ -1180,41 +1036,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Counter Animation
-    function animateCounter(element, target, duration = 2000) {
-        let current = 0;
-        const increment = target / (duration / 16);
-        
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            element.textContent = Math.floor(current).toLocaleString();
-        }, 16);
-    }
-
-    // Intersection Observer for Statistics
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const numbers = entry.target.querySelectorAll('.stats-number[data-count]');
-                numbers.forEach(number => {
-                    const target = parseInt(number.dataset.count);
-                    animateCounter(number, target);
-                });
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    const statsSection = document.getElementById('statistics');
-    if (statsSection) {
-        statsObserver.observe(statsSection);
-    }
-
-    // Smooth Scroll for Hero Button
+    // Smooth Scroll for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -1227,21 +1049,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
-    // Parallax Effect for Hero Background
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const heroBg = document.querySelector('.hero-bg');
-        const heroParticles = document.querySelector('.hero-particles');
-        
-        if (heroBg) {
-            heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
-        }
-        
-        if (heroParticles) {
-            heroParticles.style.transform = `translateY(${scrolled * 0.3}px)`;
-        }
-    });
+});
 
     // Add hover effects to stats cards
     document.querySelectorAll('.stats-card').forEach(card => {
