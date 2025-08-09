@@ -4,7 +4,526 @@
 
 @push('styles')
 <style>
-/* Hero News Styles */
+/* Modern Hero Section Styles */
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
+    background-size: cover;
+    animation: float 6s ease-in-out infinite;
+}
+
+.hero-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 1px, transparent 1px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 100px 100px, 150px 150px, 120px 120px;
+    animation: particles 20s linear infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(1deg); }
+}
+
+@keyframes particles {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-50px, -50px); }
+}
+
+/* Hero Content */
+.hero-content {
+    color: white;
+    z-index: 2;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    animation: slideInUp 1s ease-out;
+}
+
+.text-gradient {
+    background: linear-gradient(45deg, #fff, #f8f9fa, #fff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    animation: slideInUp 1s ease-out 0.2s both;
+}
+
+.hero-actions {
+    animation: slideInUp 1s ease-out 0.4s both;
+}
+
+.btn-hero-primary {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+.btn-hero-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+    color: white;
+}
+
+.btn-hero-outline {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 13px 28px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(20px);
+}
+
+.btn-hero-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+    color: white;
+}
+
+/* Hero Stats */
+.hero-stats {
+    animation: slideInUp 1s ease-out 0.6s both;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+/* Hero Visual */
+.hero-visual {
+    position: relative;
+    animation: slideInRight 1s ease-out;
+}
+
+.hero-carousel-modern {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.hero-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.hero-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.hero-card-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.hero-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.hero-card:hover .hero-card-image img {
+    transform: scale(1.1);
+}
+
+.hero-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+}
+
+.hero-card-content {
+    padding: 1.5rem;
+    color: white;
+}
+
+.hero-card-content h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.hero-card-content p {
+    opacity: 0.9;
+    margin: 0;
+}
+
+.hero-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.hero-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.hero-indicators button.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+/* Hero Illustration */
+.hero-illustration {
+    position: relative;
+    height: 500px;
+    width: 100%;
+}
+
+.floating-card {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    animation: floatingCard 4s ease-in-out infinite;
+}
+
+.floating-card.card-1 {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.floating-card.card-2 {
+    top: 50%;
+    right: 10%;
+    animation-delay: 1s;
+}
+
+.floating-card.card-3 {
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 2s;
+}
+
+@keyframes floatingCard {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+.floating-card i {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+    color: #ff6b6b;
+}
+
+.hero-main-graphic {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+}
+
+.graphic-circle {
+    width: 100%;
+    height: 100%;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.graphic-dots {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px);
+    background-size: 20px 20px;
+    border-radius: 50%;
+    animation: rotate 15s linear infinite reverse;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+}
+
+.scroll-mouse {
+    width: 24px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    margin: 0 auto 10px;
+    position: relative;
+}
+
+.scroll-wheel {
+    width: 4px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 2s infinite;
+}
+
+@keyframes scrollWheel {
+    0% { opacity: 1; top: 8px; }
+    100% { opacity: 0; top: 24px; }
+}
+
+.scroll-indicator span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .btn-hero-primary, .btn-hero-outline {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .hero-visual {
+        margin-top: 3rem;
+    }
+    
+    .floating-card {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+    
+    .floating-card i {
+        font-size: 1.5rem;
+    }
+}
+
+/* Statistics Section Styles */
+.stats-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.stats-card:hover::before {
+    transform: scaleX(1);
+}
+
+.stats-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stats-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: white;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover .stats-icon {
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.stats-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.stats-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.stats-description {
+    font-size: 0.9rem;
+    color: #6c757d;
+    line-height: 1.4;
+}
+
+.additional-stat h3 {
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.additional-stat p {
+    font-weight: 500;
+    color: #6c757d;
+}
+
+/* Legacy Hero News Styles - Keep for other sections */
 .hero-news-card {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     border-radius: 15px !important;
@@ -138,66 +657,224 @@
 @endpush
 
 @section('content')
-<!-- Hero Slider Section -->
-@if($sliders && $sliders->count() > 0)
-<div class="container-fluid p-0">
-    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" style="height: 500px;">
-        <!-- Indicators -->
-        <div class="carousel-indicators">
-            @foreach($sliders as $index => $slider)
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ $index }}" 
-                    class="{{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}"></button>
-            @endforeach
-        </div>
-        
-        <!-- Slides -->
-        <div class="carousel-inner h-100">
-            @foreach($sliders as $index => $slider)
-            <div class="carousel-item {{ $index === 0 ? 'active' : '' }} h-100">
-                <img src="{{ $slider->image_url }}" class="d-block w-100 h-100" alt="{{ $slider->title }}" style="object-fit: cover;">
-                <div class="carousel-caption d-md-block">
-                    <div class="container">
-                        <h1 class="display-5 fw-bold text-white">{{ $slider->title }}</h1>
-                        @if($slider->description)
-                        <p class="lead text-white">{{ $slider->description }}</p>
-                        @endif
-                        @if($slider->link && $slider->button_text)
-                        <a href="{{ $slider->link }}" target="{{ $slider->link_target }}" class="btn btn-primary btn-lg">
-                            {{ $slider->button_text }}
+<!-- Modern Hero Section -->
+<section class="hero-section position-relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="hero-bg"></div>
+    <div class="hero-particles"></div>
+    
+    <!-- Hero Content -->
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <div class="hero-badge mb-4">
+                        <i class="fas fa-star me-2"></i>
+                        <span>Kampus Terdepan di Indonesia</span>
+                    </div>
+                    
+                    <h1 class="hero-title mb-4">
+                        Masa Depan Cerah <br>
+                        Dimulai di <br>
+                        <span class="text-gradient">{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle mb-5">
+                        Bergabunglah dengan ribuan mahasiswa yang telah memilih jalur pendidikan terbaik. 
+                        Wujudkan impian kariermu bersama kami dengan fasilitas modern dan kurikulum yang relevan dengan industri.
+                    </p>
+                    
+                    <div class="hero-actions mb-5">
+                        <a href="{{ route('program-studi.index') }}" class="btn btn-hero-primary me-3">
+                            <i class="fas fa-graduation-cap me-2"></i>
+                            Lihat Program Studi
                         </a>
-                        @endif
+                        <a href="#statistics" class="btn btn-hero-outline">
+                            <i class="fas fa-chart-line me-2"></i>
+                            Fakta & Angka
+                        </a>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="hero-stats">
+                        <div class="row g-4">
+                            <div class="col-6 col-md-3">
+                                <div class="stat-item">
+                                    <div class="stat-number">{{ number_format($stats['total_students']) }}+</div>
+                                    <div class="stat-label">Mahasiswa</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="stat-item">
+                                    <div class="stat-number">{{ number_format($stats['total_lecturers']) }}+</div>
+                                    <div class="stat-label">Dosen</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="stat-item">
+                                    <div class="stat-number">{{ number_format($stats['total_study_programs']) }}+</div>
+                                    <div class="stat-label">Program Studi</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="stat-item">
+                                    <div class="stat-number">{{ number_format($stats['total_faculties']) }}+</div>
+                                    <div class="stat-label">Fakultas</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            @endforeach
+            
+            <div class="col-lg-6">
+                <div class="hero-visual">
+                    @if($sliders && $sliders->count() > 0)
+                        <div class="hero-carousel-modern">
+                            <div id="modernHeroCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    @foreach($sliders as $index => $slider)
+                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                        <div class="hero-card">
+                                            <div class="hero-card-image">
+                                                <img src="{{ $slider->image_url }}" alt="{{ $slider->title }}" class="img-fluid">
+                                                <div class="hero-card-overlay"></div>
+                                            </div>
+                                            <div class="hero-card-content">
+                                                <h3>{{ $slider->title }}</h3>
+                                                @if($slider->description)
+                                                <p>{{ Str::limit($slider->description, 80) }}</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                
+                                <!-- Modern Indicators -->
+                                <div class="hero-indicators">
+                                    @foreach($sliders as $index => $slider)
+                                    <button type="button" data-bs-target="#modernHeroCarousel" data-bs-slide-to="{{ $index }}" 
+                                            class="{{ $index === 0 ? 'active' : '' }}"></button>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="hero-illustration">
+                            <div class="floating-card card-1">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Pendidikan Berkualitas</span>
+                            </div>
+                            <div class="floating-card card-2">
+                                <i class="fas fa-users"></i>
+                                <span>Komunitas Solid</span>
+                            </div>
+                            <div class="floating-card card-3">
+                                <i class="fas fa-rocket"></i>
+                                <span>Karier Cemerlang</span>
+                            </div>
+                            <div class="hero-main-graphic">
+                                <div class="graphic-circle"></div>
+                                <div class="graphic-dots"></div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
-        
-        <!-- Controls -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
-</div>
-@else
-<!-- Fallback if no sliders -->
-<div class="container-fluid p-0">
-    <div class="bg-primary text-white text-center py-5" style="min-height: 500px; display: flex; align-items: center;">
-        <div class="container">
-            <h1 class="display-4">Selamat Datang di {{ $globalSettings['site_name'] ?? 'MYCAMPUS' }}</h1>
-            <p class="lead">Kampus Modern untuk Masa Depan Cemerlang</p>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
         </div>
+        <span>Scroll untuk melihat lebih banyak</span>
     </div>
-</div>
-@endif
+</section>
 
 <!-- Statistics Section -->
-<section class="py-5 bg-light">
+<section id="statistics" class="py-5 bg-light">
     <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="section-title position-relative d-inline-block mb-4">
+                    Prestasi & Pencapaian Kami
+                </h2>
+                <p class="lead text-muted">Angka-angka yang membanggakan dari perjalanan pendidikan kami</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card text-center p-4 h-100">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stats-number" data-count="{{ $stats['total_students'] }}">0</div>
+                    <div class="stats-label">Mahasiswa Aktif</div>
+                    <div class="stats-description">Dari berbagai program studi yang tersedia</div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card text-center p-4 h-100">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stats-number" data-count="{{ $stats['total_lecturers'] }}">0</div>
+                    <div class="stats-label">Dosen Berkualitas</div>
+                    <div class="stats-description">Tenaga pengajar berpengalaman dan profesional</div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card text-center p-4 h-100">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="stats-number" data-count="{{ $stats['total_study_programs'] }}">0</div>
+                    <div class="stats-label">Program Studi</div>
+                    <div class="stats-description">Pilihan program sesuai minat dan bakat</div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card text-center p-4 h-100">
+                    <div class="stats-icon mb-3">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="stats-number" data-count="{{ $stats['total_faculties'] }}">0</div>
+                    <div class="stats-label">Fakultas</div>
+                    <div class="stats-description">Beragam bidang keilmuan yang komprehensif</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Stats -->
+        <div class="row mt-5">
+            <div class="col-md-4 text-center">
+                <div class="additional-stat">
+                    <h3 class="text-primary mb-2">95%</h3>
+                    <p class="mb-0">Tingkat Kelulusan</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="additional-stat">
+                    <h3 class="text-success mb-2">88%</h3>
+                    <p class="mb-0">Alumni Bekerja</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="additional-stat">
+                    <h3 class="text-warning mb-2">A</h3>
+                    <p class="mb-0">Akreditasi Institusi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
         <div class="row text-center">
             <div class="col-md-3 mb-4">
                 <div class="h2 text-primary fw-bold">{{ number_format($stats['total_students']) }}</div>
@@ -494,13 +1171,134 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const heroCarousel = document.getElementById('heroCarousel');
-    if (heroCarousel) {
-        new bootstrap.Carousel(heroCarousel, {
-            interval: 5000,
+    // Modern Hero Carousel
+    const modernHeroCarousel = document.getElementById('modernHeroCarousel');
+    if (modernHeroCarousel) {
+        new bootstrap.Carousel(modernHeroCarousel, {
+            interval: 4000,
             ride: 'carousel'
         });
     }
+
+    // Counter Animation
+    function animateCounter(element, target, duration = 2000) {
+        let current = 0;
+        const increment = target / (duration / 16);
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current).toLocaleString();
+        }, 16);
+    }
+
+    // Intersection Observer for Statistics
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const numbers = entry.target.querySelectorAll('.stats-number[data-count]');
+                numbers.forEach(number => {
+                    const target = parseInt(number.dataset.count);
+                    animateCounter(number, target);
+                });
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.getElementById('statistics');
+    if (statsSection) {
+        statsObserver.observe(statsSection);
+    }
+
+    // Smooth Scroll for Hero Button
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Parallax Effect for Hero Background
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroBg = document.querySelector('.hero-bg');
+        const heroParticles = document.querySelector('.hero-particles');
+        
+        if (heroBg) {
+            heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+        
+        if (heroParticles) {
+            heroParticles.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+    });
+
+    // Add hover effects to stats cards
+    document.querySelectorAll('.stats-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Hero title typing effect
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        const text = heroTitle.innerHTML;
+        heroTitle.innerHTML = '';
+        
+        let i = 0;
+        const typeWriter = () => {
+            if (i < text.length) {
+                heroTitle.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        };
+        
+        // Start typing effect after a small delay
+        setTimeout(typeWriter, 500);
+    }
 });
+
+// Add some CSS animations via JavaScript
+const style = document.createElement('style');
+style.textContent = `
+    .hero-content > * {
+        opacity: 0;
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .hero-content .hero-badge { animation-delay: 0.2s; }
+    .hero-content .hero-title { animation-delay: 0.4s; }
+    .hero-content .hero-subtitle { animation-delay: 0.6s; }
+    .hero-content .hero-actions { animation-delay: 0.8s; }
+    .hero-content .hero-stats { animation-delay: 1s; }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+`;
+document.head.appendChild(style);
 </script>
 @endpush
