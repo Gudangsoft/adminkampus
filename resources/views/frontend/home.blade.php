@@ -206,6 +206,143 @@
     background: #007bff;
 }
 
+/* Enhanced Statistics Section Styles */
+.stats-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(0,123,255,0.05)"/></svg>');
+    background-size: 50px 50px;
+    opacity: 0.3;
+}
+
+.stats-card-enhanced {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s ease;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--card-gradient);
+    transition: all 0.3s ease;
+}
+
+.stats-card-enhanced:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stats-card-enhanced:hover::before {
+    height: 6px;
+}
+
+.stats-card-enhanced.card-blue {
+    --card-gradient: linear-gradient(135deg, #007bff, #0056b3);
+}
+
+.stats-card-enhanced.card-green {
+    --card-gradient: linear-gradient(135deg, #28a745, #1e7e34);
+}
+
+.stats-card-enhanced.card-orange {
+    --card-gradient: linear-gradient(135deg, #fd7e14, #e55a00);
+}
+
+.stats-card-enhanced.card-purple {
+    --card-gradient: linear-gradient(135deg, #6f42c1, #5a2d91);
+}
+
+.stats-icon-enhanced {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: white;
+    font-size: 2rem;
+    background: var(--card-gradient);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.stats-card-enhanced:hover .stats-icon-enhanced {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.stats-number-enhanced {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.stats-label-enhanced {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.stats-description-enhanced {
+    font-size: 0.9rem;
+    color: #6c757d;
+    line-height: 1.4;
+}
+
+.achievement-badge {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-left: 4px solid;
+}
+
+.achievement-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.achievement-badge.badge-blue { border-left-color: #007bff; }
+.achievement-badge.badge-green { border-left-color: #28a745; }
+.achievement-badge.badge-yellow { border-left-color: #ffc107; }
+
+.achievement-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.achievement-number.text-blue { color: #007bff; }
+.achievement-number.text-green { color: #28a745; }
+.achievement-number.text-yellow { color: #ffc107; }
+
 /* Simple and Clean Animations */
 @keyframes fadeInUp {
     from {
@@ -226,6 +363,134 @@
     to {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+/* Enhanced Visual Effects */
+.floating-action-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    animation: float 3s ease-in-out infinite;
+}
+
+.floating-action-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 35px rgba(0, 123, 255, 0.4);
+    color: white;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #007bff, #28a745, #fd7e14);
+    z-index: 9999;
+    transition: width 0.1s ease;
+}
+
+.glassmorphism {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.program-highlight-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.program-highlight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s;
+}
+
+.program-highlight-card:hover::before {
+    left: 100%;
+}
+
+.program-highlight-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.program-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.program-highlight-card:hover .program-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .stats-card-enhanced {
+        padding: 1.5rem 1rem;
+    }
+    
+    .stats-icon-enhanced {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .stats-number-enhanced {
+        font-size: 2rem;
+    }
+    
+    .achievement-number {
+        font-size: 2rem;
+    }
+    
+    .floating-action-btn {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .program-highlight-card {
+        padding: 1.5rem;
     }
 }
     color: rgba(255, 255, 255, 0.8);
@@ -658,9 +923,9 @@
     </div>
 </section>
 
-<!-- Statistics Section -->
-<section id="statistics" class="py-5 bg-light">
-    <div class="container">
+<!-- Enhanced Statistics Section -->
+<section id="statistics" class="py-5 stats-section">
+    <div class="container position-relative">
         <div class="row text-center mb-5">
             <div class="col-12">
                 <h2 class="h3 fw-bold text-dark mb-3">Prestasi & Pencapaian Kami</h2>
@@ -670,63 +935,126 @@
         
         <div class="row g-4 mb-5">
             <div class="col-lg-3 col-md-6">
-                <div class="card border-0 shadow-sm text-center p-4 h-100">
-                    <div class="text-primary mb-3">
-                        <i class="fas fa-user-graduate fa-3x"></i>
+                <div class="stats-card-enhanced card-blue h-100">
+                    <div class="stats-icon-enhanced">
+                        <i class="fas fa-user-graduate"></i>
                     </div>
-                    <div class="h2 mb-2 text-primary fw-bold">{{ number_format($stats['total_students']) }}</div>
-                    <div class="h6 mb-2">Mahasiswa Aktif</div>
-                    <div class="small text-muted">Dari berbagai program studi yang tersedia</div>
+                    <div class="stats-number-enhanced">{{ number_format($stats['total_students']) }}</div>
+                    <div class="stats-label-enhanced">Mahasiswa Aktif</div>
+                    <div class="stats-description-enhanced">Dari berbagai program studi yang tersedia</div>
                 </div>
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card border-0 shadow-sm text-center p-4 h-100">
-                    <div class="text-primary mb-3">
-                        <i class="fas fa-chalkboard-teacher fa-3x"></i>
+                <div class="stats-card-enhanced card-green h-100">
+                    <div class="stats-icon-enhanced">
+                        <i class="fas fa-chalkboard-teacher"></i>
                     </div>
-                    <div class="h2 mb-2 text-primary fw-bold">{{ number_format($stats['total_lecturers']) }}</div>
-                    <div class="h6 mb-2">Dosen Berkualitas</div>
-                    <div class="small text-muted">Tenaga pengajar berpengalaman dan profesional</div>
+                    <div class="stats-number-enhanced">{{ number_format($stats['total_lecturers']) }}</div>
+                    <div class="stats-label-enhanced">Dosen Berkualitas</div>
+                    <div class="stats-description-enhanced">Tenaga pengajar berpengalaman dan profesional</div>
                 </div>
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card border-0 shadow-sm text-center p-4 h-100">
-                    <div class="text-primary mb-3">
-                        <i class="fas fa-book-open fa-3x"></i>
+                <div class="stats-card-enhanced card-orange h-100">
+                    <div class="stats-icon-enhanced">
+                        <i class="fas fa-book-open"></i>
                     </div>
-                    <div class="h2 mb-2 text-primary fw-bold">{{ number_format($stats['total_study_programs']) }}</div>
-                    <div class="h6 mb-2">Program Studi</div>
-                    <div class="small text-muted">Pilihan program sesuai minat dan bakat</div>
+                    <div class="stats-number-enhanced">{{ number_format($stats['total_study_programs']) }}</div>
+                    <div class="stats-label-enhanced">Program Studi</div>
+                    <div class="stats-description-enhanced">Pilihan program sesuai minat dan bakat</div>
                 </div>
             </div>
             
             <div class="col-lg-3 col-md-6">
-                <div class="card border-0 shadow-sm text-center p-4 h-100">
-                    <div class="text-primary mb-3">
-                        <i class="fas fa-university fa-3x"></i>
+                <div class="stats-card-enhanced card-purple h-100">
+                    <div class="stats-icon-enhanced">
+                        <i class="fas fa-university"></i>
                     </div>
-                    <div class="h2 mb-2 text-primary fw-bold">{{ number_format($stats['total_faculties']) }}</div>
-                    <div class="h6 mb-2">Fakultas</div>
-                    <div class="small text-muted">Beragam bidang keilmuan yang komprehensif</div>
+                    <div class="stats-number-enhanced">{{ number_format($stats['total_faculties']) }}</div>
+                    <div class="stats-label-enhanced">Fakultas</div>
+                    <div class="stats-description-enhanced">Beragam bidang keilmuan yang komprehensif</div>
                 </div>
             </div>
         </div>
         
-        <!-- Additional Stats -->
-        <div class="row">
-            <div class="col-md-4 text-center">
-                <div class="h3 text-primary mb-2">95%</div>
-                <p class="mb-0 text-muted">Tingkat Kelulusan</p>
+        <!-- Achievement Highlights -->
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="achievement-badge badge-blue text-center">
+                    <div class="achievement-number text-blue">95%</div>
+                    <div class="h6 mb-2">Tingkat Kelulusan</div>
+                    <div class="small text-muted">Tingkat kelulusan mahasiswa yang sangat baik</div>
+                </div>
             </div>
-            <div class="col-md-4 text-center">
-                <div class="h3 text-success mb-2">88%</div>
-                <p class="mb-0 text-muted">Alumni Bekerja</p>
+            <div class="col-md-4">
+                <div class="achievement-badge badge-green text-center">
+                    <div class="achievement-number text-green">88%</div>
+                    <div class="h6 mb-2">Alumni Bekerja</div>
+                    <div class="small text-muted">Alumni yang bekerja dalam 6 bulan setelah lulus</div>
+                </div>
             </div>
-            <div class="col-md-4 text-center">
-                <div class="h3 text-warning mb-2">A</div>
-                <p class="mb-0 text-muted">Akreditasi Institusi</p>
+            <div class="col-md-4">
+                <div class="achievement-badge badge-yellow text-center">
+                    <div class="achievement-number text-yellow">A</div>
+                    <div class="h6 mb-2">Akreditasi Institusi</div>
+                    <div class="small text-muted">Akreditasi terbaik dari BAN-PT</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Program Highlights Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="h3 fw-bold text-dark mb-3">Keunggulan Program Kami</h2>
+                <p class="text-muted">Mengapa memilih kami untuk masa depan yang cerah</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="program-highlight-card text-center">
+                    <div class="program-icon mx-auto">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Teknologi Modern</h5>
+                    <p class="text-muted mb-0">Fasilitas laboratorium dengan teknologi terkini untuk mendukung pembelajaran praktis</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="program-highlight-card text-center">
+                    <div class="program-icon mx-auto" style="background: linear-gradient(135deg, #28a745, #1e7e34);">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Dosen Berpengalaman</h5>
+                    <p class="text-muted mb-0">Tenaga pengajar dengan kualifikasi tinggi dan pengalaman industri yang luas</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="program-highlight-card text-center">
+                    <div class="program-icon mx-auto" style="background: linear-gradient(135deg, #fd7e14, #e55a00);">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Sertifikasi Internasional</h5>
+                    <p class="text-muted mb-0">Program yang diakui secara internasional dengan standar kualitas global</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="program-highlight-card text-center">
+                    <div class="program-icon mx-auto" style="background: linear-gradient(135deg, #6f42c1, #5a2d91);">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Koneksi Industri</h5>
+                    <p class="text-muted mb-0">Jaringan kerjasama yang luas dengan perusahaan untuk peluang karir</p>
+                </div>
             </div>
         </div>
     </div>
@@ -1036,6 +1364,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Smooth Counter Animation
+    function animateCounter(element, target, duration = 2000) {
+        let current = 0;
+        const increment = target / (duration / 16);
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current).toLocaleString();
+        }, 16);
+    }
+
+    // Intersection Observer for Statistics Animation
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Animate numbers
+                const numbers = entry.target.querySelectorAll('.stats-number-enhanced');
+                numbers.forEach(number => {
+                    const originalText = number.textContent;
+                    const targetValue = parseInt(originalText.replace(/,/g, ''));
+                    if (!isNaN(targetValue)) {
+                        number.textContent = '0';
+                        animateCounter(number, targetValue, 1500);
+                    }
+                });
+                
+                // Add stagger animation to cards
+                const cards = entry.target.querySelectorAll('.stats-card-enhanced');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(30px)';
+                        card.style.transition = 'all 0.6s ease';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, index * 150);
+                });
+                
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const statsSection = document.getElementById('statistics');
+    if (statsSection) {
+        statsObserver.observe(statsSection);
+    }
+
     // Smooth Scroll for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -1108,5 +1490,30 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+</script>
+@endpush
+
+<!-- Floating Action Button for Quick Registration -->
+<a href="{{ route('register') }}" class="floating-action-btn" title="Daftar Sekarang">
+    <i class="fas fa-user-plus"></i>
+</a>
+
+<!-- Scroll Progress Indicator -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+@push('scripts')
+<script>
+// Scroll Progress Indicator
+window.addEventListener('scroll', function() {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollPercent = (scrollTop / scrollHeight) * 100;
+    document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+});
+
+// Hide floating button on registration page
+if (window.location.pathname.includes('/register')) {
+    document.querySelector('.floating-action-btn').style.display = 'none';
+}
 </script>
 @endpush
