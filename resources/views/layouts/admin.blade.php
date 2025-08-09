@@ -70,7 +70,7 @@
         }
         
         .sidebar-brand {
-            padding: 1rem;
+            padding: 1.5rem 1rem;
             text-align: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
@@ -82,18 +82,29 @@
         }
         
         .sidebar-logo {
-            filter: brightness(0) invert(1); /* Make logo white if it's dark */
-            transition: filter 0.3s ease;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
         }
         
         .sidebar-logo:hover {
-            filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255,255,255,0.8));
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-1px);
         }
         
         .topbar-logo {
-            max-height: 30px;
+            max-height: 35px;
             width: auto;
             object-fit: contain;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 8px;
+            border-radius: 6px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
         }
         
         .sidebar-nav {
@@ -267,9 +278,14 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
-                <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="sidebar-logo" style="max-height: 40px; max-width: 180px; margin-bottom: 8px;">
+                <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="sidebar-logo" style="max-height: 60px; max-width: 200px; margin-bottom: 12px; object-fit: contain;">
                 <h5 class="mb-0">{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</h5>
             @else
+                <div class="default-logo-container" style="background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px; margin-bottom: 12px;">
+                    <div class="default-logo" style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-graduation-cap" style="color: white; font-size: 24px;"></i>
+                    </div>
+                </div>
                 <h4>{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</h4>
             @endif
             <small class="text-white-50">Admin Panel</small>
@@ -436,7 +452,11 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
-                    <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="topbar-logo d-none d-lg-inline" style="height: 30px; margin-right: 10px;">
+                    <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="topbar-logo d-none d-lg-inline" style="height: 35px; margin-right: 10px;">
+                @else
+                    <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-graduation-cap" style="color: white; font-size: 16px;"></i>
+                    </div>
                 @endif
                 <h5 class="mb-0 d-none d-md-block">@yield('title', 'Dashboard')</h5>
             </div>
