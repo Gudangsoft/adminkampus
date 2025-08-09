@@ -6,10 +6,17 @@
     <title>@yield('title', 'Admin') - {{ config('app.name') }}</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    @if(isset($globalSettings['site_favicon']) && $globalSettings['site_favicon'])
+        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
+    @else
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    @endif
     
     <!-- Web App Manifest -->
     <link rel="manifest" href="{{ asset('manifest.json') }}">
@@ -48,10 +55,25 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .sidebar-brand h4 {
+        .sidebar-brand h4, .sidebar-brand h5 {
             color: white;
             margin: 0;
             font-weight: 600;
+        }
+        
+        .sidebar-logo {
+            filter: brightness(0) invert(1); /* Make logo white if it's dark */
+            transition: filter 0.3s ease;
+        }
+        
+        .sidebar-logo:hover {
+            filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255,255,255,0.8));
+        }
+        
+        .topbar-logo {
+            max-height: 30px;
+            width: auto;
+            object-fit: contain;
         }
         
         .sidebar-nav {
@@ -163,7 +185,12 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <h4>{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</h4>
+            @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
+                <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="sidebar-logo" style="max-height: 40px; max-width: 180px; margin-bottom: 8px;">
+                <h5 class="mb-0">{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</h5>
+            @else
+                <h4>{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</h4>
+            @endif
             <small class="text-white-50">Admin Panel</small>
         </div>
         
@@ -301,6 +328,9 @@
                 <button class="btn btn-link d-md-none" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
                 </button>
+                @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
+                    <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="topbar-logo d-none d-lg-inline" style="height: 30px; margin-right: 10px;">
+                @endif
                 <h5 class="mb-0 d-none d-md-block">@yield('title', 'Dashboard')</h5>
             </div>
             
