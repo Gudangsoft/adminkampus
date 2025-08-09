@@ -72,14 +72,14 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Total Views
+                                Total Mahasiswa
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ number_format($stats['total_views'] ?? 0) }}
+                                {{ number_format($stats['total_students'] ?? 0) }}
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-eye fa-2x text-gray-300"></i>
+                            <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -162,10 +162,10 @@
                         <a href="{{ route('admin.news-categories.create') }}" class="btn btn-success">
                             <i class="fas fa-tags"></i> Tambah Kategori
                         </a>
-                        <a href="#" class="btn btn-info">
+                        <a href="{{ route('admin.announcements.create') }}" class="btn btn-info">
                             <i class="fas fa-bullhorn"></i> Tambah Pengumuman
                         </a>
-                        <a href="#" class="btn btn-warning">
+                        <a href="{{ route('admin.galleries.index') }}" class="btn btn-warning">
                             <i class="fas fa-images"></i> Kelola Galeri
                         </a>
                         <a href="{{ route('admin.settings.index') }}" class="btn btn-secondary">
@@ -175,28 +175,32 @@
                 </div>
             </div>
 
-            <!-- System Info -->
+            <!-- Academic Overview -->
             <div class="card mt-4">
                 <div class="card-header">
-                    <h6 class="m-0 font-weight-bold text-primary">Informasi Sistem</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Ringkasan Akademik</h6>
                 </div>
                 <div class="card-body">
                     <div class="small">
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Laravel Version:</span>
-                            <span class="font-weight-bold">{{ app()->version() }}</span>
+                            <span>Total Fakultas:</span>
+                            <span class="font-weight-bold">{{ $stats['total_faculties'] ?? 0 }}</span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
-                            <span>PHP Version:</span>
-                            <span class="font-weight-bold">{{ PHP_VERSION }}</span>
+                            <span>Program Studi Aktif:</span>
+                            <span class="font-weight-bold">{{ $stats['active_study_programs'] ?? 0 }}</span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Last Login:</span>
-                            <span class="font-weight-bold">{{ Auth::user()->updated_at->format('d/m/Y H:i') }}</span>
+                            <span>Total Dosen:</span>
+                            <span class="font-weight-bold">{{ $stats['total_lecturers'] ?? 0 }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Mahasiswa Aktif:</span>
+                            <span class="font-weight-bold">{{ $stats['active_students'] ?? 0 }}</span>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <span>User Role:</span>
-                            <span class="badge bg-primary">Administrator</span>
+                            <span>Total Galeri:</span>
+                            <span class="badge bg-info">{{ $stats['total_galleries'] ?? 0 }} Item</span>
                         </div>
                     </div>
                 </div>
