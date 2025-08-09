@@ -14,7 +14,7 @@ class HomeController extends Controller
     public function index()
     {
         $sliders = Slider::active()->ordered()->get();
-        $featuredNews = News::published()->featured()->latest('published_at')->take(3)->get();
+        $featuredNews = News::published()->featured()->latest('published_at')->take(4)->get();
         $latestNews = News::published()->latest('published_at')->take(6)->get();
         $urgentAnnouncements = Announcement::published()->byPriority('urgent')->latest('published_at')->take(3)->get();
         $featuredGallery = Gallery::featured()->latest()->take(8)->get();

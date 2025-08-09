@@ -2,6 +2,141 @@
 
 @section('title', 'Beranda')
 
+@push('styles')
+<style>
+/* Hero News Styles */
+.hero-news-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-height: 380px;
+}
+
+.hero-news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+}
+
+.hero-news-card .col-md-5 {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-news-card .col-md-5 img {
+    transition: transform 0.3s ease;
+}
+
+.hero-news-card:hover .col-md-5 img {
+    transform: scale(1.02);
+}
+
+.hero-news-title {
+    font-size: 1.8rem;
+    line-height: 1.3;
+    color: #212529 !important;
+    margin-bottom: 1rem;
+}
+
+.hero-news-excerpt {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #6c757d;
+}
+
+.hero-news-meta .badge {
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    border-radius: 25px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* News Card Hover Effects */
+.news-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px !important;
+}
+
+.news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+
+.news-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Section Styling */
+.section-title {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    border-radius: 2px;
+}
+
+/* Button Enhancements */
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #004085);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,123,255,0.3);
+}
+
+.btn-outline-primary {
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0,123,255,0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-news-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-news-excerpt {
+        font-size: 1rem;
+    }
+    
+    .hero-news-card .row.g-0 > .col-md-5:first-child {
+        order: 2;
+    }
+    
+    .hero-news-card .row.g-0 > .col-md-7:last-child {
+        order: 1;
+    }
+}
+</style>
+@endpush
+
 @section('content')
 <!-- Hero Slider Section -->
 @if($sliders && $sliders->count() > 0)
@@ -89,31 +224,112 @@
 <section class="py-5">
     <div class="container">
         <h2 class="section-title h3 fw-bold">Berita Terbaru</h2>
+        
+        <!-- Hero News - First News Item -->
+        @if($featuredNews->first())
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card hero-news-card border-0 shadow-lg overflow-hidden">
+                    <div class="row g-0">
+                        <div class="col-md-5">
+                            @if($featuredNews->first()->featured_image)
+                                <img src="{{ $featuredNews->first()->featured_image_url }}" 
+                                     class="img-fluid h-100 w-100" 
+                                     alt="{{ $featuredNews->first()->title }}" 
+                                     style="object-fit: cover; min-height: 300px; max-height: 350px;">
+                            @else
+                                <div class="bg-primary d-flex align-items-center justify-content-center h-100" style="min-height: 300px; max-height: 350px;">
+                                    <i class="fas fa-newspaper fa-4x text-white opacity-25"></i>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body h-100 d-flex flex-column justify-content-center p-3 p-lg-4">
+                                <div class="hero-news-meta mb-3">
+                                    <span class="badge bg-primary px-3 py-2 mb-2">
+                                        <i class="fas fa-star me-1"></i>BERITA UTAMA
+                                    </span>
+                                    <div class="text-muted small">
+                                        <i class="fas fa-calendar me-2"></i>
+                                        {{ $featuredNews->first()->published_at->format('d M Y') }}
+                                        <span class="mx-2">•</span>
+                                        <i class="fas fa-tag me-2"></i>
+                                        {{ $featuredNews->first()->category->name }}
+                                        <span class="mx-2">•</span>
+                                        <i class="fas fa-eye me-2"></i>
+                                        {{ number_format($featuredNews->first()->views ?? 0) }} views
+                                    </div>
+                                </div>
+                                <h3 class="hero-news-title fw-bold mb-3 text-dark">
+                                    {{ $featuredNews->first()->title }}
+                                </h3>
+                                <p class="hero-news-excerpt text-muted mb-4 lh-base">
+                                    {{ Str::limit($featuredNews->first()->excerpt, 150) }}
+                                </p>
+                                <div class="hero-news-actions">
+                                    <a href="{{ route('news.show', $featuredNews->first()->slug) }}" 
+                                       class="btn btn-primary px-4 py-2">
+                                        <i class="fas fa-arrow-right me-2"></i>Baca Selengkapnya
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+        
+        <!-- Regular News Grid - Skip first news if exists -->
+        @if($featuredNews->count() > 1)
         <div class="row">
-            @foreach($featuredNews as $news)
+            @foreach($featuredNews->skip(1) as $news)
             <div class="col-lg-4 mb-4">
-                <div class="card news-card h-100">
+                <div class="card news-card h-100 shadow-sm border-0">
                     @if($news->featured_image)
-                        <img src="{{ $news->featured_image_url }}" class="card-img-top" alt="{{ $news->title }}" style="height: 200px; object-fit: cover;">
+                        <div class="position-relative overflow-hidden">
+                            <img src="{{ $news->featured_image_url }}" 
+                                 class="card-img-top" 
+                                 alt="{{ $news->title }}" 
+                                 style="height: 200px; object-fit: cover; transition: transform 0.3s ease;">
+                            <div class="card-img-overlay d-flex align-items-end p-0">
+                                <div class="bg-dark bg-opacity-75 text-white p-2 w-100">
+                                    <small>{{ $news->category->name }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-newspaper fa-3x text-muted"></i>
+                        </div>
                     @endif
                     <div class="card-body">
-                        <div class="news-meta">
-                            <i class="fas fa-calendar me-1"></i>
-                            {{ $news->published_at->format('d M Y') }}
-                            <span class="mx-2">•</span>
-                            <i class="fas fa-tag me-1"></i>
-                            {{ $news->category->name }}
+                        <div class="news-meta mb-2">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                {{ $news->published_at->format('d M Y') }}
+                                <span class="mx-2">•</span>
+                                <i class="fas fa-eye me-1"></i>
+                                {{ number_format($news->views ?? 0) }}
+                            </small>
                         </div>
-                        <h5 class="card-title">{{ $news->title }}</h5>
+                        <h5 class="card-title fw-bold mb-2">{{ $news->title }}</h5>
                         <p class="card-text text-muted">{{ Str::limit($news->excerpt, 100) }}</p>
-                        <a href="{{ route('news.show', $news->slug) }}" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
+                        <a href="{{ route('news.show', $news->slug) }}" 
+                           class="btn btn-outline-primary btn-sm">
+                            Baca Selengkapnya
+                        </a>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
+        @endif
+        
         <div class="text-center mt-4">
-            <a href="{{ route('news.index') }}" class="btn btn-primary">Lihat Semua Berita</a>
+            <a href="{{ route('news.index') }}" class="btn btn-primary btn-lg px-4">
+                <i class="fas fa-newspaper me-2"></i>Lihat Semua Berita
+            </a>
         </div>
     </div>
 </section>
@@ -172,7 +388,7 @@
                                     <p class="text-muted small mb-2">Dekan: {{ $faculty->dean_name }}</p>
                                 @endif
                                 <p class="card-text">{{ Str::limit($faculty->description, 120) }}</p>
-                                <a href="{{ route('study-programs.faculty', $faculty->slug) }}" class="btn btn-outline-primary btn-sm">Lihat Program Studi</a>
+                                <a href="{{ route('program-studi.faculty', $faculty->slug) }}" class="btn btn-outline-primary btn-sm">Lihat Program Studi</a>
                             </div>
                         </div>
                     </div>

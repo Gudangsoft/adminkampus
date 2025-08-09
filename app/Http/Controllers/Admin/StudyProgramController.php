@@ -64,9 +64,21 @@ class StudyProgramController extends Controller
             'degree' => 'required|string|max:50',
             'description' => 'nullable|string',
             'accreditation' => 'nullable|string|max:10',
+            'career_prospects' => 'nullable|string',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ]);
+        
+        // Convert career_prospects from textarea string to array
+        $careerProspects = null;
+        if ($request->career_prospects) {
+            $careerProspects = array_filter(
+                array_map('trim', explode("\n", $request->career_prospects)),
+                function($value) {
+                    return !empty($value);
+                }
+            );
+        }
         
         $studyProgram = StudyProgram::create([
             'name' => $request->name,
@@ -75,6 +87,7 @@ class StudyProgramController extends Controller
             'degree' => $request->degree,
             'description' => $request->description,
             'accreditation' => $request->accreditation,
+            'career_prospects' => $careerProspects,
             'is_active' => $request->has('is_active'),
             'sort_order' => $request->sort_order ?? 0,
         ]);
@@ -106,9 +119,21 @@ class StudyProgramController extends Controller
             'degree' => 'required|string|max:50',
             'description' => 'nullable|string',
             'accreditation' => 'nullable|string|max:10',
+            'career_prospects' => 'nullable|string',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ]);
+        
+        // Convert career_prospects from textarea string to array
+        $careerProspects = null;
+        if ($request->career_prospects) {
+            $careerProspects = array_filter(
+                array_map('trim', explode("\n", $request->career_prospects)),
+                function($value) {
+                    return !empty($value);
+                }
+            );
+        }
         
         $studyProgram->update([
             'name' => $request->name,
@@ -117,6 +142,7 @@ class StudyProgramController extends Controller
             'degree' => $request->degree,
             'description' => $request->description,
             'accreditation' => $request->accreditation,
+            'career_prospects' => $careerProspects,
             'is_active' => $request->has('is_active'),
             'sort_order' => $request->sort_order ?? 0,
         ]);

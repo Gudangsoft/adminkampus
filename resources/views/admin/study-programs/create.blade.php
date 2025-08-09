@@ -116,6 +116,20 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                
+                                <!-- Prospek Karir -->
+                                <div class="mb-4">
+                                    <label for="career_prospects" class="form-label">Prospek Karir</label>
+                                    <textarea class="form-control @error('career_prospects') is-invalid @enderror" 
+                                              id="career_prospects" 
+                                              name="career_prospects" 
+                                              rows="4"
+                                              placeholder="Prospek karir lulusan (satu per baris)">{{ old('career_prospects') }}</textarea>
+                                    @error('career_prospects')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <small class="form-text text-muted">Masukkan satu prospek karir per baris.</small>
+                                </div>
                             </div>
                             
                             <div class="col-md-4">

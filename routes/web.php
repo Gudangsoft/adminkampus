@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController as AdminSliderController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\MenuController as AdminMenuController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,7 +74,7 @@ Route::prefix('pengumuman')->name('announcements.')->group(function () {
 });
 
 // Study Program Routes
-Route::prefix('program-studi')->name('study-programs.')->group(function () {
+Route::prefix('program-studi')->name('program-studi.')->group(function () {
     Route::get('/', [StudyProgramController::class, 'index'])->name('index');
     Route::get('/fakultas/{slug}', [StudyProgramController::class, 'faculty'])->name('faculty');
     Route::get('/{slug}', [StudyProgramController::class, 'show'])->name('show');
@@ -89,12 +90,6 @@ Route::prefix('fakultas')->name('fakultas.')->group(function () {
 Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
     Route::get('/', [StudentController::class, 'index'])->name('index');
     Route::get('/{nim}', [StudentController::class, 'show'])->name('show');
-});
-
-// Study Program Routes
-Route::prefix('program-studi')->name('program-studi.')->group(function () {
-    Route::get('/', [StudyProgramController::class, 'index'])->name('index');
-    Route::get('/{slug}', [StudyProgramController::class, 'show'])->name('show');
 });
 
 // Gallery Routes
@@ -165,6 +160,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
         Route::post('/social', [SettingController::class, 'updateSocial'])->name('social.update');
         Route::get('/about', [SettingController::class, 'about'])->name('about');
         Route::post('/about', [SettingController::class, 'updateAbout'])->name('about.update');
+    });
+    
+    // Profile Management
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [AdminProfileController::class, 'show'])->name('show');
+        Route::put('/', [AdminProfileController::class, 'update'])->name('update');
+        Route::put('/password', [AdminProfileController::class, 'updatePassword'])->name('password.update');
     });
 });
 

@@ -66,7 +66,7 @@
                             <div class="col-md-6 mb-3">
                                 <strong>Program Studi:</strong>
                                 <p class="mb-0">
-                                    <a href="{{ route('study-programs.show', $student->studyProgram->slug) }}" class="text-decoration-none">
+                                    <a href="{{ route('program-studi.show', $student->studyProgram->slug) }}" class="text-decoration-none">
                                         {{ $student->studyProgram->name }}
                                     </a>
                                 </p>

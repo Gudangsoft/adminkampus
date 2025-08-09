@@ -80,6 +80,29 @@
                 </div>
             @endif
 
+            <!-- Career Prospects Section -->
+            @if($studyProgram->career_prospects && count($studyProgram->career_prospects) > 0)
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Prospek Karir</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach($studyProgram->career_prospects as $index => $prospect)
+                                <div class="col-md-6 mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-primary rounded-circle me-3" style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                            {{ $index + 1 }}
+                                        </span>
+                                        <span>{{ $prospect }}</span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Lecturers Section -->
             @if($lecturers->count() > 0)
                 <div class="card shadow-sm mb-4">

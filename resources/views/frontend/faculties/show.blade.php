@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
-@section('title', $faculty->name . ' - Fakultas - ' . ($globalSettings['site_name'] ?? 'G0-CAMPUS'))
+@section('title', $faculty->name . ' - Fakultas - ' . ($                                        <p class="text-muted">
+                                            {{ Str::limit($program->description, 100) }}
+                                        </p>
+                                        <a href="{{ route('program-studi.show', $program->slug) }}" class="btn btn-sm btn-outline-primary">
+                                            Lihat Detail
+                                        </a>Settings['site_name'] ?? 'G0-CAMPUS'))
 
 @section('content')
 <div class="container mt-4">

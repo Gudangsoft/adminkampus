@@ -292,6 +292,14 @@
             </div>
             
             <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.profile.show') }}">
+                    <i class="fas fa-user"></i>
+                    Profil
+                </a>
+            </div>
+            
+            <div class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" 
                    href="{{ route('admin.settings.index') }}">
                     <i class="fas fa-cog"></i>
@@ -341,8 +349,8 @@
                         <span class="ms-2">{{ Auth::user()->name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i class="fas fa-user"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.settings.index') }}"><i class="fas fa-cog"></i> Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

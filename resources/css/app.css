@@ -1,0 +1,103 @@
+/* Hero News Styles */
+.hero-news-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+}
+
+.hero-news-title {
+    font-size: 2rem;
+    line-height: 1.3;
+    color: #212529 !important;
+}
+
+.hero-news-excerpt {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.hero-news-meta .badge {
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    border-radius: 25px;
+}
+
+/* News Card Hover Effects */
+.news-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px !important;
+}
+
+.news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+
+.news-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Section Styling */
+.section-title {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    border-radius: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-news-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-news-excerpt {
+        font-size: 1rem;
+    }
+    
+    .hero-news-card .row.g-0 {
+        flex-direction: column-reverse;
+    }
+}
+
+/* Button Enhancements */
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #004085);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,123,255,0.3);
+}
+
+.btn-outline-primary {
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0,123,255,0.2);
+}

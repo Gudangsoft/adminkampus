@@ -189,14 +189,14 @@
                         <a class="nav-link {{ request()->is('tentang-kami') ? 'active' : '' }}" href="{{ route('page.show', 'tentang-kami') }}">Tentang</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ request()->routeIs('study-programs.*') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle {{ request()->routeIs('program-studi.*') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown">
                             Program Studi
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('study-programs.index') }}">Semua Program</a></li>
+                            <li><a class="dropdown-item" href="{{ route('program-studi.index') }}">Semua Program</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ route('study-programs.faculty', 'fakultas-teknik') }}">Fakultas Teknik</a></li>
-                            <li><a class="dropdown-item" href="{{ route('study-programs.faculty', 'fakultas-ekonomi-dan-bisnis') }}">Fakultas Ekonomi & Bisnis</a></li>
+                            <li><a class="dropdown-item" href="{{ route('program-studi.faculty', 'fakultas-teknik') }}">Fakultas Teknik</a></li>
+                            <li><a class="dropdown-item" href="{{ route('program-studi.faculty', 'fakultas-ekonomi-dan-bisnis') }}">Fakultas Ekonomi & Bisnis</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -257,7 +257,7 @@
                     <ul class="list-unstyled">
                         <li><a href="{{ route('home') }}">Beranda</a></li>
                         <li><a href="{{ route('page.show', 'tentang-kami') }}">Tentang</a></li>
-                        <li><a href="{{ route('study-programs.index') }}">Program Studi</a></li>
+                        <li><a href="{{ route('program-studi.index') }}">Program Studi</a></li>
                         <li><a href="{{ route('news.index') }}">Berita</a></li>
                     </ul>
                 </div>

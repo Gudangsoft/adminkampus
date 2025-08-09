@@ -70,7 +70,7 @@ class StudyProgramController extends Controller
             ->where('faculty_id', $faculty->id)
             ->orderBy('sort_order')
             ->orderBy('name')
-            ->get();
+            ->paginate(12);
             
         $lecturers = Lecturer::active()
             ->where('faculty_id', $faculty->id)
