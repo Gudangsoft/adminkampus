@@ -38,19 +38,21 @@
     
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --primary-color: #667eea;
+            --primary-dark: #5a67d8;
             --accent-color: #667eea;
             --text-dark: #2c3e50;
             --text-light: #6c757d;
+            --white: #ffffff;
+            --light-bg: #f8f9fa;
         }
 
         /* Navbar Modern Styling */
         .navbar {
-            background: var(--primary-gradient) !important;
+            background: var(--white) !important;
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
             padding: 0.75rem 0;
         }
 
@@ -58,19 +60,18 @@
             font-size: 1.5rem !important;
             font-weight: 700 !important;
             text-decoration: none !important;
-            color: white !important;
-            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color) !important;
+            background: var(--light-bg);
             padding: 0.5rem 1rem;
             border-radius: 50px;
-            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
 
         .navbar-brand:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--primary-color);
+            color: var(--white) !important;
             transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
-            color: white !important;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .navbar-brand img {
@@ -80,14 +81,13 @@
 
         /* Modern Navigation Links */
         .navbar-nav .nav-link {
-            color: rgba(255, 255, 255, 0.9) !important;
+            color: var(--text-dark) !important;
             font-weight: 500;
             padding: 0.75rem 1.25rem !important;
             margin: 0 0.25rem;
             border-radius: 50px;
             position: relative;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
             overflow: hidden;
         }
 
@@ -98,7 +98,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--primary-color);
             border-radius: 50px;
             transform: scale(0);
             transition: transform 0.3s ease;
@@ -110,20 +110,21 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: white !important;
+            color: var(--white) !important;
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .navbar-nav .nav-link.active {
-            background: rgba(255, 255, 255, 0.2) !important;
-            color: white !important;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            background: var(--primary-color) !important;
+            color: var(--white) !important;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
             transform: translateY(-1px);
         }
 
         .navbar-nav .nav-link i {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
             padding: 0.25rem;
             border-radius: 50%;
             margin-right: 0.5rem;
@@ -131,8 +132,10 @@
             font-size: 0.9rem;
         }
 
-        .navbar-nav .nav-link:hover i {
+        .navbar-nav .nav-link:hover i,
+        .navbar-nav .nav-link.active i {
             background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
             transform: rotate(5deg) scale(1.1);
         }
 
@@ -145,25 +148,25 @@
             transform: translateX(-50%);
             width: 6px;
             height: 6px;
-            background: white;
+            background: var(--white);
             border-radius: 50%;
         }
 
         /* Mobile optimizations */
         .navbar-toggler {
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid var(--primary-color);
             padding: 0.5rem;
             border-radius: 8px;
         }
 
         .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28102, 126, 234, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
         @media (max-width: 991.98px) {
             .navbar-nav {
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(20px);
+                background: var(--light-bg);
+                border: 1px solid rgba(102, 126, 234, 0.1);
                 border-radius: 15px;
                 margin-top: 1rem;
                 padding: 1rem;
@@ -173,6 +176,7 @@
                 margin: 0.25rem 0;
                 padding: 0.75rem 1rem !important;
                 border-radius: 12px;
+                color: var(--text-dark) !important;
             }
             
             .navbar-nav .nav-link::after {
@@ -241,7 +245,7 @@
 </head>
 <body>
         <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                     @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
@@ -372,10 +376,12 @@
                 // Add backdrop blur effect on scroll
                 if (scrollTop > 50) {
                     navbar.style.backdropFilter = 'blur(20px)';
-                    navbar.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)';
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                    navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
                 } else {
                     navbar.style.backdropFilter = 'blur(10px)';
-                    navbar.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                    navbar.style.background = '#ffffff';
+                    navbar.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.08)';
                 }
                 
                 lastScrollTop = scrollTop;
