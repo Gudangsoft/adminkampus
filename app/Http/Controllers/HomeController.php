@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Section;
 use App\Models\Slider;
+use App\Models\News;
 
 class HomeController extends Controller
 {
@@ -16,13 +17,20 @@ class HomeController extends Controller
             // Get active sliders dari database  
             $sliders = Slider::active()->ordered()->get();
             
+            // Get latest published news (max 6 for grid display)
+            $latestNews = News::published()
+                ->with(['category', 'user'])
+                ->orderBy('published_at', 'desc')
+                ->take(6)
+                ->get();
+            
             // Global settings
             $globalSettings = [
                 'site_name' => 'KESOSI',
                 'site_description' => 'Kampus Kesehatan Modern',
             ];
             
-            return view('frontend.home', compact('sections', 'sliders', 'globalSettings'));
+            return view('frontend.home', compact('sections', 'sliders', 'latestNews', 'globalSettings'));
             
         } catch (\Exception $e) {
             // Fallback jika ada error
