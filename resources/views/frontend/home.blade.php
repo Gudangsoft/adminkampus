@@ -871,6 +871,32 @@
                 }
             }
         }
+        
+        // News card click tracking
+        document.querySelectorAll('.news-card, .featured-news-main, .mini-news-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Analytics tracking bisa ditambahkan di sini
+                console.log('News card clicked:', this.getAttribute('href'));
+            });
+        });
+        
+        // Smooth animations untuk loading
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        // Observe news cards for smooth loading animation
+        document.querySelectorAll('.news-card, .mini-news-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
     });
 </script>
 @endpush
