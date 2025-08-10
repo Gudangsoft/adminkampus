@@ -2,12 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\News;
-use App\Models\Slider;
-use App\Models\Announcement;
-use App\Models\Gallery;
-use App\Models\StudyProgram;
-use App\Models\Faculty;
 use App\Models\Section;
 
 class HomeController extends Controller

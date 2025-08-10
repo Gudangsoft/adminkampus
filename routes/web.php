@@ -202,4 +202,4 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 });
 
 // Frontend Page Routes - These should be at the end to avoid conflicts
-Route::get('/{slug}', [PageController::class, 'show'])->name('page.show')->where('slug', '[a-zA-Z0-9\-]+');
+Route::get('/{slug}', [PageController::class, 'show'])->name('dynamic.page.show')->where('slug', '[a-zA-Z0-9\-]+');

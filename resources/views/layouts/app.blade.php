@@ -36,6 +36,9 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     
+    <!-- Custom Styles -->
+    @stack('styles')
+    
     <style>
         :root {
             --primary-color: #667eea;
