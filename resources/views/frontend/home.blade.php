@@ -100,16 +100,22 @@
         transition: all 0.3s ease;
         border: none;
         box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-        border-radius: 10px;
+        border-radius: 15px;
         overflow: hidden;
         height: 100%;
+        background: white;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
     }
     .news-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        text-decoration: none;
+        color: inherit;
     }
     .news-image {
-        height: 200px;
+        height: 220px;
         background-size: cover;
         background-position: center;
         position: relative;
@@ -123,52 +129,63 @@
         right: 0;
         bottom: 0;
         background: linear-gradient(45deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 50%);
+        transition: background 0.3s ease;
+    }
+    .news-card:hover .news-image::before {
+        background: linear-gradient(45deg, rgba(102, 126, 234,0.2) 0%, rgba(118, 75, 162,0.1) 50%);
     }
     .news-category {
         position: absolute;
         top: 15px;
         left: 15px;
-        background: rgba(102, 126, 234, 0.9);
+        background: rgba(102, 126, 234, 0.95);
         color: white;
-        padding: 5px 12px;
-        border-radius: 15px;
+        padding: 6px 14px;
+        border-radius: 20px;
         font-size: 0.8rem;
-        font-weight: 500;
+        font-weight: 600;
         backdrop-filter: blur(10px);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     .news-date {
         position: absolute;
         bottom: 15px;
         right: 15px;
-        background: rgba(255,255,255,0.9);
+        background: rgba(255,255,255,0.95);
         color: #333;
-        padding: 5px 10px;
-        border-radius: 10px;
+        padding: 6px 12px;
+        border-radius: 12px;
         font-size: 0.75rem;
-        font-weight: 500;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
     }
     .news-content {
-        padding: 20px;
+        padding: 25px;
         display: flex;
         flex-direction: column;
         flex-grow: 1;
     }
     .news-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 10px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 12px;
         line-height: 1.4;
-        color: #333;
+        color: #2d3748;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        transition: color 0.3s ease;
+    }
+    .news-card:hover .news-title {
+        color: #667eea;
     }
     .news-excerpt {
-        font-size: 0.9rem;
-        color: #666;
-        line-height: 1.5;
-        margin-bottom: 15px;
+        font-size: 0.95rem;
+        color: #718096;
+        line-height: 1.6;
+        margin-bottom: 18px;
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
@@ -179,33 +196,49 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 0.8rem;
-        color: #999;
+        font-size: 0.85rem;
+        color: #a0aec0;
         margin-top: auto;
+        padding-top: 15px;
+        border-top: 1px solid #f7fafc;
     }
     .read-more-btn {
         color: #667eea;
         text-decoration: none;
-        font-weight: 500;
-        transition: color 0.3s ease;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
     }
     .read-more-btn:hover {
         color: #764ba2;
         text-decoration: none;
+        transform: translateX(3px);
+    }
+    .news-author {
+        display: flex;
+        align-items: center;
+        gap: 5px;
     }
     
     /* Featured News Layout Styles */
     .featured-news-main {
         position: relative;
-        height: 400px;
-        border-radius: 15px;
+        height: 450px;
+        border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-        transition: transform 0.3s ease;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        transition: all 0.4s ease;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
     }
     .featured-news-main:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+        transform: translateY(-5px);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+        text-decoration: none;
+        color: inherit;
     }
     .featured-news-bg {
         position: absolute;
@@ -216,6 +249,10 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        transition: transform 0.4s ease;
+    }
+    .featured-news-main:hover .featured-news-bg {
+        transform: scale(1.05);
     }
     .featured-news-overlay {
         position: absolute;
@@ -223,55 +260,63 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(45deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.6) 100%);
+        background: linear-gradient(45deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%);
         display: flex;
         align-items: flex-end;
+        transition: background 0.4s ease;
+    }
+    .featured-news-main:hover .featured-news-overlay {
+        background: linear-gradient(45deg, rgba(102, 126, 234,0.8) 0%, rgba(118, 75, 162,0.6) 50%, rgba(0,0,0,0.7) 100%);
     }
     .featured-news-content {
-        padding: 30px;
+        padding: 35px;
         color: white;
         width: 100%;
     }
     .featured-news-category {
         display: inline-block;
-        background: rgba(102, 126, 234, 0.9);
+        background: rgba(102, 126, 234, 0.95);
         color: white;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 15px;
-        backdrop-filter: blur(10px);
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        backdrop-filter: blur(15px);
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     .featured-news-title {
-        font-size: 1.8rem;
-        font-weight: 700;
-        line-height: 1.3;
-        margin-bottom: 15px;
+        font-size: 2.2rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 18px;
         color: white;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        transition: color 0.3s ease;
     }
     .featured-news-excerpt {
-        font-size: 1rem;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        color: rgba(255,255,255,0.9);
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 25px;
+        color: rgba(255,255,255,0.95);
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
     }
     .featured-news-meta {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 0.9rem;
-        color: rgba(255,255,255,0.8);
+        font-size: 0.95rem;
+        color: rgba(255,255,255,0.9);
     }
     .featured-news-date {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 8px;
     }
     .small-news-card {
         transition: all 0.3s ease;
@@ -339,38 +384,59 @@
     .mini-news-card {
         transition: all 0.3s ease;
         border: none;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border-radius: 12px;
         overflow: hidden;
-        height: 100px;
+        height: 120px;
         background: white;
         display: flex;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
     }
     .mini-news-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        text-decoration: none;
+        color: inherit;
     }
     .mini-news-image {
-        width: 120px;
-        height: 100px;
+        width: 140px;
+        height: 120px;
         background-size: cover;
         background-position: center;
         position: relative;
         flex-shrink: 0;
+        overflow: hidden;
+    }
+    .mini-news-image::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 50%);
+        transition: background 0.3s ease;
+    }
+    .mini-news-card:hover .mini-news-image::before {
+        background: linear-gradient(45deg, rgba(102, 126, 234,0.3) 0%, rgba(118, 75, 162,0.1) 50%);
     }
     .mini-news-category {
         position: absolute;
         top: 8px;
         left: 8px;
-        background: rgba(102, 126, 234, 0.9);
+        background: rgba(102, 126, 234, 0.95);
         color: white;
-        padding: 2px 6px;
-        border-radius: 8px;
+        padding: 3px 8px;
+        border-radius: 10px;
         font-size: 0.65rem;
-        font-weight: 500;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     .mini-news-content {
-        padding: 12px 15px;
+        padding: 15px 18px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -378,21 +444,25 @@
         min-width: 0;
     }
     .mini-news-title {
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin-bottom: 6px;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 8px;
         line-height: 1.3;
-        color: #333;
+        color: #2d3748;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        transition: color 0.3s ease;
+    }
+    .mini-news-card:hover .mini-news-title {
+        color: #667eea;
     }
     .mini-news-excerpt {
-        font-size: 0.75rem;
-        color: #666;
-        line-height: 1.3;
-        margin-bottom: 8px;
+        font-size: 0.8rem;
+        color: #718096;
+        line-height: 1.4;
+        margin-bottom: 10px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -403,8 +473,21 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 0.7rem;
-        color: #999;
+        font-size: 0.75rem;
+        color: #a0aec0;
+        gap: 10px;
+    }
+    .mini-news-date {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: 500;
+    }
+    .mini-news-views {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: 500;
     }
 </style>
 @endpush
@@ -480,11 +563,12 @@
 
     <!-- Featured News Section -->
     @if(isset($latestNews) && $latestNews->count() > 0)
-    <section class="py-5">
+    <section class="py-5 bg-light">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold">Berita Terbaru</h2>
-                <p class="text-muted">Informasi dan perkembangan terkini dari {{ $globalSettings['site_name'] ?? 'KESOSI' }}</p>
+                <h2 class="fw-bold text-dark">Berita Terbaru</h2>
+                <p class="text-muted fs-5">Informasi dan perkembangan terkini dari {{ $globalSettings['site_name'] ?? 'KESOSI' }}</p>
+                <div class="mx-auto" style="width: 60px; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 2px;"></div>
             </div>
             
             @if($latestNews->count() > 0)
@@ -492,18 +576,14 @@
                 <div class="row mb-5">
                     <div class="col-12">
                         @php $mainNews = $latestNews->first(); @endphp
-                        <article class="featured-news-main">
+                        <a href="{{ route('news.show', $mainNews->slug) }}" class="featured-news-main text-decoration-none">
                             <div class="featured-news-bg" style="background-image: url('{{ $mainNews->featured_image_url }}')"></div>
                             <div class="featured-news-overlay">
                                 <div class="featured-news-content">
                                     @if($mainNews->category)
                                         <span class="featured-news-category">{{ $mainNews->category->name }}</span>
                                     @endif
-                                    <h2 class="featured-news-title">
-                                        <a href="{{ route('news.show', $mainNews->slug) }}" class="text-decoration-none text-white">
-                                            {{ $mainNews->title }}
-                                        </a>
-                                    </h2>
+                                    <h2 class="featured-news-title">{{ $mainNews->title }}</h2>
                                     @if($mainNews->excerpt)
                                         <p class="featured-news-excerpt">{{ $mainNews->excerpt }}</p>
                                     @else
@@ -519,56 +599,139 @@
                                         </div>
                                         <div>
                                             <i class="fas fa-eye"></i>
-                                            <span>{{ $mainNews->views ?? 0 }} views</span>
+                                            <span>{{ number_format($mainNews->views ?? 0) }} views</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </article>
+                        </a>
                     </div>
                 </div>
                 
-                <!-- Other News - Mini Cards Grid -->
+                <!-- Other News Grid -->
                 @if($latestNews->count() > 1)
-                <div class="row">
+                <div class="row mb-5">
                     <div class="col-12">
-                        <h4 class="fw-bold mb-4">Berita Lainnya</h4>
-                        <div class="row g-3">
-                            @foreach($latestNews->skip(1)->take(8) as $news)
-                                <div class="col-lg-6 col-md-6">
-                                    <article class="card mini-news-card">
-                                        <div class="mini-news-image" style="background-image: url('{{ $news->featured_image_url }}')">
-                                            @if($news->category)
-                                                <span class="mini-news-category">{{ $news->category->name }}</span>
-                                            @endif
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="fw-bold text-dark mb-0">Berita Lainnya</h4>
+                            <a href="{{ route('news.index') }}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-arrow-right me-1"></i>Lihat Semua
+                            </a>
+                        </div>
+                        
+                        <!-- Grid Layout for Large Screens -->
+                        <div class="d-none d-lg-block">
+                            <div class="row g-4">
+                                @foreach($latestNews->skip(1)->take(6) as $index => $news)
+                                    @if($index < 2)
+                                        <!-- Large Cards for First 2 News -->
+                                        <div class="col-lg-6">
+                                            <a href="{{ route('news.show', $news->slug) }}" class="news-card d-block text-decoration-none">
+                                                <div class="news-image" style="background-image: url('{{ $news->featured_image_url }}')">
+                                                    @if($news->category)
+                                                        <span class="news-category">{{ $news->category->name }}</span>
+                                                    @endif
+                                                    <span class="news-date">{{ $news->published_at->format('d M') }}</span>
+                                                </div>
+                                                <div class="news-content">
+                                                    <h3 class="news-title">{{ $news->title }}</h3>
+                                                    @if($news->excerpt)
+                                                        <p class="news-excerpt">{{ Str::limit($news->excerpt, 120) }}</p>
+                                                    @else
+                                                        <p class="news-excerpt">{{ Str::limit(strip_tags($news->content), 120) }}</p>
+                                                    @endif
+                                                    <div class="news-meta">
+                                                        <div class="news-author">
+                                                            <i class="fas fa-user"></i>
+                                                            <span>{{ $news->user->name ?? 'Admin' }}</span>
+                                                        </div>
+                                                        <span class="read-more-btn">
+                                                            Baca Selengkapnya
+                                                            <i class="fas fa-arrow-right"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
-                                        <div class="mini-news-content">
-                                            <div>
-                                                <h3 class="mini-news-title">
-                                                    <a href="{{ route('news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                                                        {{ $news->title }}
-                                                    </a>
-                                                </h3>
-                                                @if($news->excerpt)
-                                                    <p class="mini-news-excerpt">{{ Str::limit($news->excerpt, 100) }}</p>
-                                                @else
-                                                    <p class="mini-news-excerpt">{{ Str::limit(strip_tags($news->content), 100) }}</p>
+                                    @else
+                                        <!-- Mini Cards for Remaining News -->
+                                        @if($index == 2)
+                                            <div class="col-lg-12">
+                                                <div class="row g-3">
+                                        @endif
+                                                    <div class="col-lg-6">
+                                                        <a href="{{ route('news.show', $news->slug) }}" class="mini-news-card text-decoration-none">
+                                                            <div class="mini-news-image" style="background-image: url('{{ $news->featured_image_url }}')">
+                                                                @if($news->category)
+                                                                    <span class="mini-news-category">{{ $news->category->name }}</span>
+                                                                @endif
+                                                            </div>
+                                                            <div class="mini-news-content">
+                                                                <div>
+                                                                    <h3 class="mini-news-title">{{ $news->title }}</h3>
+                                                                    @if($news->excerpt)
+                                                                        <p class="mini-news-excerpt">{{ Str::limit($news->excerpt, 80) }}</p>
+                                                                    @else
+                                                                        <p class="mini-news-excerpt">{{ Str::limit(strip_tags($news->content), 80) }}</p>
+                                                                    @endif
+                                                                </div>
+                                                                <div class="mini-news-meta">
+                                                                    <span class="mini-news-date">
+                                                                        <i class="fas fa-calendar-alt"></i>
+                                                                        {{ $news->published_at->format('d M') }}
+                                                                    </span>
+                                                                    <span class="mini-news-views">
+                                                                        <i class="fas fa-eye"></i>
+                                                                        {{ number_format($news->views ?? 0) }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                        @if($loop->last)
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                        
+                        <!-- Mobile Layout -->
+                        <div class="d-lg-none">
+                            <div class="row g-3">
+                                @foreach($latestNews->skip(1)->take(8) as $news)
+                                    <div class="col-12">
+                                        <a href="{{ route('news.show', $news->slug) }}" class="mini-news-card text-decoration-none">
+                                            <div class="mini-news-image" style="background-image: url('{{ $news->featured_image_url }}')">
+                                                @if($news->category)
+                                                    <span class="mini-news-category">{{ $news->category->name }}</span>
                                                 @endif
                                             </div>
-                                            <div class="mini-news-meta">
-                                                <span>
-                                                    <i class="fas fa-calendar-alt me-1"></i>
-                                                    {{ $news->published_at->format('d M') }}
-                                                </span>
-                                                <span>
-                                                    <i class="fas fa-eye me-1"></i>
-                                                    {{ $news->views ?? 0 }}
-                                                </span>
+                                            <div class="mini-news-content">
+                                                <div>
+                                                    <h3 class="mini-news-title">{{ $news->title }}</h3>
+                                                    @if($news->excerpt)
+                                                        <p class="mini-news-excerpt">{{ Str::limit($news->excerpt, 100) }}</p>
+                                                    @else
+                                                        <p class="mini-news-excerpt">{{ Str::limit(strip_tags($news->content), 100) }}</p>
+                                                    @endif
+                                                </div>
+                                                <div class="mini-news-meta">
+                                                    <span class="mini-news-date">
+                                                        <i class="fas fa-calendar-alt"></i>
+                                                        {{ $news->published_at->format('d M') }}
+                                                    </span>
+                                                    <span class="mini-news-views">
+                                                        <i class="fas fa-eye"></i>
+                                                        {{ number_format($news->views ?? 0) }}
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </article>
-                                </div>
-                            @endforeach
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -577,8 +740,9 @@
             
             <!-- View All News Button -->
             <div class="text-center mt-5">
-                <a href="{{ route('news.index') }}" class="btn btn-primary btn-lg">
+                <a href="{{ route('news.index') }}" class="btn btn-primary btn-lg px-5 py-3">
                     <i class="fas fa-newspaper me-2"></i>Lihat Semua Berita
+                    <i class="fas fa-arrow-right ms-2"></i>
                 </a>
             </div>
         </div>
