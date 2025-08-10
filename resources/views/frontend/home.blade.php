@@ -555,6 +555,50 @@
         gap: 4px;
         font-weight: 500;
     }
+    
+    /* Faculty Section Styles */
+    .faculty-card {
+        transition: all 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+        background: white;
+    }
+    .faculty-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.1) !important;
+    }
+    .faculty-image {
+        position: relative;
+        overflow: hidden;
+    }
+    .faculty-image img {
+        transition: transform 0.3s ease;
+    }
+    .faculty-card:hover .faculty-image img {
+        transform: scale(1.1);
+    }
+    .faculty-overlay {
+        background: rgba(102, 126, 234, 0.9);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    .faculty-card:hover .faculty-overlay {
+        opacity: 1;
+    }
+    .faculty-btn {
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+        border-radius: 25px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .faculty-card:hover .faculty-btn {
+        transform: translateY(0);
+    }
+    .faculty-btn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
 </style>
 @endpush
 
@@ -682,7 +726,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="row g-4">
-                            @foreach($latestNews->skip(1)->take(6) as $news)
+                            @foreach($latestNews->skip(1)->take(3) as $news)
                                 <div class="col-lg-4 col-md-6">
                                     <div class="news-card-grid h-100">
                                         <a href="{{ route('news.show', $news->slug) }}" class="text-decoration-none text-dark">
@@ -733,6 +777,78 @@
         </div>
     </section>
     @endif
+
+    <!-- Faculties Section -->
+    <section id="faculties" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold text-primary">Fakultas</h2>
+                <p class="lead text-muted">Pilihan fakultas terbaik untuk masa depan cerah Anda</p>
+                <div class="d-flex justify-content-center">
+                    <div class="border-bottom border-primary" style="width: 100px; height: 3px;"></div>
+                </div>
+            </div>
+
+            @if($faculties->count() > 0)
+                <div class="row g-4">
+                    @foreach($faculties as $faculty)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card faculty-card h-100 border-0 shadow-sm">
+                                <div class="faculty-image position-relative">
+                                    @if($faculty->image)
+                                        <img src="{{ asset('storage/' . $faculty->image) }}" alt="{{ $faculty->name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                                    @else
+                                        <div class="bg-primary d-flex align-items-center justify-content-center" style="height: 200px;">
+                                            <i class="fas fa-university text-white" style="font-size: 3rem;"></i>
+                                        </div>
+                                    @endif
+                                    <div class="faculty-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                                        <a href="{{ route('fakultas.show', $faculty->slug) }}" class="btn btn-light btn-lg faculty-btn">
+                                            <i class="fas fa-eye me-2"></i>Lihat Detail
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $faculty->name }}</h5>
+                                    <p class="card-text text-muted">{{ Str::limit($faculty->description, 100) }}</p>
+                                    
+                                    <div class="row text-center">
+                                        <div class="col-6">
+                                            <div class="fw-bold text-primary h5">{{ $faculty->study_programs_count }}</div>
+                                            <small class="text-muted">Program Studi</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="fw-bold text-success h5">{{ $faculty->lecturers_count }}</div>
+                                            <small class="text-muted">Dosen</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-0">
+                                    <a href="{{ route('fakultas.show', $faculty->slug) }}" class="btn btn-outline-primary w-100">
+                                        <i class="fas fa-arrow-right me-2"></i>Pelajari Lebih Lanjut
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- View All Faculties Button -->
+                <div class="text-center mt-5">
+                    <a href="{{ route('fakultas.index') }}" class="btn btn-primary btn-lg px-5 py-3">
+                        <i class="fas fa-university me-2"></i>Lihat Semua Fakultas
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            @else
+                <div class="text-center py-5">
+                    <i class="fas fa-university fa-5x text-muted mb-4"></i>
+                    <h3>Belum Ada Fakultas</h3>
+                    <p class="text-muted">Fakultas akan segera tersedia</p>
+                </div>
+            @endif
+        </div>
+    </section>
 
     <!-- Dynamic Sections -->
     <section id="sections" class="py-5 bg-white">

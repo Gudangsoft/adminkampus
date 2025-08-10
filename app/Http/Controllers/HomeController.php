@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Section;
 use App\Models\Slider;
 use App\Models\News;
+use App\Models\Faculty;
 
 class HomeController extends Controller
 {
@@ -24,13 +25,21 @@ class HomeController extends Controller
                 ->take(6)
                 ->get();
             
+            // Get active faculties (max 6 for display)
+            $faculties = Faculty::active()
+                ->withCount(['studyPrograms', 'lecturers'])
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->take(6)
+                ->get();
+            
             // Global settings
             $globalSettings = [
                 'site_name' => 'KESOSI',
                 'site_description' => 'Kampus Kesehatan Modern',
             ];
             
-            return view('frontend.home', compact('sections', 'sliders', 'latestNews', 'globalSettings'));
+            return view('frontend.home', compact('sections', 'sliders', 'latestNews', 'faculties', 'globalSettings'));
             
         } catch (\Exception $e) {
             // Fallback jika ada error

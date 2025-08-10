@@ -28,30 +28,38 @@ class FacultyController extends Controller
     
     public function show($slug)
     {
-        $faculty = Faculty::where('slug', $slug)->active()->firstOrFail();
-        
-        // Get study programs
-        $studyPrograms = StudyProgram::active()
-            ->where('faculty_id', $faculty->id)
-            ->orderBy('sort_order')
-            ->orderBy('name')
-            ->get();
-        
-        // Get lecturers
-        $lecturers = Lecturer::active()
-            ->where('faculty_id', $faculty->id)
-            ->orderBy('name')
-            ->paginate(12);
-        
-        // Get statistics
-        $stats = [
-            'total_study_programs' => $studyPrograms->count(),
-            'total_lecturers' => Lecturer::where('faculty_id', $faculty->id)->count(),
-            'total_students' => \App\Models\Student::whereHas('studyProgram', function($q) use ($faculty) {
-                $q->where('faculty_id', $faculty->id);
-            })->count(),
-        ];
-        
-        return view('frontend.faculties.show', compact('faculty', 'studyPrograms', 'lecturers', 'stats'));
+        try {
+            $faculty = Faculty::where('slug', $slug)->active()->firstOrFail();
+            
+            // Get study programs
+            $studyPrograms = StudyProgram::active()
+                ->where('faculty_id', $faculty->id)
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->get();
+            
+            // Get lecturers
+            $lecturers = Lecturer::active()
+                ->where('faculty_id', $faculty->id)
+                ->orderBy('name')
+                ->paginate(12);
+            
+            // Get statistics
+            $stats = [
+                'total_study_programs' => $studyPrograms->count(),
+                'total_lecturers' => Lecturer::where('faculty_id', $faculty->id)->count(),
+                'total_students' => \App\Models\Student::whereHas('studyProgram', function($q) use ($faculty) {
+                    $q->where('faculty_id', $faculty->id);
+                })->count(),
+            ];
+            
+            // Get global settings
+            $globalSettings = \App\Models\Setting::all()->pluck('value', 'key');
+            
+            return view('frontend.faculties.show', compact('faculty', 'studyPrograms', 'lecturers', 'stats', 'globalSettings'));
+        } catch (\Exception $e) {
+            \Log::error('Faculty show error: ' . $e->getMessage());
+            return abort(404, 'Faculty not found');
+        }
     }
 }

@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $faculty->name . ' - Fakultas - ' . ($                                        <p class="text-muted">
-                                            {{ Str::limit($program->description, 100) }}
-                                        </p>
-                                        <a href="{{ route('program-studi.show', $program->slug) }}" class="btn btn-sm btn-outline-primary">
-                                            Lihat Detail
-                                        </a>Settings['site_name'] ?? 'G0-CAMPUS'))
+@section('title', $faculty->name . ' - Fakultas - ' . (config('app.name') ?? 'G0-CAMPUS'))
 
 @section('content')
 <div class="container mt-4">
@@ -89,7 +84,7 @@
                                         <p class="card-text text-muted">
                                             {{ Str::limit($program->description, 100) }}
                                         </p>
-                                        <a href="{{ route('study-programs.show', $program->slug) }}" class="btn btn-sm btn-outline-primary">
+                                        <a href="{{ route('program-studi.show', $program->slug) }}" class="btn btn-sm btn-outline-primary">
                                             Lihat Detail
                                         </a>
                                     </div>
