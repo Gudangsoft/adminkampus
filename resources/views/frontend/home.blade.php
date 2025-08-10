@@ -500,10 +500,8 @@
 
     <!-- Slider -->
     @if(isset($sliders) && $sliders->count() > 0)
-    <section class="py-5 bg-light">
+    <section class="py-5">
         <div class="container">
-           
-            
             <div id="campusSlider" class="carousel slide slider-container" data-bs-ride="carousel" data-bs-interval="5000">
                 <!-- Carousel Indicators -->
                 <div class="carousel-indicators">
@@ -750,19 +748,20 @@
     @endif
 
     <!-- Dynamic Sections -->
-    <section id="sections" class="py-5">
+    <section id="sections" class="py-5 bg-white">
         <div class="container">
             @if($sections->count() > 0)
                 <div class="text-center mb-5">
-                    <h2 class="fw-bold">Sections Dinamis</h2>
-                    <p class="text-muted">{{ $sections->count() }} sections aktif yang dapat dikelola melalui admin</p>
+                    <h2 class="fw-bold text-dark">Informasi Kampus</h2>
+                    <p class="text-muted fs-5">{{ $sections->count() }} informasi penting yang dapat dikelola melalui admin</p>
+                    <div class="mx-auto" style="width: 60px; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 2px;"></div>
                 </div>
                 
                 <div class="row">
                     @foreach($sections as $section)
                         <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card card-section h-100">
-                                <div class="card-header bg-primary text-white">
+                            <div class="card card-section h-100 border-0 shadow-sm">
+                                <div class="card-header bg-primary text-white border-0">
                                     <h5 class="card-title mb-0">
                                         <i class="fas fa-bookmark me-2"></i>
                                         {{ $section->title }}
@@ -773,11 +772,12 @@
                                         {!! nl2br(e($section->content)) !!}
                                     </div>
                                 </div>
-                                <div class="card-footer bg-light">
+                                <div class="card-footer bg-light border-0">
                                     <small class="text-muted">
                                         <i class="fas fa-sort me-1"></i>Urutan: {{ $section->order }}
                                         <span class="float-end">
                                             <i class="fas fa-{{ $section->is_active ? 'check text-success' : 'times text-danger' }}"></i>
+                                            {{ $section->is_active ? 'Aktif' : 'Nonaktif' }}
                                         </span>
                                     </small>
                                 </div>
@@ -788,18 +788,18 @@
 
                 <!-- Management Link -->
                 <div class="text-center mt-5">
-                    <a href="/admin/sections" class="btn btn-primary btn-lg">
-                        <i class="fas fa-edit me-2"></i>Kelola Sections
+                    <a href="/admin/sections" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-edit me-2"></i>Kelola Informasi Kampus
                     </a>
                 </div>
             @else
                 <!-- Empty State -->
                 <div class="text-center py-5">
                     <i class="fas fa-inbox fa-5x text-muted mb-4"></i>
-                    <h3>Belum Ada Sections</h3>
-                    <p class="text-muted mb-4">Mulai membuat sections untuk mengisi halaman homepage</p>
+                    <h3>Belum Ada Informasi</h3>
+                    <p class="text-muted mb-4">Mulai membuat informasi untuk mengisi halaman homepage</p>
                     <a href="/admin/sections" class="btn btn-primary btn-lg">
-                        <i class="fas fa-plus me-2"></i>Buat Section Pertama
+                        <i class="fas fa-plus me-2"></i>Buat Informasi Pertama
                     </a>
                 </div>
             @endif
