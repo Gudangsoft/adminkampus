@@ -20,13 +20,24 @@
         box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
     
+    /* Slider Section Isolation */
+    .slider-section {
+        position: relative;
+        z-index: 10;
+        margin-bottom: 0;
+        padding: 0;
+        background: #ffffff;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
     /* Slider Styles */
     .slider-container {
         position: relative;
         height: 500px;
         overflow: hidden;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
     }
     .slider-item {
         height: 500px;
@@ -93,6 +104,22 @@
     }
     .carousel-indicators .active {
         background-color: #fff;
+    }
+    
+    /* News Section Isolation */
+    .news-section {
+        position: relative;
+        z-index: 5;
+        background: #f8f9fa !important;
+        margin-top: 0;
+        clear: both;
+    }
+    
+    /* Section Spacer */
+    .section-spacer {
+        clear: both;
+        position: relative;
+        z-index: 1;
     }
     
     /* News Section Styles */
@@ -498,10 +525,10 @@
 
 
 
-    <!-- Slider -->
+    <!-- Slider Section -->
     @if(isset($sliders) && $sliders->count() > 0)
-    <section class="py-5">
-        <div class="container">
+    <section id="slider-section" class="slider-section">
+        <div class="container-fluid px-0">
             <div id="campusSlider" class="carousel slide slider-container" data-bs-ride="carousel" data-bs-interval="5000">
                 <!-- Carousel Indicators -->
                 <div class="carousel-indicators">
@@ -559,9 +586,12 @@
     </section>
     @endif
 
+    <!-- Spacer untuk pemisahan -->
+    <div class="section-spacer" style="height: 50px; background: #f8f9fa;"></div>
+
     <!-- Featured News Section -->
     @if(isset($latestNews) && $latestNews->count() > 0)
-    <section class="py-5 bg-light">
+    <section id="news-section" class="news-section py-5 bg-light">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-dark">Berita Terbaru</h2>
