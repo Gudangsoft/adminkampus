@@ -133,9 +133,13 @@ class PageController extends Controller
 
         $data['show_in_menu'] = $request->has('show_in_menu');
 
-        // Handle featured image upload
-        if ($request->hasFile('featured_image')) {
-            // Delete old image
+        // Handle featured image upload and removal
+        if ($request->has('remove_image') && $page->featured_image) {
+            // Remove existing image
+            Storage::disk('public')->delete($page->featured_image);
+            $data['featured_image'] = null;
+        } elseif ($request->hasFile('featured_image')) {
+            // Delete old image if uploading new one
             if ($page->featured_image) {
                 Storage::disk('public')->delete($page->featured_image);
             }

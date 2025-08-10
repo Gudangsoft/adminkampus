@@ -47,13 +47,11 @@
             --light-bg: #f8f9fa;
         }
 
-        /* Navbar Modern Styling */
+        /* Simple Navbar Styling */
         .navbar {
             background: var(--white) !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-            padding: 0.75rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1rem 0;
         }
 
         .navbar-brand {
@@ -61,102 +59,39 @@
             font-weight: 700 !important;
             text-decoration: none !important;
             color: var(--primary-color) !important;
-            background: var(--light-bg);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-        }
-
-        .navbar-brand:hover {
-            background: var(--primary-color);
-            color: var(--white) !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .navbar-brand img {
             object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
-        /* Modern Navigation Links */
+        /* Simple Navigation Links */
         .navbar-nav .nav-link {
             color: var(--text-dark) !important;
             font-weight: 500;
-            padding: 0.75rem 1.25rem !important;
-            margin: 0 0.25rem;
-            border-radius: 50px;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-        }
-
-        .navbar-nav .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--primary-color);
-            border-radius: 50px;
-            transform: scale(0);
-            transition: transform 0.3s ease;
-            z-index: -1;
-        }
-
-        .navbar-nav .nav-link:hover::before {
-            transform: scale(1);
+            padding: 0.75rem 1rem !important;
+            margin: 0 0.2rem;
         }
 
         .navbar-nav .nav-link:hover {
-            color: var(--white) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            color: var(--primary-color) !important;
         }
 
         .navbar-nav .nav-link.active {
-            background: var(--primary-color) !important;
-            color: var(--white) !important;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            transform: translateY(-1px);
+            color: var(--primary-color) !important;
+            font-weight: 600;
         }
 
         .navbar-nav .nav-link i {
-            background: rgba(102, 126, 234, 0.1);
             color: var(--primary-color);
-            padding: 0.25rem;
-            border-radius: 50%;
             margin-right: 0.5rem;
-            transition: all 0.3s ease;
             font-size: 0.9rem;
-        }
-
-        .navbar-nav .nav-link:hover i,
-        .navbar-nav .nav-link.active i {
-            background: rgba(255, 255, 255, 0.2);
-            color: var(--white);
-            transform: rotate(5deg) scale(1.1);
-        }
-
-        /* Active indicator */
-        .navbar-nav .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            background: var(--white);
-            border-radius: 50%;
         }
 
         /* Mobile optimizations */
         .navbar-toggler {
-            border: 2px solid var(--primary-color);
+            border: 1px solid var(--primary-color);
             padding: 0.5rem;
-            border-radius: 8px;
         }
 
         .navbar-toggler-icon {
@@ -165,36 +100,18 @@
 
         @media (max-width: 991.98px) {
             .navbar-nav {
-                background: var(--light-bg);
-                border: 1px solid rgba(102, 126, 234, 0.1);
-                border-radius: 15px;
                 margin-top: 1rem;
-                padding: 1rem;
+                padding: 1rem 0;
             }
             
             .navbar-nav .nav-link {
                 margin: 0.25rem 0;
                 padding: 0.75rem 1rem !important;
-                border-radius: 12px;
                 color: var(--text-dark) !important;
-            }
-            
-            .navbar-nav .nav-link::after {
-                display: none;
             }
         }
 
-        /* Smooth animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+
 
         .navbar-nav .nav-item {
             animation: fadeInUp 0.5s ease forwards;
@@ -263,37 +180,39 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('home') ? 'active fw-bold' : '' }}" href="{{ route('home') }}">
-                                <i class="fas fa-home-alt"></i>Beranda
+                                <i class="fas fa-home"></i> Beranda
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('news.*') ? 'active fw-bold' : '' }}" href="{{ route('news.index') }}">
-                                <i class="fas fa-newspaper"></i>Berita
+                                <i class="fas fa-newspaper"></i> Berita
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('announcements.*') ? 'active fw-bold' : '' }}" href="{{ route('announcements.index') }}">
-                                <i class="fas fa-megaphone"></i>Pengumuman
+                                <i class="fas fa-bullhorn"></i> Pengumuman
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('program-studi.*') ? 'active fw-bold' : '' }}" href="{{ route('program-studi.index') }}">
-                                <i class="fas fa-graduation-cap"></i>Program Studi
+                                <i class="fas fa-graduation-cap"></i> Program Studi
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('fakultas.*') ? 'active fw-bold' : '' }}" href="{{ route('fakultas.index') }}">
-                                <i class="fas fa-university"></i>Fakultas
+                                <i class="fas fa-university"></i> Fakultas
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('mahasiswa.*') ? 'active fw-bold' : '' }}" href="{{ route('mahasiswa.index') }}">
-                                <i class="fas fa-user-graduate"></i>Mahasiswa
+                                <i class="fas fa-users"></i> Mahasiswa
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('gallery.*') ? 'active fw-bold' : '' }}" href="{{ route('gallery.index') }}">
-                                <i class="fas fa-images"></i>Galeri
+                                <i class="fas fa-images"></i> Galeri
+                            </a>
+                        </li>
                             </a>
                         </li>
                         
@@ -303,7 +222,7 @@
                         @foreach($menuPages as $menuPage)
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is($menuPage->slug) ? 'active fw-bold' : '' }}" href="{{ route('page.show', $menuPage->slug) }}">
-                                <i class="fas fa-file-text"></i>{{ $menuPage->title }}
+                                <i class="fas fa-file"></i>{{ $menuPage->title }}
                             </a>
                         </li>
                         @endforeach

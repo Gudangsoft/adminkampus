@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin') - {{ config('app.name') }}</title>
     
     <!-- Favicon -->
@@ -368,13 +369,13 @@
             
             <!-- Media Menu with Dropdown -->
             <div class="nav-item dropdown-nav">
-                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') ? 'active' : '' }}" 
-                   href="#" data-bs-toggle="collapse" data-bs-target="#mediaMenu" aria-expanded="{{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') ? 'true' : 'false' }}">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'active' : '' }}" 
+                   href="#" data-bs-toggle="collapse" data-bs-target="#mediaMenu" aria-expanded="{{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'true' : 'false' }}">
                     <i class="fas fa-photo-video"></i>
                     Media
                     <i class="fas fa-chevron-down ms-auto"></i>
                 </a>
-                <div class="collapse {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') ? 'show' : '' }}" id="mediaMenu">
+                <div class="collapse {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'show' : '' }}" id="mediaMenu">
                     <div class="submenu">
                         <a class="nav-link {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}" 
                            href="{{ route('admin.galleries.index') }}">
@@ -385,6 +386,11 @@
                            href="{{ route('admin.sliders.index') }}">
                             <i class="fas fa-sliders-h"></i>
                             Slider
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.sections.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.sections.index') }}">
+                            <i class="fas fa-th-large"></i>
+                            Sections
                         </a>
                     </div>
                 </div>

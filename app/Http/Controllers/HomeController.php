@@ -8,35 +8,29 @@ use App\Models\Announcement;
 use App\Models\Gallery;
 use App\Models\StudyProgram;
 use App\Models\Faculty;
+use App\Models\Section;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $sliders = Slider::active()->ordered()->get();
-        $featuredNews = News::published()->featured()->latest('published_at')->take(4)->get();
-        $latestNews = News::published()->latest('published_at')->take(6)->get();
-        $urgentAnnouncements = Announcement::published()->byPriority('urgent')->latest('published_at')->take(3)->get();
-        $featuredGallery = Gallery::featured()->latest()->take(8)->get();
-        $faculties = Faculty::active()->orderBy('sort_order')->get();
-        
-        // Statistics
-        $stats = [
-            'total_students' => \App\Models\Student::active()->count(),
-            'total_lecturers' => \App\Models\Lecturer::active()->count(),
-            'total_study_programs' => StudyProgram::active()->count(),
-            'total_faculties' => Faculty::active()->count(),
-        ];
-
-        return view('frontend.home', compact(
-            'sliders',
-            'featuredNews',
-            'latestNews',
-            'urgentAnnouncements',
-            'featuredGallery',
-            'faculties',
-            'stats'
-        ));
+        try {
+            // Get active sections dari database
+            $sections = Section::where('is_active', true)->orderBy('order')->get();
+            
+            // Global settings
+            $globalSettings = [
+                'site_name' => 'KESOSI',
+                'site_description' => 'Kampus Kesehatan Modern',
+            ];
+            
+            return view('frontend.home', compact('sections', 'globalSettings'));
+            
+        } catch (\Exception $e) {
+            // Fallback jika ada error
+            \Log::error('HomeController error: ' . $e->getMessage());
+            return response('<h1>Homepage Works!</h1><p>Loading sections...</p><p>Error: ' . $e->getMessage() . '</p>');
+        }
     }
 
     public function about()

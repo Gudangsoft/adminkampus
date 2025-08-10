@@ -250,8 +250,20 @@
                         </div>
 
                         <!-- Pagination -->
-                        <div class="d-flex justify-content-center">
-                            {{ $galleries->appends(request()->query())->links() }}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center mt-4">
+                                    <div>
+                                        <p class="text-muted mb-0">
+                                            Menampilkan {{ $galleries->firstItem() ?? 0 }} - {{ $galleries->lastItem() ?? 0 }} 
+                                            dari {{ $galleries->total() }} item
+                                        </p>
+                                    </div>
+                                    <div>
+                                        {{ $galleries->appends(request()->query())->links('pagination::bootstrap-4') }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -280,6 +292,35 @@
 
 .avatar-title {
     font-size: 1.125rem;
+}
+
+/* Pagination styling */
+.pagination {
+    margin-bottom: 0;
+}
+
+.page-link {
+    color: #5a67d8;
+    border: 1px solid #e2e8f0;
+    padding: 0.5rem 0.75rem;
+}
+
+.page-link:hover {
+    color: #4c51bf;
+    background-color: #f7fafc;
+    border-color: #cbd5e0;
+}
+
+.page-item.active .page-link {
+    background-color: #5a67d8;
+    border-color: #5a67d8;
+    color: white;
+}
+
+.page-item.disabled .page-link {
+    color: #a0aec0;
+    background-color: #f7fafc;
+    border-color: #e2e8f0;
 }
 </style>
 @endsection

@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\SliderController as AdminSliderController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\MenuController as AdminMenuController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\SectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,32 @@ use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Auto login route untuk testing (hapus di production)
+Route::get('/auto-login', function() {
+    return view('auto-login');
+});
+
+// Test route untuk debugging
+Route::get('/simple-test', function() {
+    return '<h1>Simple Test Works!</h1><p>Server is running fine</p>';
+});
+
+// Test admin route tanpa middleware
+Route::get('/test-admin-create', function() {
+    return view('admin.pages.create_simple');
+});
+
+// Test admin route dengan controller
+Route::get('/test-admin-controller', function() {
+    $controller = new \App\Http\Controllers\Admin\PageController();
+    return $controller->create();
+});
+
+Route::get('/test', function() {
+    $sections = \App\Models\Section::active()->ordered()->get();
+    return view('frontend.test', compact('sections'));
+});
 
 // Debug route untuk test settings
 Route::get('/debug-settings', function() {
@@ -139,6 +166,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::patch('sliders/{slider}/toggle-active', [AdminSliderController::class, 'toggleActive'])->name('sliders.toggle-active');
     Route::post('sliders/update-order', [AdminSliderController::class, 'updateOrder'])->name('sliders.update-order');
     
+    // Sections Management
+    Route::resource('sections', SectionController::class);
+    Route::post('sections/update-order', [SectionController::class, 'updateOrder'])->name('sections.update-order');
+    
     // Pages Management
     Route::resource('pages', AdminPageController::class);
     Route::patch('pages/{page}/toggle-status', [AdminPageController::class, 'toggleStatus'])->name('pages.toggle-status');
@@ -169,10 +200,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
         Route::put('/password', [AdminProfileController::class, 'updatePassword'])->name('password.update');
     });
 });
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Frontend Page Routes - These should be at the end to avoid conflicts
 Route::get('/{slug}', [PageController::class, 'show'])->name('page.show')->where('slug', '[a-zA-Z0-9\-]+');
