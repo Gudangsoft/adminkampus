@@ -334,6 +334,78 @@
         font-size: 0.75rem;
         color: #999;
     }
+    
+    /* Mini News Cards - Horizontal Layout */
+    .mini-news-card {
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        border-radius: 8px;
+        overflow: hidden;
+        height: 100px;
+        background: white;
+        display: flex;
+    }
+    .mini-news-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+    .mini-news-image {
+        width: 120px;
+        height: 100px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        flex-shrink: 0;
+    }
+    .mini-news-category {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: rgba(102, 126, 234, 0.9);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 8px;
+        font-size: 0.65rem;
+        font-weight: 500;
+    }
+    .mini-news-content {
+        padding: 12px 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+        min-width: 0;
+    }
+    .mini-news-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 6px;
+        line-height: 1.3;
+        color: #333;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .mini-news-excerpt {
+        font-size: 0.75rem;
+        color: #666;
+        line-height: 1.3;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex-grow: 1;
+    }
+    .mini-news-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.7rem;
+        color: #999;
+    }
 </style>
 @endpush
 
@@ -415,10 +487,10 @@
                 <p class="text-muted">Informasi dan perkembangan terkini dari {{ $globalSettings['site_name'] ?? 'KESOSI' }}</p>
             </div>
             
-            <div class="row g-4">
-                @if($latestNews->count() > 0)
-                    <!-- Featured Main News -->
-                    <div class="col-lg-8">
+            @if($latestNews->count() > 0)
+                <!-- Featured Main News -->
+                <div class="row mb-5">
+                    <div class="col-12">
                         @php $mainNews = $latestNews->first(); @endphp
                         <article class="featured-news-main">
                             <div class="featured-news-bg" style="background-image: url('{{ $mainNews->featured_image_url }}')"></div>
@@ -454,30 +526,36 @@
                             </div>
                         </article>
                     </div>
-                    
-                    <!-- Other News -->
-                    <div class="col-lg-4">
+                </div>
+                
+                <!-- Other News - Mini Cards Grid -->
+                @if($latestNews->count() > 1)
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="fw-bold mb-4">Berita Lainnya</h4>
                         <div class="row g-3">
-                            @foreach($latestNews->skip(1)->take(4) as $news)
-                                <div class="col-12">
-                                    <article class="card small-news-card">
-                                        <div class="small-news-image" style="background-image: url('{{ $news->featured_image_url }}')">
+                            @foreach($latestNews->skip(1)->take(8) as $news)
+                                <div class="col-lg-6 col-md-6">
+                                    <article class="card mini-news-card">
+                                        <div class="mini-news-image" style="background-image: url('{{ $news->featured_image_url }}')">
                                             @if($news->category)
-                                                <span class="small-news-category">{{ $news->category->name }}</span>
+                                                <span class="mini-news-category">{{ $news->category->name }}</span>
                                             @endif
                                         </div>
-                                        <div class="small-news-content">
-                                            <h3 class="small-news-title">
-                                                <a href="{{ route('news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                                                    {{ $news->title }}
-                                                </a>
-                                            </h3>
-                                            @if($news->excerpt)
-                                                <p class="small-news-excerpt">{{ Str::limit($news->excerpt, 80) }}</p>
-                                            @else
-                                                <p class="small-news-excerpt">{{ Str::limit(strip_tags($news->content), 80) }}</p>
-                                            @endif
-                                            <div class="small-news-meta">
+                                        <div class="mini-news-content">
+                                            <div>
+                                                <h3 class="mini-news-title">
+                                                    <a href="{{ route('news.show', $news->slug) }}" class="text-decoration-none text-dark">
+                                                        {{ $news->title }}
+                                                    </a>
+                                                </h3>
+                                                @if($news->excerpt)
+                                                    <p class="mini-news-excerpt">{{ Str::limit($news->excerpt, 100) }}</p>
+                                                @else
+                                                    <p class="mini-news-excerpt">{{ Str::limit(strip_tags($news->content), 100) }}</p>
+                                                @endif
+                                            </div>
+                                            <div class="mini-news-meta">
                                                 <span>
                                                     <i class="fas fa-calendar-alt me-1"></i>
                                                     {{ $news->published_at->format('d M') }}
@@ -493,58 +571,9 @@
                             @endforeach
                         </div>
                     </div>
+                </div>
                 @endif
-                
-                @if($latestNews->count() > 5)
-                    <!-- Additional News Row -->
-                    <div class="col-12 mt-4">
-                        <div class="row g-4">
-                            @foreach($latestNews->skip(5) as $news)
-                                <div class="col-lg-4 col-md-6">
-                                    <article class="card news-card h-100">
-                                        <div class="news-image" style="background-image: url('{{ $news->featured_image_url }}')">
-                                            @if($news->category)
-                                                <span class="news-category">{{ $news->category->name }}</span>
-                                            @endif
-                                            <span class="news-date">
-                                                <i class="fas fa-calendar-alt me-1"></i>
-                                                {{ $news->published_at->format('d M Y') }}
-                                            </span>
-                                        </div>
-                                        <div class="news-content">
-                                            <h3 class="news-title">
-                                                <a href="{{ route('news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                                                    {{ $news->title }}
-                                                </a>
-                                            </h3>
-                                            @if($news->excerpt)
-                                                <p class="news-excerpt">{{ $news->excerpt }}</p>
-                                            @else
-                                                <p class="news-excerpt">{{ Str::limit(strip_tags($news->content), 150) }}</p>
-                                            @endif
-                                            <div class="news-meta">
-                                                <span>
-                                                    <i class="fas fa-user me-1"></i>
-                                                    {{ $news->user->name ?? 'Admin' }}
-                                                </span>
-                                                <span>
-                                                    <i class="fas fa-eye me-1"></i>
-                                                    {{ $news->views ?? 0 }} views
-                                                </span>
-                                            </div>
-                                            <div class="mt-3">
-                                                <a href="{{ route('news.show', $news->slug) }}" class="read-more-btn">
-                                                    Baca Selengkapnya <i class="fas fa-arrow-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-            </div>
+            @endif
             
             <!-- View All News Button -->
             <div class="text-center mt-5">
