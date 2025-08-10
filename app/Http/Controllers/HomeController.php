@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Section;
+use App\Models\Slider;
 
 class HomeController extends Controller
 {
@@ -12,13 +13,16 @@ class HomeController extends Controller
             // Get active sections dari database
             $sections = Section::where('is_active', true)->orderBy('order')->get();
             
+            // Get active sliders dari database  
+            $sliders = Slider::active()->ordered()->get();
+            
             // Global settings
             $globalSettings = [
                 'site_name' => 'KESOSI',
                 'site_description' => 'Kampus Kesehatan Modern',
             ];
             
-            return view('frontend.home', compact('sections', 'globalSettings'));
+            return view('frontend.home', compact('sections', 'sliders', 'globalSettings'));
             
         } catch (\Exception $e) {
             // Fallback jika ada error

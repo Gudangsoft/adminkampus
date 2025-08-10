@@ -19,8 +19,85 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
+    
+    /* Slider Styles */
+    .slider-container {
+        position: relative;
+        height: 500px;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .slider-item {
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+    .slider-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+        display: flex;
+        align-items: center;
+    }
+    .slider-content {
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    .slider-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    .slider-description {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    .slider-btn {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    .slider-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 60px;
+        height: 60px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.9);
+        border-radius: 50%;
+        color: #333;
+    }
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        background: rgba(255,255,255,1);
+        color: #000;
+    }
+    .carousel-indicators [data-bs-target] {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 4px;
+        background-color: rgba(255,255,255,0.6);
+        border: none;
+    }
+    .carousel-indicators .active {
+        background-color: #fff;
+    }
 </style>
 @endpush
+
+
 
 @section('content')
 
@@ -46,6 +123,83 @@
             </div>
         </div>
     </section>
+
+    <!-- Slider -->
+    @if(isset($sliders) && $sliders->count() > 0)
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Sorotan Kampus</h2>
+                <p class="text-muted">Informasi dan berita terkini dari {{ $globalSettings['site_name'] ?? 'KESOSI' }}</p>
+            </div>
+            
+            <div id="campusSlider" class="carousel slide slider-container" data-bs-ride="carousel" data-bs-interval="5000">
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators">
+                    @foreach($sliders as $index => $slider)
+                        <button type="button" data-bs-target="#campusSlider" data-bs-slide-to="{{ $index }}" 
+                                class="{{ $index === 0 ? 'active' : '' }}" 
+                                aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
+                                aria-label="Slide {{ $index + 1 }}"></button>
+                    @endforeach
+                </div>
+                
+                <!-- Carousel Inner -->
+                <div class="carousel-inner">
+                    @foreach($sliders as $index => $slider)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            <div class="slider-item" style="background-image: url('{{ $slider->image_url }}')">
+                                <div class="slider-overlay">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-10">
+                                                <div class="slider-content">
+                                                    <h2 class="slider-title">{{ $slider->title }}</h2>
+                                                    @if($slider->description)
+                                                        <p class="slider-description">{{ $slider->description }}</p>
+                                                    @endif
+                                                    @if($slider->link && $slider->button_text)
+                                                        <a href="{{ $slider->link }}" 
+                                                           class="btn btn-light btn-lg slider-btn"
+                                                           target="{{ $slider->link_target === '_blank' ? '_blank' : '_self' }}">
+                                                            {{ $slider->button_text }}
+                                                            <i class="fas fa-arrow-right ms-2"></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#campusSlider" data-bs-slide="prev">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#campusSlider" data-bs-slide="next">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+    @endif
+
+  
+  
+  
+    <!-- Featured News Section -->
+   
+    
+
+
+
+
 
     <!-- Dynamic Sections -->
     <section id="sections" class="py-5">
@@ -116,6 +270,59 @@
                 target.scrollIntoView({ behavior: 'smooth' });
             }
         });
+    });
+</script>
+
+<!-- Slider functionality -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize carousel
+        const carousel = document.querySelector('#campusSlider');
+        if (carousel) {
+            // Auto-play functionality (already handled by data-bs-ride="carousel")
+            
+            // Pause on hover
+            carousel.addEventListener('mouseenter', function() {
+                const bsCarousel = bootstrap.Carousel.getInstance(this) || new bootstrap.Carousel(this);
+                bsCarousel.pause();
+            });
+            
+            // Resume on mouse leave
+            carousel.addEventListener('mouseleave', function() {
+                const bsCarousel = bootstrap.Carousel.getInstance(this) || new bootstrap.Carousel(this);
+                bsCarousel.cycle();
+            });
+            
+            // Touch/swipe support untuk mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            carousel.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            carousel.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    const bsCarousel = bootstrap.Carousel.getInstance(carousel) || new bootstrap.Carousel(carousel);
+                    
+                    if (diff > 0) {
+                        // Swipe left - next slide
+                        bsCarousel.next();
+                    } else {
+                        // Swipe right - previous slide
+                        bsCarousel.prev();
+                    }
+                }
+            }
+        }
     });
 </script>
 @endpush
