@@ -6,6 +6,7 @@ use App\Models\Section;
 use App\Models\Slider;
 use App\Models\News;
 use App\Models\Faculty;
+use App\Models\Gallery;
 
 class HomeController extends Controller
 {
@@ -33,13 +34,26 @@ class HomeController extends Controller
                 ->take(6)
                 ->get();
             
+            // Get featured galleries (max 8 for grid display)
+            $featuredGalleries = Gallery::where('is_featured', true)
+                ->with(['category', 'user'])
+                ->orderBy('created_at', 'desc')
+                ->take(8)
+                ->get();
+            
+            // Get latest galleries (max 12 for display)
+            $latestGalleries = Gallery::with(['category', 'user'])
+                ->orderBy('created_at', 'desc')
+                ->take(12)
+                ->get();
+            
             // Global settings
             $globalSettings = [
                 'site_name' => 'KESOSI',
                 'site_description' => 'Kampus Kesehatan Modern',
             ];
             
-            return view('frontend.home', compact('sections', 'sliders', 'latestNews', 'faculties', 'globalSettings'));
+            return view('frontend.home', compact('sections', 'sliders', 'latestNews', 'faculties', 'featuredGalleries', 'latestGalleries', 'globalSettings'));
             
         } catch (\Exception $e) {
             // Fallback jika ada error

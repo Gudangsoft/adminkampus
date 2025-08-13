@@ -599,6 +599,315 @@
         transform: translateY(-2px) scale(1.05);
         box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
+    
+    /* Gallery Section Styles */
+    .gallery-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .gallery-item {
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+    }
+    
+    .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
+    }
+    
+    .gallery-featured {
+        height: 400px;
+    }
+    
+    .gallery-medium {
+        height: 250px;
+    }
+    
+    .gallery-small {
+        height: 200px;
+    }
+    
+    .gallery-compact {
+        height: 120px;
+    }
+    
+    .gallery-image {
+        transition: transform 0.3s ease;
+        object-fit: cover;
+    }
+    
+    .gallery-item:hover .gallery-image {
+        transform: scale(1.05);
+    }
+    
+    .gallery-overlay,
+    .gallery-overlay-small,
+    .gallery-overlay-tiny,
+    .gallery-overlay-compact {
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .gallery-gradient,
+    .gallery-gradient-small,
+    .gallery-gradient-tiny,
+    .gallery-gradient-compact {
+        background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 100%);
+        opacity: 0.8;
+    }
+    
+    .gallery-item:hover .gallery-gradient,
+    .gallery-item:hover .gallery-gradient-small,
+    .gallery-item:hover .gallery-gradient-tiny,
+    .gallery-item:hover .gallery-gradient-compact {
+        opacity: 1;
+    }
+    
+    .gallery-title {
+        font-size: 1.25rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .gallery-title-small {
+        font-size: 1rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .gallery-title-tiny {
+        font-size: 0.875rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .gallery-title-compact {
+        font-size: 0.75rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        line-height: 1.2;
+    }
+    
+    .gallery-description {
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    
+    .gallery-meta {
+        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .gallery-category,
+    .gallery-category-small,
+    .gallery-category-compact {
+        background: rgba(102, 126, 234, 0.9) !important;
+        backdrop-filter: blur(5px);
+    }
+    
+    .gallery-type-badge,
+    .gallery-type-badge-small,
+    .gallery-type-badge-tiny,
+    .gallery-type-badge-compact {
+        backdrop-filter: blur(5px);
+        font-weight: 600;
+    }
+    
+    .gallery-play-btn button {
+        width: 60px;
+        height: 60px;
+        backdrop-filter: blur(10px);
+        border: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .gallery-play-btn button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+    
+    .gallery-play-btn-small button {
+        width: 45px;
+        height: 45px;
+        backdrop-filter: blur(10px);
+        border: none;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .gallery-play-btn-small button:hover {
+        transform: scale(1.1);
+    }
+    
+    .gallery-play-btn-tiny button {
+        width: 35px;
+        height: 35px;
+        backdrop-filter: blur(10px);
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .gallery-play-btn-tiny button:hover {
+        transform: scale(1.1);
+    }
+    
+    .gallery-play-btn-compact button {
+        width: 30px;
+        height: 30px;
+        backdrop-filter: blur(10px);
+        border: none;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .gallery-play-btn-compact button:hover {
+        transform: scale(1.1);
+    }
+    
+    .gallery-link {
+        z-index: 5;
+        text-decoration: none;
+    }
+    
+    .object-cover {
+        object-fit: cover;
+    }
+    
+    /* Video Modal Styles */
+    .modal-dialog-centered {
+        max-width: 900px;
+    }
+    
+    .modal-body {
+        padding: 0;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .modal-content {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .video-responsive {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+    }
+    
+    .video-responsive iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    
+    /* Mobile Responsive for Gallery */
+    @media (max-width: 768px) {
+        .gallery-featured {
+            height: 300px;
+        }
+        
+        .gallery-medium {
+            height: 200px;
+        }
+        
+        .gallery-small {
+            height: 180px;
+        }
+        
+        .gallery-title {
+            font-size: 1rem;
+        }
+        
+        .gallery-title-small {
+            font-size: 0.9rem;
+        }
+        
+        .gallery-title-tiny {
+            font-size: 0.8rem;
+        }
+        
+        .gallery-play-btn button {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .gallery-play-btn-small button {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .gallery-play-btn-tiny button {
+            width: 30px;
+            height: 30px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .gallery-featured {
+            height: 250px;
+        }
+        
+        .gallery-medium,
+        .gallery-small {
+            height: 160px;
+        }
+        
+        .gallery-overlay,
+        .gallery-overlay-small,
+        .gallery-overlay-tiny,
+        .gallery-overlay-compact {
+            padding: 1rem !important;
+        }
+        
+        .gallery-compact {
+            height: 100px;
+        }
+        
+        .gallery-title-compact {
+            font-size: 0.7rem;
+        }
+    }
+    
+    /* Gallery Loading Skeleton */
+    .gallery-skeleton {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: galleryLoading 1.5s infinite;
+    }
+    
+    @keyframes galleryLoading {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+    
+    .gallery-item.loading {
+        pointer-events: none;
+    }
+    
+    .gallery-item.loading .gallery-image {
+        opacity: 0;
+    }
+    
+    .gallery-item.loading::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: galleryLoading 1.5s infinite;
+        border-radius: inherit;
+        z-index: 1;
+    }
 </style>
 @endpush
 
@@ -850,6 +1159,119 @@
         </div>
     </section>
 
+    <!-- Gallery Section -->
+    @if(isset($featuredGalleries) && $featuredGalleries->count() > 0)
+    <section id="gallery-section" class="gallery-section py-5 bg-white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-dark">Galeri Foto & Video</h2>
+                <p class="text-muted fs-5">Dokumentasi kegiatan dan momen berharga di {{ $globalSettings['site_name'] ?? 'KESOSI' }}</p>
+                <div class="mx-auto" style="width: 60px; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 2px;"></div>
+            </div>
+            
+            <!-- Featured Gallery Grid -->
+            <div class="row g-3">
+                @foreach($featuredGalleries->take(9) as $index => $gallery)
+                    @if($index == 0)
+                        <!-- Main Featured Item - Large -->
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="gallery-item gallery-featured position-relative overflow-hidden rounded-3 shadow-lg h-100">
+                                @if($gallery->type === 'video')
+                                    <div class="gallery-video-container position-relative">
+                                        <img src="{{ $gallery->youtube_thumbnail ?: $gallery->thumbnail_url }}" alt="{{ $gallery->title }}" class="gallery-image w-100 h-100 object-cover">
+                                        <div class="gallery-play-btn position-absolute top-50 start-50 translate-middle">
+                                            <button class="btn btn-light btn-lg rounded-circle shadow-lg" data-bs-toggle="modal" data-bs-target="#videoModal{{ $gallery->id }}">
+                                                <i class="fas fa-play text-primary"></i>
+                                            </button>
+                                        </div>
+                                        <span class="gallery-type-badge position-absolute top-0 end-0 m-3 badge bg-danger">
+                                            <i class="fas fa-video me-1"></i>Video
+                                        </span>
+                                    </div>
+                                @else
+                                    <img src="{{ $gallery->image_url }}" alt="{{ $gallery->title }}" class="gallery-image w-100 h-100 object-cover">
+                                    <span class="gallery-type-badge position-absolute top-0 end-0 m-3 badge bg-success">
+                                        <i class="fas fa-image me-1"></i>Foto
+                                    </span>
+                                @endif
+                                <div class="gallery-overlay position-absolute bottom-0 start-0 w-100 p-4 text-white">
+                                    <div class="gallery-gradient position-absolute top-0 start-0 w-100 h-100"></div>
+                                    <div class="position-relative">
+                                        <h4 class="gallery-title fw-bold mb-2">{{ $gallery->title }}</h4>
+                                        @if($gallery->category)
+                                            <span class="gallery-category badge bg-primary mb-2">{{ $gallery->category->name }}</span>
+                                        @endif
+                                        @if($gallery->description)
+                                            <p class="gallery-description mb-2 opacity-90">{{ Str::limit($gallery->description, 100) }}</p>
+                                        @endif
+                                        <div class="gallery-meta small opacity-75">
+                                            <span><i class="fas fa-calendar-alt me-1"></i>{{ $gallery->created_at->format('d M Y') }}</span>
+                                            @if($gallery->photographer)
+                                                <span class="ms-3"><i class="fas fa-camera me-1"></i>{{ $gallery->photographer }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="{{ route('gallery.show', $gallery->slug) }}" class="gallery-link position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                        
+                        <!-- Small Grid Container for Other Items -->
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="row g-2 h-100">
+                    @else
+                        <!-- Small Compact Items -->
+                        <div class="col-6">
+                            <div class="gallery-item gallery-compact position-relative overflow-hidden rounded-2 shadow h-100">
+                                @if($gallery->type === 'video')
+                                    <div class="gallery-video-container position-relative">
+                                        <img src="{{ $gallery->youtube_thumbnail ?: $gallery->thumbnail_url }}" alt="{{ $gallery->title }}" class="gallery-image w-100 h-100 object-cover">
+                                        <div class="gallery-play-btn-compact position-absolute top-50 start-50 translate-middle">
+                                            <button class="btn btn-light btn-sm rounded-circle shadow" data-bs-toggle="modal" data-bs-target="#videoModal{{ $gallery->id }}">
+                                                <i class="fas fa-play text-primary small"></i>
+                                            </button>
+                                        </div>
+                                        <span class="gallery-type-badge-compact position-absolute top-0 end-0 m-1 badge bg-danger">
+                                            <i class="fas fa-video small"></i>
+                                        </span>
+                                    </div>
+                                @else
+                                    <img src="{{ $gallery->image_url }}" alt="{{ $gallery->title }}" class="gallery-image w-100 h-100 object-cover">
+                                    <span class="gallery-type-badge-compact position-absolute top-0 end-0 m-1 badge bg-success">
+                                        <i class="fas fa-image small"></i>
+                                    </span>
+                                @endif
+                                <div class="gallery-overlay-compact position-absolute bottom-0 start-0 w-100 p-2 text-white">
+                                    <div class="gallery-gradient-compact position-absolute top-0 start-0 w-100 h-100"></div>
+                                    <div class="position-relative">
+                                        <h6 class="gallery-title-compact fw-bold mb-0 small">{{ Str::limit($gallery->title, 25) }}</h6>
+                                        @if($gallery->category)
+                                            <span class="gallery-category-compact badge bg-primary mt-1" style="font-size: 0.6rem;">{{ $gallery->category->name }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <a href="{{ route('gallery.show', $gallery->slug) }}" class="gallery-link position-absolute top-0 start-0 w-100 h-100"></a>
+                            </div>
+                        </div>
+                        @if($index == 8 || $loop->last)
+                            </div> <!-- Close row for small grid -->
+                        </div> <!-- Close col for small grid container -->
+                        @endif
+                    @endif
+                @endforeach
+            </div>
+            
+            <!-- View All Gallery Button -->
+            <div class="text-center mt-5">
+                <a href="{{ route('gallery.index') }}" class="btn btn-primary btn-lg px-5 py-3">
+                    <i class="fas fa-images me-2"></i>Lihat Semua Galeri
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    @endif
+
     <!-- Dynamic Sections -->
     <section id="sections" class="py-5 bg-white">
         <div class="container">
@@ -999,6 +1421,175 @@
             card.style.transform = 'translateY(20px)';
             card.style.transition = 'all 0.6s ease';
             observer.observe(card);
+        });
+    });
+</script>
+
+<!-- Video Modals for Gallery -->
+@if(isset($featuredGalleries))
+    @foreach($featuredGalleries->where('type', 'video') as $video)
+        <div class="modal fade" id="videoModal{{ $video->id }}" tabindex="-1" aria-labelledby="videoModalLabel{{ $video->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title" id="videoModalLabel{{ $video->id }}">{{ $video->title }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @if($video->youtube_id)
+                            <div class="video-responsive">
+                                <iframe src="https://www.youtube.com/embed/{{ $video->youtube_id }}?autoplay=1&rel=0" 
+                                        title="{{ $video->title }}" 
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                        @elseif($video->embed_url)
+                            <div class="video-responsive">
+                                <iframe src="{{ $video->embed_url }}" 
+                                        title="{{ $video->title }}" 
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                        @else
+                            <div class="text-center p-5">
+                                <i class="fas fa-video fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Video tidak dapat dimuat</p>
+                            </div>
+                        @endif
+                    </div>
+                    @if($video->description)
+                        <div class="modal-footer border-0 pt-0">
+                            <div class="w-100">
+                                <p class="text-muted mb-0">{{ $video->description }}</p>
+                                @if($video->category)
+                                    <span class="badge bg-primary mt-2">{{ $video->category->name }}</span>
+                                @endif
+                                @if($video->photographer)
+                                    <span class="badge bg-secondary mt-2">{{ $video->photographer }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    @endforeach
+@endif
+
+<!-- Image Lightbox Modal -->
+<div class="modal fade" id="imageLightbox" tabindex="-1" aria-labelledby="imageLightboxLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-header border-0 position-absolute top-0 end-0 z-index-3">
+                <button type="button" class="btn btn-light btn-sm rounded-circle me-3 mt-3" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 text-center">
+                <img id="lightboxImage" src="" alt="" class="img-fluid rounded-3 shadow-lg" style="max-height: 80vh; width: auto;">
+                <div class="mt-3 text-white">
+                    <h5 id="lightboxTitle" class="fw-bold"></h5>
+                    <p id="lightboxDescription" class="text-muted"></p>
+                    <div id="lightboxMeta" class="small text-muted"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gallery JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gallery item click tracking
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Check if it's an image gallery item
+                const image = this.querySelector('.gallery-image');
+                const link = this.querySelector('.gallery-link');
+                
+                if (image && image.src && this.querySelector('[data-bs-target^="#videoModal"]') === null) {
+                    // Prevent default link action for images
+                    if (e.target === link || link.contains(e.target)) {
+                        e.preventDefault();
+                        
+                        // Open lightbox for images
+                        const title = this.querySelector('.gallery-title, .gallery-title-small, .gallery-title-tiny')?.textContent || '';
+                        const description = this.querySelector('.gallery-description')?.textContent || '';
+                        const meta = this.querySelector('.gallery-meta')?.textContent || '';
+                        
+                        openLightbox(image.src, title, description, meta);
+                    }
+                }
+                
+                // Analytics tracking
+                console.log('Gallery item clicked:', link?.getAttribute('href'));
+            });
+        });
+        
+        // Lightbox functionality
+        function openLightbox(imageSrc, title, description, meta) {
+            const modal = new bootstrap.Modal(document.getElementById('imageLightbox'));
+            const lightboxImage = document.getElementById('lightboxImage');
+            const lightboxTitle = document.getElementById('lightboxTitle');
+            const lightboxDescription = document.getElementById('lightboxDescription');
+            const lightboxMeta = document.getElementById('lightboxMeta');
+            
+            lightboxImage.src = imageSrc;
+            lightboxImage.alt = title;
+            lightboxTitle.textContent = title;
+            lightboxDescription.textContent = description;
+            lightboxMeta.textContent = meta;
+            
+            modal.show();
+        }
+        
+        // Gallery loading animation
+        const galleryObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    
+                    // Lazy load images
+                    const img = entry.target.querySelector('.gallery-image');
+                    if (img && img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        
+                        img.onload = function() {
+                            entry.target.classList.remove('loading');
+                        };
+                    } else {
+                        // For items without lazy loading
+                        setTimeout(() => {
+                            entry.target.classList.remove('loading');
+                        }, 300);
+                    }
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        // Observe gallery items for smooth loading animation
+        document.querySelectorAll('.gallery-item').forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = `all 0.6s ease ${index * 0.1}s`;
+            item.classList.add('loading');
+            galleryObserver.observe(item);
+        });
+        
+        // Video modal reset when closed
+        document.querySelectorAll('[id^="videoModal"]').forEach(modal => {
+            modal.addEventListener('hidden.bs.modal', function () {
+                const iframe = this.querySelector('iframe');
+                if (iframe) {
+                    const src = iframe.src;
+                    iframe.src = '';
+                    iframe.src = src.replace('autoplay=1', 'autoplay=0');
+                }
+            });
         });
     });
 </script>
