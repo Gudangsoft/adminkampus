@@ -151,6 +151,107 @@
             animation: slideDown 0.5s ease-out;
         }
 
+        /* Search Box Styling */
+        .search-form {
+            transition: all 0.3s ease;
+        }
+        
+        .search-input {
+            border-radius: 20px 0 0 20px !important;
+            border: 2px solid #e9ecef !important;
+            padding: 0.375rem 1rem !important;
+            font-size: 0.9rem;
+            width: 250px;
+            transition: all 0.3s ease;
+            border-right: none !important;
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary-color) !important;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
+            width: 300px;
+            outline: none !important;
+        }
+        
+        .search-btn {
+            border-radius: 0 20px 20px 0 !important;
+            border: 2px solid var(--primary-color) !important;
+            border-left: none !important;
+            padding: 0.375rem 1rem !important;
+            background: var(--primary-color) !important;
+            color: white !important;
+            transition: all 0.2s ease !important;
+            position: relative !important;
+            overflow: hidden !important;
+            min-width: 45px !important;
+            box-shadow: none !important;
+        }
+        
+        .search-btn:hover {
+            background: #5a6fd8 !important;
+            border-color: #5a6fd8 !important;
+            color: white !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3) !important;
+        }
+        
+        .search-btn:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2) !important;
+            background: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+        
+        .search-btn:focus {
+            outline: none !important;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
+            color: white !important;
+            background: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+        
+        .search-btn:focus:not(:focus-visible) {
+            box-shadow: none !important;
+        }
+        
+        .search-btn i {
+            transition: transform 0.2s ease;
+            color: white !important;
+        }
+        
+        .search-btn:hover i {
+            transform: scale(1.1);
+        }
+        
+        .search-btn:disabled {
+            background: #6c757d !important;
+            border-color: #6c757d !important;
+            color: white !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+        }
+        
+        @media (max-width: 991px) {
+            .search-form {
+                margin: 1rem 0 !important;
+                width: 100% !important;
+            }
+            
+            .search-input {
+                width: 100% !important;
+                border-radius: 20px 0 0 20px !important;
+            }
+            
+            .search-input:focus {
+                width: 100% !important;
+            }
+            
+            .search-btn {
+                border-radius: 0 20px 20px 0 !important;
+                min-width: 50px !important;
+            }
+        }
+
         @keyframes slideDown {
             from {
                 transform: translateY(-100%);
@@ -230,6 +331,27 @@
                         </li>
                         @endforeach
                     </ul>
+
+                    <!-- Search Box -->
+                    <div class="d-flex me-3">
+                        <form class="d-flex search-form" action="{{ route('search') }}" method="GET" role="search">
+                            <div class="input-group">
+                                <input type="search" 
+                                       name="q" 
+                                       class="form-control search-input" 
+                                       placeholder="Cari berita, galeri..." 
+                                       aria-label="Search"
+                                       value="{{ request('q') }}"
+                                       autocomplete="off">
+                                <button class="btn search-btn" 
+                                        type="submit" 
+                                        title="Cari"
+                                        style="background: #667eea !important; border-color: #667eea !important; color: white !important;">
+                                    <i class="fas fa-search" style="color: white !important;"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
@@ -357,11 +479,211 @@
                     }, 10);
                 });
             }
+
+            // Enhanced search button interactions
+            const searchBtn = document.querySelector('.search-btn');
+            const searchInput = document.querySelector('.search-input');
+            const searchForm = document.querySelector('.search-form');
+            
+            if (searchBtn && searchForm) {
+                let isSubmitting = false;
+                
+                // Set initial styles
+                function setButtonStyle(btn, styles) {
+                    Object.keys(styles).forEach(key => {
+                        btn.style.setProperty(key, styles[key], 'important');
+                    });
+                }
+                
+                // Initial button styling
+                setButtonStyle(searchBtn, {
+                    'background': '#667eea',
+                    'border-color': '#667eea',
+                    'color': 'white',
+                    'border-radius': '0 20px 20px 0',
+                    'transition': 'all 0.2s ease'
+                });
+                
+                // Hover effects
+                searchBtn.addEventListener('mouseenter', function() {
+                    if (!this.disabled) {
+                        setButtonStyle(this, {
+                            'background': '#5a6fd8',
+                            'border-color': '#5a6fd8',
+                            'transform': 'translateY(-1px)',
+                            'box-shadow': '0 4px 8px rgba(102, 126, 234, 0.3)'
+                        });
+                    }
+                });
+                
+                searchBtn.addEventListener('mouseleave', function() {
+                    if (!this.disabled) {
+                        setButtonStyle(this, {
+                            'background': '#667eea',
+                            'border-color': '#667eea',
+                            'transform': 'translateY(0)',
+                            'box-shadow': 'none'
+                        });
+                    }
+                });
+                
+                // Click effects
+                searchBtn.addEventListener('mousedown', function() {
+                    if (!this.disabled) {
+                        setButtonStyle(this, {
+                            'transform': 'translateY(0)',
+                            'box-shadow': '0 2px 4px rgba(102, 126, 234, 0.2)'
+                        });
+                    }
+                });
+                
+                searchBtn.addEventListener('mouseup', function() {
+                    if (!this.disabled) {
+                        setButtonStyle(this, {
+                            'transform': 'translateY(-1px)',
+                            'box-shadow': '0 4px 8px rgba(102, 126, 234, 0.3)'
+                        });
+                    }
+                });
+                
+                searchForm.addEventListener('submit', function(e) {
+                    // Prevent empty searches
+                    if (!searchInput.value.trim()) {
+                        e.preventDefault();
+                        searchInput.focus();
+                        searchInput.style.setProperty('border-color', '#dc3545', 'important');
+                        setTimeout(() => {
+                            searchInput.style.removeProperty('border-color');
+                        }, 2000);
+                        return;
+                    }
+                    
+                    // Prevent double submission
+                    if (isSubmitting) {
+                        e.preventDefault();
+                        return;
+                    }
+                    
+                    isSubmitting = true;
+                    
+                    // Add loading state
+                    const icon = searchBtn.querySelector('i');
+                    const originalClass = icon.className;
+                    
+                    // Show loading spinner
+                    icon.className = 'fas fa-spinner fa-spin';
+                    searchBtn.disabled = true;
+                    
+                    setButtonStyle(searchBtn, {
+                        'background': '#6c757d',
+                        'border-color': '#6c757d',
+                        'cursor': 'not-allowed',
+                        'transform': 'none'
+                    });
+                    
+                    // Re-enable after delay (fallback)
+                    setTimeout(() => {
+                        icon.className = originalClass;
+                        searchBtn.disabled = false;
+                        setButtonStyle(searchBtn, {
+                            'background': '#667eea',
+                            'border-color': '#667eea',
+                            'cursor': 'pointer'
+                        });
+                        isSubmitting = false;
+                    }, 3000);
+                });
+
+                // Add ripple effect on mousedown
+                searchBtn.addEventListener('mousedown', function(e) {
+                    if (this.disabled) return;
+                    
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.4);
+                        transform: scale(0);
+                        animation: ripple-animation 0.6s linear;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+                
+                // Add Enter key support
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        searchForm.dispatchEvent(new Event('submit'));
+                    }
+                });
+            }
         });
 
         // Add CSS for ripple animation
         const style = document.createElement('style');
         style.textContent = `
+            /* Override Bootstrap button styles for search */
+            .search-btn.btn:not(:disabled):not(.disabled):active,
+            .search-btn.btn:not(:disabled):not(.disabled).active {
+                background-color: #667eea !important;
+                border-color: #667eea !important;
+                color: white !important;
+                transform: translateY(0) !important;
+                box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2) !important;
+            }
+            
+            .search-btn.btn:focus,
+            .search-btn.btn.focus {
+                background-color: #667eea !important;
+                border-color: #667eea !important;
+                color: white !important;
+                box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
+            }
+            
+            .search-btn.btn:hover {
+                background-color: #5a6fd8 !important;
+                border-color: #5a6fd8 !important;
+                color: white !important;
+                transform: translateY(-1px) !important;
+                box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3) !important;
+            }
+            
+            .search-btn {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .ripple-effect {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.4);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
             @keyframes ripple {
                 to {
                     transform: scale(4);

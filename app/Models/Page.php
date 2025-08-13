@@ -105,6 +105,11 @@ class Page extends Model
         return $query->where('status', 'published');
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'published');
+    }
+
     public function scopeInMenu($query)
     {
         return $query->where('show_in_menu', true);

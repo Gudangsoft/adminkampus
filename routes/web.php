@@ -9,6 +9,7 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SearchController;
 
 // Admin Controllers
 use App\Http\Controllers\Admin\DashboardController;
@@ -39,7 +40,7 @@ use App\Http\Controllers\SectionController;
 */
 
 // Frontend Routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('seo');
 
 // Auto login route untuk testing (hapus di production)
 Route::get('/auto-login', function() {
@@ -88,14 +89,14 @@ Route::get('/debug-settings', function() {
 });
 
 // News Routes
-Route::prefix('berita')->name('news.')->group(function () {
+Route::prefix('berita')->name('news.')->middleware('seo')->group(function () {
     Route::get('/', [NewsController::class, 'index'])->name('index');
     Route::get('/kategori/{slug}', [NewsController::class, 'category'])->name('category');
     Route::get('/{slug}', [NewsController::class, 'show'])->name('show');
 });
 
 // Announcement Routes
-Route::prefix('pengumuman')->name('announcements.')->group(function () {
+Route::prefix('pengumuman')->name('announcements.')->middleware('seo')->group(function () {
     Route::get('/', [AnnouncementController::class, 'index'])->name('index');
     Route::get('/{slug}', [AnnouncementController::class, 'show'])->name('show');
 });
@@ -120,14 +121,17 @@ Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
 });
 
 // Gallery Routes
-Route::prefix('galeri')->name('gallery.')->group(function () {
+Route::prefix('galeri')->name('gallery.')->middleware('seo')->group(function () {
     Route::get('/', [GalleryController::class, 'index'])->name('index');
     Route::get('/kategori/{slug}', [GalleryController::class, 'category'])->name('category');
     Route::get('/{slug}', [GalleryController::class, 'show'])->name('show');
 });
 
+// Search Routes
+Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware('seo');
+
 // Dynamic Pages
-Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show');
+Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show')->middleware('seo');
 
 // Authentication Routes
 Auth::routes(['register' => false]); // Disable registration for admin only
