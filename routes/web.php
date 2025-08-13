@@ -133,7 +133,7 @@ Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show'
 Auth::routes(['register' => false]); // Disable registration for admin only
 
 // Admin Routes
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // HAPUS BARIS INI - konflik dengan routes settings di bawah
     // Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     // Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
