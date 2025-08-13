@@ -263,6 +263,57 @@
             padding: 0.375rem 0.75rem;
         }
         
+        /* Avatar Styles */
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .sidebar-profile {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .sidebar-profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.8);
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-profile-avatar:hover {
+            border-color: #fff;
+            transform: scale(1.05);
+        }
+        
+        .sidebar-profile-name {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .sidebar-profile-role {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.75rem;
+            margin: 0;
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 margin-left: calc(-1 * var(--sidebar-width));
@@ -663,9 +714,11 @@
             
             <div class="d-flex align-items-center">
                 <div class="dropdown">
-                    <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle fa-lg"></i>
-                        <span class="ms-2">{{ Auth::user()->name }}</span>
+                    <button class="btn btn-link dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" style="text-decoration: none;">
+                        <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}" 
+                             class="rounded-circle me-2" 
+                             style="width: 32px; height: 32px; object-fit: cover; border: 2px solid #fff;">
+                        <span class="text-dark">{{ Auth::user()->name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i class="fas fa-user"></i> Profile</a></li>
