@@ -9,7 +9,10 @@ class AnnouncementController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Announcement::published()->with('user');
+        $query = Announcement::where('status', 'active')
+                             ->where('start_date', '<=', now())
+                             ->where('end_date', '>=', now())
+                             ->with('user');
         
         // Filter by priority
         if ($request->has('priority') && $request->priority) {
@@ -25,40 +28,57 @@ class AnnouncementController extends Controller
             });
         }
         
-        $announcements = $query->orderBy('is_pinned', 'desc')
+        $announcements = $query->orderBy('is_featured', 'desc')
                                ->orderBy('priority', 'desc')
-                               ->latest('published_at')
+                               ->latest('start_date')
                                ->paginate(10);
         
-        $pinnedAnnouncements = Announcement::published()->pinned()->latest('published_at')->take(3)->get();
+        $pinnedAnnouncements = Announcement::where('status', 'active')
+                                          ->where('start_date', '<=', now())
+                                          ->where('end_date', '>=', now())
+                                          ->where('is_featured', true)
+                                          ->latest('start_date')
+                                          ->take(3)
+                                          ->get();
         
         return view('frontend.announcements.index', compact('announcements', 'pinnedAnnouncements'));
     }
     
     public function show($slug)
     {
-        $announcement = Announcement::where('slug', $slug)->published()->with('user')->firstOrFail();
+        $announcement = Announcement::where('slug', $slug)
+                                   ->where('status', 'active')
+                                   ->where('start_date', '<=', now())
+                                   ->where('end_date', '>=', now())
+                                   ->with('user')
+                                   ->firstOrFail();
         
         // Increment views
         $announcement->increment('views');
         
         // Get previous and next announcements
-        $previousAnnouncement = Announcement::published()
-            ->where('published_at', '<', $announcement->published_at)
-            ->orderBy('published_at', 'desc')
+        $previousAnnouncement = Announcement::where('status', 'active')
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('start_date', '<', $announcement->start_date)
+            ->orderBy('start_date', 'desc')
             ->first(['slug', 'title']);
             
-        $nextAnnouncement = Announcement::published()
-            ->where('published_at', '>', $announcement->published_at)
-            ->orderBy('published_at', 'asc')
+        $nextAnnouncement = Announcement::where('status', 'active')
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('start_date', '>', $announcement->start_date)
+            ->orderBy('start_date', 'asc')
             ->first(['slug', 'title']);
         
         // Get recent announcements for sidebar
-        $recentAnnouncements = Announcement::published()
+        $recentAnnouncements = Announcement::where('status', 'active')
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
             ->where('id', '!=', $announcement->id)
-            ->latest('published_at')
+            ->latest('start_date')
             ->take(5)
-            ->get(['slug', 'title', 'published_at', 'priority']);
+            ->get(['slug', 'title', 'start_date', 'priority']);
         
         return view('frontend.announcements.show', compact(
             'announcement', 

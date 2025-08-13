@@ -12,56 +12,40 @@ class Lecturer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nidn',
+        'lecturer_id',
         'name',
-        'slug',
-        'faculty_id',
-        'study_program_ids',
-        'gender',
-        'title_prefix',
-        'title_suffix',
-        'position',
-        'education_background',
-        'expertise',
-        'biography',
-        'photo',
         'email',
         'phone',
-        'office_room',
+        'address',
+        'gender',
+        'birth_date',
+        'birth_place',
+        'faculty_id',
+        'position',
+        'employment_status',
+        'education_level',
+        'specialization',
+        'join_date',
+        'photo',
+        'biography',
         'research_interests',
         'publications',
-        'awards',
-        'certifications',
         'google_scholar',
-        'scopus_id',
         'orcid',
         'is_active'
     ];
 
     protected $casts = [
-        'study_program_ids' => 'array',
         'research_interests' => 'array',
         'publications' => 'array',
-        'awards' => 'array',
-        'certifications' => 'array',
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'birth_date' => 'date',
+        'join_date' => 'date'
     ];
 
     protected static function boot()
     {
         parent::boot();
-        
-        static::creating(function ($model) {
-            if (empty($model->slug)) {
-                $model->slug = Str::slug($model->name);
-            }
-        });
-        
-        static::updating(function ($model) {
-            if ($model->isDirty('name') && empty($model->slug)) {
-                $model->slug = Str::slug($model->name);
-            }
-        });
     }
 
     public function faculty()
@@ -123,6 +107,23 @@ class Lecturer extends Model
         return $name;
     }
 
+    public function getNidnAttribute()
+    {
+        return $this->lecturer_id;
+    }
+
+    public function getPositionLabelAttribute()
+    {
+        $positionMap = [
+            'asisten_ahli' => 'Asisten Ahli',
+            'lektor' => 'Lektor',
+            'lektor_kepala' => 'Lektor Kepala',
+            'guru_besar' => 'Guru Besar'
+        ];
+        
+        return $positionMap[$this->position] ?? $this->position;
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
@@ -131,10 +132,5 @@ class Lecturer extends Model
     public function scopeByPosition($query, $position)
     {
         return $query->where('position', $position);
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
     }
 }

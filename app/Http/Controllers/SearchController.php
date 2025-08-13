@@ -7,19 +7,30 @@ use App\Models\News;
 use App\Models\Gallery;
 use App\Models\Page;
 use App\Models\Announcement;
+use App\Services\SEOService;
 
 class SearchController extends Controller
 {
+    private SEOService $seoService;
+    
+    public function __construct(SEOService $seoService)
+    {
+        $this->seoService = $seoService;
+    }
+    
     public function index(Request $request)
     {
         $query = $request->input('q');
         $type = $request->input('type', 'all');
         
         if (empty($query)) {
+            $this->seoService->forSearch('', 0);
+            
             return view('frontend.search', [
                 'query' => $query,
                 'results' => collect(),
-                'total' => 0
+                'total' => 0,
+                'seo' => $this->seoService
             ]);
         }
         
@@ -99,11 +110,15 @@ class SearchController extends Controller
             return stripos($item->title, $query) !== false ? 1 : 0;
         });
         
+        // Set SEO data
+        $this->seoService->forSearch($query, $results->count());
+        
         return view('frontend.search', [
             'query' => $query,
             'type' => $type,
             'results' => $results,
-            'total' => $results->count()
+            'total' => $results->count(),
+            'seo' => $this->seoService
         ]);
     }
 }

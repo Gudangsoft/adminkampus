@@ -908,6 +908,112 @@
         border-radius: inherit;
         z-index: 1;
     }
+    
+    /* Announcements Section Styles */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .bg-gradient-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="30" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="70" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="90" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+        animation: float 20s infinite linear;
+    }
+    
+    @keyframes float {
+        0% { transform: translateX(-100px) translateY(-100px); }
+        100% { transform: translateX(100vw) translateY(100vh); }
+    }
+    
+    .announcement-icon {
+        transition: all 0.3s ease;
+    }
+    
+    .announcement-icon:hover {
+        transform: scale(1.1) rotate(5deg);
+    }
+    
+    .announcement-item {
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .announcement-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+    }
+    
+    .announcement-item:last-child {
+        border-bottom: none !important;
+    }
+    
+    .backdrop-blur {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .btn-white {
+        background: white;
+        color: #667eea;
+        border: 2px solid white;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-white:hover {
+        background: transparent;
+        color: white;
+        border-color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .announcement-content {
+        animation: slideInLeft 1s ease-out;
+    }
+    
+    .announcement-list {
+        animation: slideInRight 1s ease-out;
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @media (max-width: 991px) {
+        .announcement-content {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .announcement-list {
+            margin-top: 2rem;
+        }
+    }
 </style>
 @endpush
 
@@ -1082,6 +1188,108 @@
                     <i class="fas fa-newspaper me-2"></i>Lihat Semua Berita
                     <i class="fas fa-arrow-right ms-2"></i>
                 </a>
+            </div>
+        </div>
+    </section>
+    @endif
+
+    <!-- Info Terkini / Announcements Section -->
+    @if($latestAnnouncements->count() > 0)
+    <section id="announcements" class="py-5 bg-gradient-primary">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="announcement-content text-white">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="announcement-icon bg-white bg-opacity-20 rounded-circle p-3 me-3">
+                                <i class="fas fa-bullhorn text-white fa-2x"></i>
+                            </div>
+                            <div>
+                                <h2 class="h3 fw-bold mb-1">Info Terkini</h2>
+                                <p class="mb-0 opacity-90">Pengumuman & informasi penting</p>
+                            </div>
+                        </div>
+                        
+                        <div class="announcement-text">
+                            <h3 class="h4 fw-bold mb-3">{{ $latestAnnouncements->first()->title }}</h3>
+                            <p class="lead mb-4 opacity-90">
+                                {{ Str::limit(strip_tags($latestAnnouncements->first()->content), 150) }}
+                            </p>
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <span class="badge bg-white text-primary px-3 py-2">
+                                    <i class="fas fa-calendar-alt me-2"></i>
+                                    {{ $latestAnnouncements->first()->start_date->format('d M Y') }}
+                                </span>
+                                @if($latestAnnouncements->first()->priority === 'urgent')
+                                <span class="badge bg-danger px-3 py-2">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>URGENT
+                                </span>
+                                @endif
+                            </div>
+                            <a href="{{ route('announcements.show', $latestAnnouncements->first()->slug) }}" 
+                               class="btn btn-white btn-lg px-4 py-2 fw-semibold">
+                                <i class="fas fa-arrow-right me-2"></i>Baca Selengkapnya
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="announcement-list">
+                        <div class="card bg-white bg-opacity-10 backdrop-blur border-0">
+                            <div class="card-header bg-transparent border-0 text-white">
+                                <h5 class="mb-0 fw-bold">
+                                    <i class="fas fa-list-ul me-2"></i>Pengumuman Lainnya
+                                </h5>
+                            </div>
+                            <div class="card-body p-0">
+                                @foreach($latestAnnouncements->skip(1) as $announcement)
+                                <div class="announcement-item border-bottom border-white border-opacity-20 p-4">
+                                    <div class="d-flex align-items-start">
+                                        <div class="announcement-item-icon me-3 mt-1">
+                                            @if($announcement->priority === 'urgent')
+                                                <i class="fas fa-exclamation-circle text-danger"></i>
+                                            @elseif($announcement->priority === 'high')
+                                                <i class="fas fa-exclamation-triangle text-warning"></i>
+                                            @else
+                                                <i class="fas fa-info-circle text-info"></i>
+                                            @endif
+                                        </div>
+                                        <div class="announcement-item-content flex-grow-1">
+                                            <h6 class="text-white fw-semibold mb-2">
+                                                <a href="{{ route('announcements.show', $announcement->slug) }}" 
+                                                   class="text-white text-decoration-none">
+                                                    {{ $announcement->title }}
+                                                </a>
+                                            </h6>
+                                            <p class="text-white-50 small mb-2">
+                                                {{ Str::limit(strip_tags($announcement->content), 80) }}
+                                            </p>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="text-white-50 small">
+                                                    <i class="fas fa-calendar-alt me-1"></i>
+                                                    {{ $announcement->start_date->format('d M Y') }}
+                                                </span>
+                                                <a href="{{ route('announcements.show', $announcement->slug) }}" 
+                                                   class="btn btn-sm btn-outline-light">
+                                                    Detail
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                                
+                                <div class="text-center p-4">
+                                    <a href="{{ route('announcements.index') }}" 
+                                       class="btn btn-outline-light btn-sm">
+                                        <i class="fas fa-list me-2"></i>Lihat Semua Pengumuman
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1272,64 +1480,6 @@
     </section>
     @endif
 
-    <!-- Dynamic Sections -->
-    <section id="sections" class="py-5 bg-white">
-        <div class="container">
-            @if($sections->count() > 0)
-                <div class="text-center mb-5">
-                    <h2 class="fw-bold text-dark">Informasi Kampus</h2>
-                    <p class="text-muted fs-5">{{ $sections->count() }} informasi penting yang dapat dikelola melalui admin</p>
-                    <div class="mx-auto" style="width: 60px; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 2px;"></div>
-                </div>
-                
-                <div class="row">
-                    @foreach($sections as $section)
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card card-section h-100 border-0 shadow-sm">
-                                <div class="card-header bg-primary text-white border-0">
-                                    <h5 class="card-title mb-0">
-                                        <i class="fas fa-bookmark me-2"></i>
-                                        {{ $section->title }}
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="section-content">
-                                        {!! nl2br(e($section->content)) !!}
-                                    </div>
-                                </div>
-                                <div class="card-footer bg-light border-0">
-                                    <small class="text-muted">
-                                        <i class="fas fa-sort me-1"></i>Urutan: {{ $section->order }}
-                                        <span class="float-end">
-                                            <i class="fas fa-{{ $section->is_active ? 'check text-success' : 'times text-danger' }}"></i>
-                                            {{ $section->is_active ? 'Aktif' : 'Nonaktif' }}
-                                        </span>
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
-                <!-- Management Link -->
-                <div class="text-center mt-5">
-                    <a href="/admin/sections" class="btn btn-outline-primary btn-lg">
-                        <i class="fas fa-edit me-2"></i>Kelola Informasi Kampus
-                    </a>
-                </div>
-            @else
-                <!-- Empty State -->
-                <div class="text-center py-5">
-                    <i class="fas fa-inbox fa-5x text-muted mb-4"></i>
-                    <h3>Belum Ada Informasi</h3>
-                    <p class="text-muted mb-4">Mulai membuat informasi untuk mengisi halaman homepage</p>
-                    <a href="/admin/sections" class="btn btn-primary btn-lg">
-                        <i class="fas fa-plus me-2"></i>Buat Informasi Pertama
-                    </a>
-                </div>
-            @endif
-        </div>
-    </section>
 @endsection
 
 @push('scripts')

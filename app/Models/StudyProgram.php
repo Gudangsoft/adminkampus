@@ -13,27 +13,25 @@ class StudyProgram extends Model
     protected $fillable = [
         'name',
         'slug',
+        'code',
+        'description',
         'faculty_id',
         'degree',
-        'description',
-        'curriculum',
+        'duration_semesters',
+        'head_name',
         'accreditation',
         'accreditation_year',
-        'head_of_program',
-        'credit_total',
-        'semester_total',
-        'career_prospects',
-        'facilities',
+        'capacity',
         'website',
-        'email',
-        'phone',
         'is_active',
-        'sort_order'
+        'sort_order',
+        'curriculum',
+        'career_prospects'
     ];
 
     protected $casts = [
+        'curriculum' => 'array',
         'career_prospects' => 'array',
-        'facilities' => 'array',
         'is_active' => 'boolean'
     ];
 
@@ -86,9 +84,7 @@ class StudyProgram extends Model
 
     public function getLecturersCountAttribute()
     {
-        return Lecturer::where('faculty_id', $this->faculty_id)
-            ->whereJsonContains('study_program_ids', $this->id)
-            ->count();
+        return $this->lecturers()->count();
     }
 
     public function getRouteKeyName()

@@ -133,17 +133,11 @@
                                 </div>
                                 <div class="card-body text-center">
                                     <div class="profile-avatar mb-3">
-                                        @if($user->avatar)
-                                            <img src="{{ asset('storage/' . $user->avatar) }}" 
-                                                 alt="Avatar" 
-                                                 class="img-fluid rounded-circle" 
-                                                 style="width: 150px; height: 150px; object-fit: cover;">
-                                        @else
-                                            <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" 
-                                                 style="width: 150px; height: 150px; margin: 0 auto;">
-                                                <i class="fas fa-user fa-4x text-white"></i>
-                                            </div>
-                                        @endif
+                                        <img src="{{ $user->avatar_url }}" 
+                                             alt="Avatar" 
+                                             class="img-fluid rounded-circle" 
+                                             style="width: 150px; height: 150px; object-fit: cover;"
+                                             id="avatarPreview">
                                     </div>
                                     <h5 class="mb-1">{{ $user->name }}</h5>
                                     <p class="text-muted">{{ $user->email }}</p>
@@ -222,6 +216,30 @@ $(document).ready(function() {
     $('.custom-file-input').on('change', function() {
         let fileName = $(this).val().split('\\').pop();
         $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
+    });
+    
+    // Avatar preview
+    $('#avatar').on('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#avatarPreview').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Form submission with loading state
+    $('form').on('submit', function() {
+        const submitButton = $(this).find('button[type="submit"]');
+        const originalText = submitButton.html();
+        submitButton.html('<i class="fas fa-spinner fa-spin"></i> Menyimpan...').prop('disabled', true);
+        
+        // Re-enable button after 5 seconds as fallback
+        setTimeout(function() {
+            submitButton.html(originalText).prop('disabled', false);
+        }, 5000);
     });
 });
 </script>

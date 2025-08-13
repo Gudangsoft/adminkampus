@@ -87,7 +87,7 @@
                                 <i class="fas fa-user me-1"></i>Ditulis oleh: <strong>{{ $announcement->user->name }}</strong>
                             </div>
                             <div class="col-md-6">
-                                <i class="fas fa-calendar me-1"></i>{{ $announcement->published_at->format('d F Y, H:i') }} WIB
+                                <i class="fas fa-calendar me-1"></i>{{ $announcement->start_date->format('d F Y, H:i') }} WIB
                             </div>
                         </div>
                         <div class="row text-muted small">
@@ -200,7 +200,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">
                                         <i class="fas fa-calendar me-1"></i>
-                                        {{ $recent->published_at->format('d M Y') }}
+                                        {{ $recent->start_date->format('d M Y') }}
                                     </small>
                                     @if($recent->priority == 'urgent')
                                         <span class="badge bg-danger badge-sm">Mendesak</span>

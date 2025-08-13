@@ -143,6 +143,7 @@
         /* Dropdown Navigation Styles */
         .dropdown-nav .nav-link.dropdown-toggle {
             cursor: pointer;
+            position: relative;
         }
         
         .dropdown-nav .nav-link.dropdown-toggle .fa-chevron-down {
@@ -152,6 +153,10 @@
         
         .dropdown-nav .nav-link.dropdown-toggle[aria-expanded="true"] .fa-chevron-down {
             transform: rotate(180deg);
+        }
+        
+        .dropdown-nav .collapse {
+            transition: all 0.3s ease;
         }
         
         .submenu {
@@ -272,6 +277,14 @@
             }
         }
     </style>
+    
+    <!-- Dynamic Theme CSS -->
+    @if(isset($dynamicCSS))
+    <style id="dynamic-theme-css">
+        {!! $dynamicCSS !!}
+    </style>
+    @endif
+    
     @stack('styles')
 </head>
 <body>
@@ -293,12 +306,20 @@
         </div>
         
         <nav class="sidebar-nav">
+            <!-- Dashboard -->
             <div class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" 
                    href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-tachometer-alt"></i>
                     Dashboard
                 </a>
+            </div>
+
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+            
+            <!-- Content Management Section -->
+            <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                Content Management
             </div>
             
             <!-- Berita Menu with Dropdown -->
@@ -331,6 +352,21 @@
                     <i class="fas fa-bullhorn"></i>
                     Pengumuman
                 </a>
+            </div>
+            
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.pages.index') }}">
+                    <i class="fas fa-file-alt"></i>
+                    Halaman
+                </a>
+            </div>
+
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+            
+            <!-- Academic Management Section -->
+            <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                Academic Management
             </div>
             
             <!-- Akademik Menu with Dropdown -->
@@ -366,12 +402,19 @@
                     </div>
                 </div>
             </div>
+
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+            
+            <!-- Media & Design Section -->
+            <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                Media & Design
+            </div>
             
             <!-- Media Menu with Dropdown -->
             <div class="nav-item dropdown-nav">
                 <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'active' : '' }}" 
                    href="#" data-bs-toggle="collapse" data-bs-target="#mediaMenu" aria-expanded="{{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'true' : 'false' }}">
-                    <i class="fas fa-photo-video"></i>
+                    <i class="fas fa-images"></i>
                     Media
                     <i class="fas fa-chevron-down ms-auto"></i>
                 </a>
@@ -389,21 +432,14 @@
                         </a>
                         <a class="nav-link {{ request()->routeIs('admin.sections.*') ? 'active' : '' }}" 
                            href="{{ route('admin.sections.index') }}">
-                            <i class="fas fa-th-large"></i>
+                            <i class="fas fa-layer-group"></i>
                             Sections
                         </a>
                     </div>
                 </div>
             </div>
             
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.pages.index') }}">
-                    <i class="fas fa-file-alt"></i>
-                    Halaman
-                </a>
-            </div>
-            
+            <!-- Menu Management -->
             <div class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}" 
                    href="{{ route('admin.menus.index') }}">
@@ -411,12 +447,170 @@
                     Menu
                 </a>
             </div>
+
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
             
+            <!-- SEO & Analytics Section -->
+            <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                SEO & Analytics
+            </div>
+            
+            <!-- SEO Menu with Dropdown -->
+            <div class="nav-item dropdown-nav">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.seo.*') ? 'active' : '' }}" 
+                   href="#" data-bs-toggle="collapse" data-bs-target="#seoMenu" aria-expanded="{{ request()->routeIs('admin.seo.*') ? 'true' : 'false' }}">
+                    <i class="fas fa-search"></i>
+                    SEO Management
+                    <i class="fas fa-chevron-down ms-auto"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('admin.seo.*') ? 'show' : '' }}" id="seoMenu">
+                    <div class="submenu">
+                        <a class="nav-link {{ request()->routeIs('admin.seo.dashboard') ? 'active' : '' }}" 
+                           href="{{ route('admin.seo.dashboard') }}">
+                            <i class="fas fa-chart-line"></i>
+                            SEO Dashboard
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.seo.audit') ? 'active' : '' }}" 
+                           href="{{ route('admin.seo.audit') }}">
+                            <i class="fas fa-search-plus"></i>
+                            SEO Audit
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.seo.meta-tags') ? 'active' : '' }}" 
+                           href="{{ route('admin.seo.meta-tags') }}">
+                            <i class="fas fa-tags"></i>
+                            Meta Tags
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.seo.sitemap') ? 'active' : '' }}" 
+                           href="{{ route('admin.seo.sitemap') }}">
+                            <i class="fas fa-sitemap"></i>
+                            Sitemap
+                        </a>
+                        <a class="nav-link" href="/seo-test" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            SEO Tester
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics Dashboard -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.analytics.index') }}">
+                    <i class="fas fa-chart-pie"></i>
+                    Analytics Dashboard
+                </a>
+            </div>
+
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+            
+            <!-- System Tools Section -->
+            <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                System Tools
+            </div>
+            
+            <!-- User Management -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.system.users.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.system.users.index') }}">
+                    <i class="fas fa-users-cog"></i>
+                    User Management
+                </a>
+            </div>
+            
+            <!-- Database Backup -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.backups.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.backups.index') }}">
+                    <i class="fas fa-database"></i>
+                    Database Backup
+                </a>
+            </div>
+            
+            <!-- PDF Generator -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.system.pdf.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.system.pdf.index') }}">
+                    <i class="fas fa-file-pdf"></i>
+                    PDF Generator
+                </a>
+            </div>
+            
+            <!-- Advanced Search -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.search.*') ? 'active' : '' }}" 
+                   href="{{ route('search.advanced') }}">
+                    <i class="fas fa-search-plus"></i>
+                    Advanced Search
+                </a>
+            </div>
+            
+            <!-- Push Notifications -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.notifications.index') }}">
+                    <i class="fas fa-bell"></i>
+                    Push Notifications
+                </a>
+            </div>
+
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+            
+            <!-- Customization Section -->
+            <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                Customization
+            </div>
+            
+            <!-- Multi-language -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.languages.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.languages.index') }}">
+                    <i class="fas fa-language"></i>
+                    Multi-language
+                </a>
+            </div>
+            
+            <!-- Theme Customizer -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.theme.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.theme.index') }}">
+                    <i class="fas fa-palette"></i>
+                    Theme Customizer
+                </a>
+            </div>
+            
+            <!-- Settings -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.settings.index') }}">
+                    <i class="fas fa-cog"></i>
+                    Pengaturan
+                </a>
+            </div>
+
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+            
+            <!-- Personal Section -->
+            <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                Personal
+            </div>
+            
+            <!-- Profile -->
             <div class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}" 
                    href="{{ route('admin.profile.show') }}">
                     <i class="fas fa-user"></i>
                     Profil
+                </a>
+            </div>
+
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+            
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.menus.index') }}">
+                    <i class="fas fa-bars"></i>
+                    Menu
                 </a>
             </div>
             
@@ -500,6 +694,9 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
         // Sidebar toggle for mobile
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
@@ -523,17 +720,18 @@
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
                     
                     const targetId = this.getAttribute('data-bs-target');
                     const targetElement = document.querySelector(targetId);
-                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    const isCurrentlyExpanded = targetElement.classList.contains('show');
                     
-                    // Close all other dropdowns
+                    // Close all other dropdowns first
                     dropdownToggles.forEach(otherToggle => {
                         if (otherToggle !== this) {
                             const otherTargetId = otherToggle.getAttribute('data-bs-target');
                             const otherTarget = document.querySelector(otherTargetId);
-                            if (otherTarget) {
+                            if (otherTarget && otherTarget.classList.contains('show')) {
                                 otherTarget.classList.remove('show');
                                 otherToggle.setAttribute('aria-expanded', 'false');
                                 otherToggle.classList.remove('active');
@@ -542,17 +740,35 @@
                     });
                     
                     // Toggle current dropdown
-                    if (isExpanded) {
+                    if (isCurrentlyExpanded) {
+                        // Close it
                         targetElement.classList.remove('show');
                         this.setAttribute('aria-expanded', 'false');
                         this.classList.remove('active');
                     } else {
+                        // Open it
                         targetElement.classList.add('show');
                         this.setAttribute('aria-expanded', 'true');
                         this.classList.add('active');
                     }
                 });
             });
+            
+            // Handle clicks outside to close dropdowns
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown-nav')) {
+                    dropdownToggles.forEach(toggle => {
+                        const targetId = toggle.getAttribute('data-bs-target');
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement && targetElement.classList.contains('show')) {
+                            targetElement.classList.remove('show');
+                            toggle.setAttribute('aria-expanded', 'false');
+                            toggle.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
         });
     </script>
     

@@ -7,9 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', $globalSettings['site_name'] ?? 'G0-CAMPUS')</title>
-    <meta name="description" content="@yield('meta_description', $globalSettings['site_description'] ?? 'Kampus modern untuk masa depan cemerlang')">
-    <meta name="keywords" content="@yield('meta_keywords', $globalSettings['site_keywords'] ?? 'kampus, universitas, pendidikan, akademik')">
+    <!-- SEO Component -->
+    @include('components.seo')
 
     <!-- Favicon -->
     @if(isset($globalSettings['site_favicon']) && $globalSettings['site_favicon'])

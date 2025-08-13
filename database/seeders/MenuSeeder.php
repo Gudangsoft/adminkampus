@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Menu;
-use App\Models\Page;
 
 class MenuSeeder extends Seeder
 {
@@ -14,204 +13,99 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get pages for linking
-        $tentangPage = Page::where('slug', 'tentang-kami')->first();
-        $fasilitasPage = Page::where('slug', 'fasilitas')->first();
-        $kerjasamaPage = Page::where('slug', 'kerjasama')->first();
-        $kontakPage = Page::where('slug', 'kontak')->first();
+        // Clear existing menus
+        Menu::truncate();
 
-        // Header Menu Items
-        $headerMenus = [
+        // Main Navigation Menu Items
+        $menuItems = [
             [
-                'name' => 'Beranda',
+                'title' => 'Beranda',
                 'url' => '/',
-                'location' => 'header',
                 'icon' => 'fas fa-home',
                 'is_active' => true,
-                'sort_order' => 1,
+                'order' => 1,
                 'target' => '_self'
             ],
             [
-                'name' => 'Berita',
-                'url' => '/berita',
-                'location' => 'header',
+                'title' => 'Tentang',
+                'url' => null,
+                'icon' => 'fas fa-info-circle',
+                'is_active' => true,
+                'order' => 2,
+                'target' => '_self'
+            ],
+            [
+                'title' => 'Akademik',
+                'url' => null,
+                'icon' => 'fas fa-graduation-cap',
+                'is_active' => true,
+                'order' => 3,
+                'target' => '_self'
+            ],
+            [
+                'title' => 'Berita',
+                'route' => 'news.index',
                 'icon' => 'fas fa-newspaper',
                 'is_active' => true,
-                'sort_order' => 2,
+                'order' => 4,
                 'target' => '_self'
             ],
             [
-                'name' => 'Pengumuman',
-                'url' => '/pengumuman',
-                'location' => 'header',
-                'icon' => 'fas fa-bullhorn',
-                'is_active' => true,
-                'sort_order' => 3,
-                'target' => '_self'
-            ],
-            [
-                'name' => 'Tentang',
-                'page_id' => $tentangPage?->id,
-                'location' => 'header',
-                'icon' => 'fas fa-info-circle',
-                'is_active' => true,
-                'sort_order' => 4,
-                'target' => '_self'
-            ],
-            [
-                'name' => 'Fasilitas',
-                'page_id' => $fasilitasPage?->id,
-                'location' => 'header',
-                'icon' => 'fas fa-building',
-                'is_active' => true,
-                'sort_order' => 5,
-                'target' => '_self'
-            ],
-            [
-                'name' => 'Galeri',
-                'url' => '/galeri',
-                'location' => 'header',
+                'title' => 'Galeri',
+                'route' => 'gallery.index',
                 'icon' => 'fas fa-images',
                 'is_active' => true,
-                'sort_order' => 6,
+                'order' => 5,
+                'target' => '_self'
+            ],
+            [
+                'title' => 'Kontak',
+                'url' => '/kontak',
+                'icon' => 'fas fa-phone',
+                'is_active' => true,
+                'order' => 6,
                 'target' => '_self'
             ]
         ];
 
-        // Create header menus
-        foreach ($headerMenus as $menu) {
-            Menu::create($menu);
-        }
-
-        // Footer Menu Items
-        $footerMenus = [
-            [
-                'name' => 'Tentang Kami',
-                'page_id' => $tentangPage?->id,
-                'location' => 'footer',
-                'icon' => 'fas fa-info-circle',
-                'is_active' => true,
-                'sort_order' => 1,
-                'target' => '_self'
-            ],
-            [
-                'name' => 'Kerjasama',
-                'page_id' => $kerjasamaPage?->id,
-                'location' => 'footer',
-                'icon' => 'fas fa-handshake',
-                'is_active' => true,
-                'sort_order' => 2,
-                'target' => '_self'
-            ],
-            [
-                'name' => 'Kontak',
-                'page_id' => $kontakPage?->id,
-                'location' => 'footer',
-                'icon' => 'fas fa-envelope',
-                'is_active' => true,
-                'sort_order' => 3,
-                'target' => '_self'
-            ],
-            [
-                'name' => 'Kebijakan Privasi',
-                'url' => '/kebijakan-privasi',
-                'location' => 'footer',
-                'icon' => 'fas fa-shield-alt',
-                'is_active' => true,
-                'sort_order' => 4,
-                'target' => '_self'
-            ]
-        ];
-
-        // Create footer menus
-        foreach ($footerMenus as $menu) {
-            Menu::create($menu);
-        }
-
-        // Create Academic parent menu for header
-        $academicParent = Menu::create([
-            'name' => 'Akademik',
-            'url' => '#',
-            'location' => 'header',
-            'icon' => 'fas fa-graduation-cap',
-            'is_active' => true,
-            'sort_order' => 7,
-            'target' => '_self'
-        ]);
-
-        // Academic submenu items
-        $academicSubmenus = [
-            [
-                'name' => 'Program Studi',
-                'url' => '/program-studi',
-                'parent_id' => $academicParent->id,
-                'location' => 'header',
-                'icon' => 'fas fa-book',
-                'is_active' => true,
-                'sort_order' => 1,
-                'target' => '_self'
-            ],
-            [
-                'name' => 'Fakultas',
-                'url' => '/fakultas',
-                'parent_id' => $academicParent->id,
-                'location' => 'header',
-                'icon' => 'fas fa-university',
-                'is_active' => true,
-                'sort_order' => 2,
-                'target' => '_self'
-            ],
-            [
-                'name' => 'Mahasiswa',
-                'url' => '/mahasiswa',
-                'parent_id' => $academicParent->id,
-                'location' => 'header',
-                'icon' => 'fas fa-users',
-                'is_active' => true,
-                'sort_order' => 3,
-                'target' => '_self'
-            ]
-        ];
-
-        // Create academic submenus
-        foreach ($academicSubmenus as $submenu) {
-            Menu::create($submenu);
-        }
-
-        // Create Social Media menu for footer
-        $socialMedias = [
-            [
-                'name' => 'Facebook',
-                'url' => 'https://facebook.com/gocampus',
-                'location' => 'footer',
-                'icon' => 'fab fa-facebook',
-                'is_active' => true,
-                'sort_order' => 10,
-                'target' => '_blank'
-            ],
-            [
-                'name' => 'Instagram',
-                'url' => 'https://instagram.com/gocampus',
-                'location' => 'footer',
-                'icon' => 'fab fa-instagram',
-                'is_active' => true,
-                'sort_order' => 11,
-                'target' => '_blank'
-            ],
-            [
-                'name' => 'YouTube',
-                'url' => 'https://youtube.com/gocampus',
-                'location' => 'footer',
-                'icon' => 'fab fa-youtube',
-                'is_active' => true,
-                'sort_order' => 12,
-                'target' => '_blank'
-            ]
-        ];
-
-        // Create social media menus
-        foreach ($socialMedias as $social) {
-            Menu::create($social);
+        foreach ($menuItems as $item) {
+            $menu = Menu::create($item);
+            
+            // Add sub-menus for "Tentang"
+            if ($menu->title === 'Tentang') {
+                $subMenus = [
+                    ['title' => 'Profil Universitas', 'url' => '/tentang/profil', 'order' => 1],
+                    ['title' => 'Visi & Misi', 'url' => '/tentang/visi-misi', 'order' => 2],
+                    ['title' => 'Sejarah', 'url' => '/tentang/sejarah', 'order' => 3],
+                    ['title' => 'Struktur Organisasi', 'url' => '/tentang/struktur', 'order' => 4]
+                ];
+                
+                foreach ($subMenus as $subMenu) {
+                    Menu::create(array_merge($subMenu, [
+                        'parent_id' => $menu->id,
+                        'is_active' => true,
+                        'target' => '_self'
+                    ]));
+                }
+            }
+            
+            // Add sub-menus for "Akademik"
+            if ($menu->title === 'Akademik') {
+                $subMenus = [
+                    ['title' => 'Fakultas', 'route' => 'fakultas.index', 'order' => 1],
+                    ['title' => 'Program Studi', 'route' => 'program-studi.index', 'order' => 2],
+                    ['title' => 'Dosen', 'url' => '/dosen', 'order' => 3],
+                    ['title' => 'Mahasiswa', 'route' => 'mahasiswa.index', 'order' => 4]
+                ];
+                
+                foreach ($subMenus as $subMenu) {
+                    Menu::create(array_merge($subMenu, [
+                        'parent_id' => $menu->id,
+                        'is_active' => true,
+                        'target' => '_self'
+                    ]));
+                }
+            }
         }
     }
 }

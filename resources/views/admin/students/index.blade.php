@@ -103,7 +103,7 @@
                     <div class="d-flex justify-content-between">
                         <div>
                             <h6 class="card-title">Mahasiswa Aktif</h6>
-                            <h3 class="mb-0">{{ number_format(\App\Models\Student::where('is_active', true)->count()) }}</h3>
+                            <h3 class="mb-0">{{ number_format(\App\Models\Student::where('status', 'active')->count()) }}</h3>
                         </div>
                         <div class="align-self-center">
                             <i class="fas fa-user-check fa-2x"></i>
@@ -173,7 +173,7 @@
                                              style="width: 40px; height: 40px; object-fit: cover;">
                                     </td>
                                     <td>
-                                        <strong>{{ $student->nim }}</strong>
+                                        <strong>{{ $student->student_id }}</strong>
                                     </td>
                                     <td>
                                         <div>
@@ -202,9 +202,9 @@
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" 
-                                                    class="btn btn-sm {{ $student->is_active ? 'btn-success' : 'btn-secondary' }}"
-                                                    title="{{ $student->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
-                                                <i class="fas {{ $student->is_active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                                    class="btn btn-sm {{ $student->status === 'active' ? 'btn-success' : 'btn-secondary' }}"
+                                                    title="{{ $student->status === 'active' ? 'Nonaktifkan' : 'Aktifkan' }}">
+                                                <i class="fas {{ $student->status === 'active' ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
                                             </button>
                                         </form>
                                     </td>

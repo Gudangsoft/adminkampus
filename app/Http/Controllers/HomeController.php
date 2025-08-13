@@ -7,45 +7,57 @@ use App\Models\Slider;
 use App\Models\News;
 use App\Models\Faculty;
 use App\Models\Gallery;
+use App\Models\Announcement;
+use App\Services\SEOService;
+use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
+    protected $seoService;
+
+    public function __construct(SEOService $seoService)
+    {
+        $this->seoService = $seoService;
+    }
     public function index()
     {
         try {
             // Get active sections dari database
-            $sections = Section::where('is_active', true)->orderBy('order')->get();
+            $sections = \Schema::hasTable('sections') ? Section::where('is_active', true)->orderBy('order')->get() : collect();
             
             // Get active sliders dari database  
-            $sliders = Slider::active()->ordered()->get();
+            $sliders = \Schema::hasTable('sliders') ? Slider::active()->ordered()->get() : collect();
             
             // Get latest published news (max 6 for grid display)
-            $latestNews = News::published()
-                ->with(['category', 'user'])
+            $latestNews = \Schema::hasTable('news') ? News::published()
                 ->orderBy('published_at', 'desc')
                 ->take(6)
-                ->get();
+                ->get() : collect();
+            
+            // Get latest active announcements (max 5 for sidebar/info box)
+            $latestAnnouncements = \Schema::hasTable('announcements') ? Announcement::where('status', 'active')
+                ->where('start_date', '<=', now())
+                ->where('end_date', '>=', now())
+                ->orderBy('start_date', 'desc')
+                ->take(5)
+                ->get() : collect();
             
             // Get active faculties (max 6 for display)
-            $faculties = Faculty::active()
-                ->withCount(['studyPrograms', 'lecturers'])
-                ->orderBy('sort_order')
+            $faculties = \Schema::hasTable('faculties') ? Faculty::active()
                 ->orderBy('name')
                 ->take(6)
-                ->get();
+                ->get() : collect();
             
             // Get featured galleries (max 8 for grid display)
-            $featuredGalleries = Gallery::where('is_featured', true)
-                ->with(['category', 'user'])
+            $featuredGalleries = \Schema::hasTable('galleries') ? Gallery::where('is_featured', true)
                 ->orderBy('created_at', 'desc')
                 ->take(8)
-                ->get();
+                ->get() : collect();
             
             // Get latest galleries (max 12 for display)
-            $latestGalleries = Gallery::with(['category', 'user'])
-                ->orderBy('created_at', 'desc')
+            $latestGalleries = \Schema::hasTable('galleries') ? Gallery::orderBy('created_at', 'desc')
                 ->take(12)
-                ->get();
+                ->get() : collect();
             
             // Global settings
             $globalSettings = [
@@ -53,7 +65,10 @@ class HomeController extends Controller
                 'site_description' => 'Kampus Kesehatan Modern',
             ];
             
-            return view('frontend.home', compact('sections', 'sliders', 'latestNews', 'faculties', 'featuredGalleries', 'latestGalleries', 'globalSettings'));
+            // SEO for homepage
+            $this->seoService->forPage();
+            
+            return view('frontend.home', compact('sections', 'sliders', 'latestNews', 'latestAnnouncements', 'faculties', 'featuredGalleries', 'latestGalleries', 'globalSettings'));
             
         } catch (\Exception $e) {
             // Fallback jika ada error
