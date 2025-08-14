@@ -726,7 +726,7 @@
     @endif
 
     <!-- Interactive Features Components -->
-    @include('components.live-chat')
+    @include('components.whatsapp-chat')
     @include('components.quick-access')
 </body>
 </html>

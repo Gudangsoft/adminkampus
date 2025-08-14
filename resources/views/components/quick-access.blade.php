@@ -14,11 +14,8 @@
     <!-- Floating Quick Access Button -->
     <div class="quick-access-toggle" 
          :class="{ 'active': isOpen }"
-         @click="toggleMenu()"
-         x-show="!isOpen || isMobile"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 transform scale-95"
-         x-transition:enter-end="opacity-100 transform scale-100">
+         @click="console.log('Quick access toggle clicked'); toggleMenu()"
+         x-show="!isOpen || isMobile">
         <div class="toggle-icon">
             <i class="fas" :class="isOpen ? 'fa-times' : 'fa-rocket'"></i>
         </div>
@@ -739,7 +736,9 @@ function quickAccess(configServices = {}) {
         ],
 
         toggleMenu() {
+            console.log('toggleMenu called. Current isOpen:', this.isOpen);
             this.isOpen = !this.isOpen;
+            console.log('toggleMenu updated. New isOpen:', this.isOpen);
         },
 
         handleServiceClick(service) {

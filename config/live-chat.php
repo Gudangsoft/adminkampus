@@ -5,6 +5,7 @@ return array (
   'position' => 'right',
   'button_text' => 'Butuh Bantuan?',
   'welcome_message' => 'Halo! Ada yang bisa kami bantu? 😊',
+  'whatsapp_number' => '6281234567890', // Ganti dengan nomor WhatsApp kampus yang sebenarnya
   'auto_responses' => 
   array (
     0 => 

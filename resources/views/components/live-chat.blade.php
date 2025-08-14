@@ -2,33 +2,18 @@
     $config = config('live-chat');
     $isEnabled = $config['enabled'] ?? true;
     $position = $config['position'] ?? 'right';
-    $title = $config['title'] ?? 'Butuh Bantuan?';
+    $buttonText = $config['button_text'] ?? 'Butuh Bantuan?';
     $welcomeMessage = $config['welcome_message'] ?? 'Halo! Ada yang bisa kami bantu?';
-    $autoResponses = $config['auto_responses'] ?? [];
-    $fallbackResponse = $config['fallback_response'] ?? 'Terima kasih atas pertanyaan Anda. Tim kami akan segera membantu.';
-    $contactInfo = $config['contact_info'] ?? [];
+    $whatsappNumber = '6281234567890'; // Nomor WhatsApp kampus
 @endphp
 
 @if($isEnabled)
-<!-- Live Chat Widget -->
-<div class="chat-widget" 
-     data-position="{{ $position }}"
-     x-data="chatWidget({{ json_encode([
-         'title' => $title,
-         'welcomeMessage' => $welcomeMessage,
-         'autoResponses' => $autoResponses,
-         'fallbackResponse' => $fallbackResponse,
-         'contactInfo' => $contactInfo
-     ]) }})" 
-     x-init="init()">
-    <!-- Chat Toggle Button -->
-    <div class="chat-toggle" 
-         :class="{ 'active': isOpen }"
-         @click="toggleChat()"
-         x-show="!isOpen"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 transform scale-95"
-         x-transition:enter-end="opacity-100 transform scale-100">
+<!-- WhatsApp Chat Widget -->
+<div class="whatsapp-chat-widget {{ $position === 'left' ? 'position-left' : 'position-right' }}">
+    <a href="https://wa.me/{{ $whatsappNumber }}?text={{ urlencode($welcomeMessage) }}" 
+       target="_blank" 
+       class="whatsapp-chat-button"
+       title="{{ $buttonText }}">
         <div class="chat-toggle-content">
             <i class="fas fa-comments"></i>
             <span class="chat-toggle-text">Butuh Bantuan?</span>
@@ -157,6 +142,7 @@
     pointer-events: auto !important;
     visibility: visible !important;
     opacity: 1 !important;
+    transition: none !important;
 }
 
 .chat-toggle {
@@ -510,6 +496,7 @@ function chatWidget(config = {}) {
         config: config,
 
         init() {
+            console.log('init called. Initial isOpen:', this.isOpen);
             // Initialize session
             this.sessionId = this.generateSessionId();
             
@@ -520,10 +507,13 @@ function chatWidget(config = {}) {
             if (this.messages.length === 0) {
                 this.addMessage(this.config.welcomeMessage || 'Halo! Ada yang bisa kami bantu? 😊', 'bot');
             }
+            console.log('init completed. Final isOpen:', this.isOpen);
         },
 
         toggleChat() {
+            console.log('toggleChat called. Current isOpen:', this.isOpen);
             this.isOpen = !this.isOpen;
+            console.log('toggleChat updated. New isOpen:', this.isOpen);
             if (this.isOpen) {
                 this.hasUnreadMessages = false;
                 this.unreadCount = 0;
