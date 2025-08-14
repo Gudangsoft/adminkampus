@@ -37,7 +37,7 @@ class DashboardController extends Controller
         ];
 
         // Recent activities
-        $recentNews = News::with('user')->latest()->take(5)->get();
+        $recentNews = News::with(['user', 'category'])->latest()->take(5)->get();
         $recentAnnouncements = Announcement::with('user')->latest()->take(5)->get();
         $recentGalleries = Gallery::with('user')->latest()->take(5)->get();
 

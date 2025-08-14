@@ -53,6 +53,27 @@
                                     </div>
                                 </div>
                                 
+                                <!-- Kode Fakultas -->
+                                <div class="mb-4">
+                                    <label for="code" class="form-label">
+                                        Kode Fakultas <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control @error('code') is-invalid @enderror" 
+                                           id="code" 
+                                           name="code" 
+                                           value="{{ old('code', $faculty->code) }}" 
+                                           placeholder="Contoh: FTI"
+                                           maxlength="10"
+                                           required>
+                                    @error('code')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-text">
+                                        Kode unik untuk fakultas (maksimal 10 karakter)
+                                    </div>
+                                </div>
+                                
                                 <!-- Deskripsi -->
                                 <div class="mb-4">
                                     <label for="description" class="form-label">Deskripsi Fakultas</label>

@@ -1084,9 +1084,6 @@
     </section>
     @endif
 
-    <!-- Spacer untuk pemisahan -->
-    <div class="section-spacer" style="height: 50px; background: #f8f9fa;"></div>
-
     <!-- Featured News Section -->
     @if(isset($latestNews) && $latestNews->count() > 0)
     <section id="news-section" class="news-section py-5 bg-light">
@@ -1480,6 +1477,7 @@
     </section>
     @endif
 
+    
 @endsection
 
 @push('scripts')
@@ -1743,4 +1741,65 @@
         });
     });
 </script>
+
+<!-- Admin Panel Access Button -->
+<div class="admin-access-float" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+    <div class="dropdown">
+        <button class="btn btn-dark rounded-circle p-3 shadow-lg" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Admin Panel">
+            <i class="fas fa-user-shield"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+                <h6 class="dropdown-header">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    Admin Panel
+                </h6>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <a class="dropdown-item" href="{{ route('admin.login') }}">
+                    <i class="fas fa-tachometer-alt me-2 text-primary"></i>
+                    Admin Sistem
+                    <small class="text-muted d-block">Panel utama kampus</small>
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ route('component.login') }}">
+                    <i class="fas fa-cogs me-2 text-info"></i>
+                    Admin Komponen
+                    <small class="text-muted d-block">Kelola floating widgets</small>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<style>
+.admin-access-float .btn {
+    transition: all 0.3s ease;
+}
+
+.admin-access-float .btn:hover {
+    transform: scale(1.1);
+    background-color: #495057 !important;
+}
+
+.admin-access-float .dropdown-menu {
+    min-width: 250px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    border-radius: 12px;
+}
+
+.admin-access-float .dropdown-item {
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 2px 8px;
+}
+
+.admin-access-float .dropdown-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+</style>
 @endpush

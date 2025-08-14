@@ -131,19 +131,21 @@
                                 <div class="card-header">
                                     <h5 class="card-title">Foto Profil</h5>
                                 </div>
-                                <div class="card-body text-center">
-                                    <div class="profile-avatar mb-3">
-                                        @if($user->avatar)
-                                            <img src="{{ asset('storage/' . $user->avatar) }}" 
-                                                 alt="Avatar" 
-                                                 class="img-fluid rounded-circle" 
-                                                 style="width: 150px; height: 150px; object-fit: cover;">
-                                        @else
-                                            <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" 
-                                                 style="width: 150px; height: 150px; margin: 0 auto;">
-                                                <i class="fas fa-user fa-4x text-white"></i>
-                                            </div>
-                                        @endif
+                                <div class="card-body text-center" style="padding: 2rem 1rem;">
+                                    <div class="profile-avatar-container mb-3" style="display: flex; justify-content: center; align-items: center; padding: 10px;">
+                                        <div class="profile-avatar-wrapper" style="position: relative;">
+                                            @if($user->avatar)
+                                                <img src="{{ asset('storage/' . $user->avatar) }}" 
+                                                     alt="Avatar" 
+                                                     class="avatar-circle" 
+                                                     style="width: 120px !important; height: 120px !important; min-width: 120px !important; min-height: 120px !important; max-width: 120px !important; max-height: 120px !important; object-fit: cover !important; object-position: center center !important; aspect-ratio: 1/1 !important; border-radius: 50% !important; border: 3px solid #fff; box-shadow: 0 3px 12px rgba(0,0,0,0.12); display: block; margin: 0 auto;">
+                                            @else
+                                                <div class="d-flex align-items-center justify-content-center" 
+                                                     style="width: 120px; height: 120px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; color: white; font-size: 48px; border: 3px solid #fff; box-shadow: 0 3px 12px rgba(0,0,0,0.12); margin: 0 auto;">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
                                     <h5 class="mb-1">{{ $user->name }}</h5>
                                     <p class="text-muted">{{ $user->email }}</p>

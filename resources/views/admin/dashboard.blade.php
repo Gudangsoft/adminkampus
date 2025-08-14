@@ -119,7 +119,11 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <span class="badge bg-secondary">{{ $news->category->name }}</span>
+                                                @if($news->category)
+                                                    <span class="badge bg-secondary">{{ $news->category->name }}</span>
+                                                @else
+                                                    <span class="badge bg-light text-dark">Tanpa Kategori</span>
+                                                @endif
                                             </td>
                                             <td>
                                                 @if($news->status == 'published')
@@ -128,7 +132,7 @@
                                                     <span class="badge bg-warning">Draft</span>
                                                 @endif
                                             </td>
-                                            <td>{{ number_format($news->views_count) }}</td>
+                                            <td>{{ number_format($news->views ?? 0) }}</td>
                                             <td>{{ $news->created_at->format('d/m/Y') }}</td>
                                         </tr>
                                     @endforeach

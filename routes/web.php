@@ -10,6 +10,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\GlobalSearchController;
 use App\Http\Controllers\SitemapController;
 
 // Admin Controllers
@@ -52,6 +53,21 @@ use App\Http\Controllers\AdvancedSearchController;
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('seo');
+
+// Interactive Features Demo
+Route::get('/demo-interactive', function() {
+    return view('demo-interactive');
+})->name('demo.interactive');
+
+// Test Chat Widget
+Route::get('/test-chat', function() {
+    return view('test-chat');
+})->name('test.chat');
+
+// Chat Test Page
+Route::get('/chat-test-page', function() {
+    return view('chat-test-page');
+})->name('chat.test.page');
 
 // Auto login route untuk testing (hapus di production)
 Route::get('/auto-login', function() {
@@ -289,6 +305,17 @@ Route::get('/search', [SearchController::class, 'index'])->name('search')->middl
 Route::get('/advanced-search', [AdvancedSearchController::class, 'index'])->name('search.advanced');
 Route::get('/search-suggestions', [AdvancedSearchController::class, 'suggestions'])->name('search.suggestions');
 
+// Global Search API Routes
+Route::prefix('api/search')->group(function () {
+    Route::get('/', [GlobalSearchController::class, 'search'])->name('api.search');
+    Route::get('/suggestions', [GlobalSearchController::class, 'suggestions'])->name('api.search.suggestions');
+});
+
+// Test Search Route (development only)
+Route::get('/test-search', function () {
+    return view('test-search');
+})->name('test.search');
+
 // Contact Routes
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/kontak', [ContactController::class, 'store'])->name('contact.store');
@@ -306,10 +333,27 @@ Route::get('/seo-test', function() {
 // Dynamic Pages
 Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show')->middleware('seo');
 
-// Authentication Routes
+// Authentication Routes - Main Admin System  
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [App\Http\Controllers\Admin\AuthController::class, 'login']);
+    Route::post('/logout', [App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
+});
+
+// Component Admin Authentication Routes
+Route::prefix('component')->name('component.')->group(function () {
+    Route::get('/login', [App\Http\Controllers\Component\AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [App\Http\Controllers\Component\AuthController::class, 'login']);
+    Route::post('/logout', [App\Http\Controllers\Component\AuthController::class, 'logout'])->name('logout');
+});
+
+// Original Laravel Auth (for fallback) - moved after custom routes
 Auth::routes(['register' => false]); // Disable registration for admin only
 
-// Admin Routes - Role-based access control
+// Global Logout Fallback (to handle 419 errors)
+Route::post('/logout', [App\Http\Controllers\GlobalAuthController::class, 'logout'])->name('global.logout');
+
+// Admin Routes - Role-based access control (Main System)
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor'])->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     
@@ -415,6 +459,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
         // Menu Management
         Route::resource('menus', AdminMenuController::class);
         Route::patch('menus/{menu}/toggle-status', [AdminMenuController::class, 'toggleStatus'])->name('menus.toggle-status');
+        
+        // Components Management (Admin Only)
+        Route::prefix('components')->name('components.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\ComponentController::class, 'index'])->name('index');
+            
+            // Quick Access
+            Route::get('/quick-access', [App\Http\Controllers\Admin\ComponentController::class, 'quickAccess'])->name('quick-access');
+            Route::put('/quick-access', [App\Http\Controllers\Admin\ComponentController::class, 'updateQuickAccess'])->name('quick-access.update');
+            Route::post('/quick-access/test', [App\Http\Controllers\Admin\ComponentController::class, 'testQuickAccess'])->name('quick-access.test');
+            
+            // Live Chat
+            Route::get('/live-chat', [App\Http\Controllers\Admin\ComponentController::class, 'liveChat'])->name('live-chat');
+            Route::put('/live-chat', [App\Http\Controllers\Admin\ComponentController::class, 'updateLiveChat'])->name('live-chat.update');
+            Route::post('/live-chat/test', [App\Http\Controllers\Admin\ComponentController::class, 'testLiveChat'])->name('live-chat.test');
+        });
     });
     
     // Profile & Language (All authenticated users)

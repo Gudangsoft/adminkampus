@@ -262,6 +262,9 @@
             }
         }
     </style>
+    
+    <!-- Alpine.js for interactive components -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
 </head>
 <body>
         <div id="app">
@@ -374,13 +377,20 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    @if(Auth::user()->canAccessAdmin())
+                                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}" target="_blank">
+                                            <i class="fas fa-tachometer-alt me-2"></i>Admin Panel
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                    @endif
+                                    
+                                    <a class="dropdown-item" href="{{ route('global.logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('global.logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
@@ -714,5 +724,9 @@
             gtag('config', '{{ $globalSettings['google_analytics'] }}');
         </script>
     @endif
+
+    <!-- Interactive Features Components -->
+    @include('components.live-chat')
+    @include('components.quick-access')
 </body>
 </html>

@@ -48,8 +48,17 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        // Always redirect to admin dashboard after login
-        return redirect()->intended('/admin');
+        // Check if user can access admin
+        if ($user->canAccessAdmin()) {
+            // Return a response that opens admin in new tab and redirects to home
+            return response()->view('auth.login-success', [
+                'adminUrl' => route('admin.dashboard'),
+                'homeUrl' => url('/')
+            ]);
+        }
+        
+        // For non-admin users, redirect to home
+        return redirect('/');
     }
 
     /**

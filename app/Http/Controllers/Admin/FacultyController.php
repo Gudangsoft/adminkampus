@@ -43,7 +43,13 @@ class FacultyController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'code' => 'nullable|string|max:10|unique:faculties,code',
             'description' => 'nullable|string',
+            'dean_name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
+            'website' => 'nullable|url|max:255',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ]);
@@ -51,7 +57,13 @@ class FacultyController extends Controller
         $faculty = Faculty::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
+            'code' => $request->code, // Let model auto-generate if empty
             'description' => $request->description,
+            'dean_name' => $request->dean_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'website' => $request->website,
             'is_active' => $request->has('is_active'),
             'sort_order' => $request->sort_order ?? 0,
         ]);
@@ -77,7 +89,13 @@ class FacultyController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'code' => 'nullable|string|max:10|unique:faculties,code,' . $faculty->id,
             'description' => 'nullable|string',
+            'dean_name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
+            'website' => 'nullable|url|max:255',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ]);
@@ -85,7 +103,13 @@ class FacultyController extends Controller
         $faculty->update([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
+            'code' => $request->code ?: $faculty->code, // Keep existing if empty
             'description' => $request->description,
+            'dean_name' => $request->dean_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'website' => $request->website,
             'is_active' => $request->has('is_active'),
             'sort_order' => $request->sort_order ?? 0,
         ]);

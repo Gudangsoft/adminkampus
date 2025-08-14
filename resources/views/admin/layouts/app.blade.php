@@ -193,52 +193,26 @@
                     </h4>
                     
                     <nav class="nav flex-column">
-                        <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        <a class="nav-link {{ request()->routeIs('admin.components.*') ? 'active' : '' }}" href="{{ route('admin.components.index') }}">
+                            <i class="fas fa-cogs me-2"></i> Dashboard Komponen
                         </a>
                         
-                        <a class="nav-link {{ request()->routeIs('admin.news.*') ? 'active' : '' }}" href="{{ route('admin.news.index') }}">
-                            <i class="fas fa-newspaper me-2"></i> Berita
+                        <a class="nav-link {{ request()->routeIs('admin.components.quick-access') ? 'active' : '' }}" href="{{ route('admin.components.quick-access') }}">
+                            <i class="fas fa-bolt me-2"></i> Quick Access
                         </a>
                         
-                        <a class="nav-link {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}" href="{{ route('admin.announcements.index') }}">
-                            <i class="fas fa-bullhorn me-2"></i> Pengumuman
+                        <a class="nav-link {{ request()->routeIs('admin.components.live-chat') ? 'active' : '' }}" href="{{ route('admin.components.live-chat') }}">
+                            <i class="fas fa-comments me-2"></i> Live Chat
                         </a>
                         
-                        <a class="nav-link {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}" href="{{ route('admin.galleries.index') }}">
-                            <i class="fas fa-images me-2"></i> Galeri
+                        <hr class="my-3 border-secondary">
+                        
+                        <a class="nav-link" href="{{ route('admin.login') }}">
+                            <i class="fas fa-shield-alt me-2"></i> Admin Sistem
                         </a>
                         
-                        <a class="nav-link {{ request()->routeIs('admin.lecturers.*') ? 'active' : '' }}" href="{{ route('admin.lecturers.index') }}">
-                            <i class="fas fa-chalkboard-teacher me-2"></i> Dosen
-                        </a>
-                        
-                        <a class="nav-link {{ request()->routeIs('admin.students.*') ? 'active' : '' }}" href="{{ route('admin.students.index') }}">
-                            <i class="fas fa-user-graduate me-2"></i> Mahasiswa
-                        </a>
-                        
-                        <a class="nav-link {{ request()->routeIs('admin.faculties.*') ? 'active' : '' }}" href="{{ route('admin.faculties.index') }}">
-                            <i class="fas fa-building me-2"></i> Fakultas
-                        </a>
-                        
-                        <a class="nav-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}" href="{{ route('admin.analytics.index') }}">
-                            <i class="fas fa-chart-bar me-2"></i> Analytics
-                        </a>
-                        
-                        <a class="nav-link {{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}" href="{{ route('admin.notifications.index') }}">
-                            <i class="fas fa-bell me-2"></i> Notifications
-                        </a>
-                        
-                        <a class="nav-link {{ request()->routeIs('admin.backups.*') ? 'active' : '' }}" href="{{ route('admin.backups.index') }}">
-                            <i class="fas fa-database me-2"></i> Backups
-                        </a>
-                        
-                        <a class="nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}" href="{{ route('admin.pages.index') }}">
-                            <i class="fas fa-file-alt me-2"></i> Halaman
-                        </a>
-                        
-                        <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
-                            <i class="fas fa-cog me-2"></i> Pengaturan
+                        <a class="nav-link" href="{{ route('home') }}">
+                            <i class="fas fa-globe me-2"></i> Lihat Website
                         </a>
                     </nav>
                 </div>
@@ -254,13 +228,13 @@
                             <div class="fw-bold">{{ auth()->user()->name }}</div>
                             <small class="text-white-50">{{ auth()->user()->email }}</small>
                         </div>
-                        <a href="{{ route('logout') }}" class="text-white-50 ms-2" 
+                        <a href="{{ route('component.logout') }}" class="text-white-50 ms-2" 
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fas fa-sign-out-alt"></i>
                         </a>
                     </div>
                     
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    <form id="logout-form" action="{{ route('component.logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                     @endauth
