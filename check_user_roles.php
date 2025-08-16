@@ -71,4 +71,3 @@ try {
     echo "❌ Error: " . $e->getMessage() . "\n";
 }
 
-php artisan route:clear
