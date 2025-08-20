@@ -13,13 +13,6 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->string('type'); // hero, about, news, etc
-            $table->string('title');
-            $table->text('content')->nullable();
-            $table->json('data')->nullable(); // Additional data as JSON
-            $table->string('image')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }

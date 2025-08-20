@@ -12,35 +12,39 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id',
+        'nim',
         'name',
-        'email',
-        'phone',
-        'address',
-        'gender',
-        'birth_date',
-        'birth_place',
-        'faculty_id',
+        'slug',
         'study_program_id',
-        'class',
+        'gender',
+        'date_of_birth',
+        'place_of_birth',
+        'address',
+        'phone',
+        'email',
+        'parent_name',
+        'parent_phone',
+        'school_origin',
         'entry_year',
-        'status',
-        'gpa',
         'semester',
+        'gpa',
+        'credits_taken',
+        'graduation_date',
         'photo',
-        'emergency_contact',
-        'parent_info'
+        'status',
+        'is_active'
     ];
 
     protected $attributes = [
+        'is_active' => true,
         'status' => 'active'
     ];
 
     protected $casts = [
         'gpa' => 'decimal:2',
-        'birth_date' => 'date',
-        'emergency_contact' => 'array',
-        'parent_info' => 'array'
+        'graduation_date' => 'date',
+        'date_of_birth' => 'date',
+        'is_active' => 'boolean'
     ];
 
     public function getIsActiveAttribute($value)

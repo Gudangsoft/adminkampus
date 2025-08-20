@@ -98,12 +98,12 @@
                                     <td>
                                         <div>
                                             <strong>{{ $lecturer->full_name }}</strong>
-                                            @if($lecturer->education_level)
-                                                <br><small class="text-muted">{{ $lecturer->education_level }}</small>
+                                            @if($lecturer->education_background)
+                                                <br><small class="text-muted">{{ $lecturer->education_background }}</small>
                                             @endif
                                         </div>
                                     </td>
-                                    <td>{{ $lecturer->lecturer_id }}</td>
+                                    <td>{{ $lecturer->nidn }}</td>
                                     <td>
                                         <span class="badge bg-info text-dark">{{ $lecturer->faculty->name }}</span>
                                     </td>

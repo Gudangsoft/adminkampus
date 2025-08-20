@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->string('label')->nullable()->after('key');
-            $table->boolean('is_editable')->default(true)->after('description');
+            //
         });
     }
 
@@ -23,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->dropColumn(['label', 'is_editable']);
+            //
         });
     }
 };

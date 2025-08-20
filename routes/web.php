@@ -10,11 +10,10 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\GlobalSearchController;
 use App\Http\Controllers\SitemapController;
 
 // Admin Controllers
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\NewsCategoryController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
@@ -53,21 +52,6 @@ use App\Http\Controllers\AdvancedSearchController;
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('seo');
-
-// Interactive Features Demo
-Route::get('/demo-interactive', function() {
-    return view('demo-interactive');
-})->name('demo.interactive');
-
-// Test Chat Widget
-Route::get('/test-chat', function() {
-    return view('test-chat');
-})->name('test.chat');
-
-// Chat Test Page
-Route::get('/chat-test-page', function() {
-    return view('chat-test-page');
-})->name('chat.test.page');
 
 // Auto login route untuk testing (hapus di production)
 Route::get('/auto-login', function() {
@@ -305,17 +289,6 @@ Route::get('/search', [SearchController::class, 'index'])->name('search')->middl
 Route::get('/advanced-search', [AdvancedSearchController::class, 'index'])->name('search.advanced');
 Route::get('/search-suggestions', [AdvancedSearchController::class, 'suggestions'])->name('search.suggestions');
 
-// Global Search API Routes
-Route::prefix('api/search')->group(function () {
-    Route::get('/', [GlobalSearchController::class, 'search'])->name('api.search');
-    Route::get('/suggestions', [GlobalSearchController::class, 'suggestions'])->name('api.search.suggestions');
-});
-
-// Test Search Route (development only)
-Route::get('/test-search', function () {
-    return view('test-search');
-})->name('test.search');
-
 // Contact Routes
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/kontak', [ContactController::class, 'store'])->name('contact.store');
@@ -333,29 +306,12 @@ Route::get('/seo-test', function() {
 // Dynamic Pages
 Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show')->middleware('seo');
 
-// Authentication Routes - Main Admin System  
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [App\Http\Controllers\Admin\AuthController::class, 'login']);
-    Route::post('/logout', [App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
-});
-
-// Component Admin Authentication Routes
-Route::prefix('component')->name('component.')->group(function () {
-    Route::get('/login', [App\Http\Controllers\Component\AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [App\Http\Controllers\Component\AuthController::class, 'login']);
-    Route::post('/logout', [App\Http\Controllers\Component\AuthController::class, 'logout'])->name('logout');
-});
-
-// Original Laravel Auth (for fallback) - moved after custom routes
+// Authentication Routes
 Auth::routes(['register' => false]); // Disable registration for admin only
 
-// Global Logout Fallback (to handle 419 errors)
-Route::post('/logout', [App\Http\Controllers\GlobalAuthController::class, 'logout'])->name('global.logout');
-
-// Admin Routes - Role-based access control (Main System)
+// Admin Routes - Role-based access control
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor'])->group(function () {
-    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     
     // Content Management (Admin + Editor)
     Route::middleware('role:admin,editor')->group(function () {
@@ -373,13 +329,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
         // Gallery Management
         Route::resource('galleries', AdminGalleryController::class);
         Route::delete('galleries/{gallery}/photo/{photo}', [AdminGalleryController::class, 'deletePhoto'])->name('galleries.delete-photo');
-        Route::patch('galleries/{gallery}/toggle-featured', [AdminGalleryController::class, 'toggleFeatured'])->name('galleries.toggle-featured');
         
         // Slider Management
         Route::resource('sliders', AdminSliderController::class);
         Route::patch('sliders/{slider}/toggle-status', [AdminSliderController::class, 'toggleStatus'])->name('sliders.toggle-status');
-        Route::patch('sliders/{slider}/toggle-active', [AdminSliderController::class, 'toggleActive'])->name('sliders.toggle-active');
-        Route::post('sliders/update-order', [AdminSliderController::class, 'updateOrder'])->name('sliders.update-order');
         
         // Section Management
         Route::resource('sections', AdminSectionController::class);
@@ -395,20 +348,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
         // Faculty Management
         Route::resource('faculties', AdminFacultyController::class);
         Route::patch('faculties/{faculty}/toggle-status', [AdminFacultyController::class, 'toggleStatus'])->name('faculties.toggle-status');
-        Route::patch('faculties/update-order', [AdminFacultyController::class, 'updateOrder'])->name('faculties.update-order');
-        
-        // Study Program Management
-        Route::resource('study-programs', AdminStudyProgramController::class);
-        Route::patch('study-programs/{study_program}/toggle-status', [AdminStudyProgramController::class, 'toggleStatus'])->name('study-programs.toggle-status');
-        Route::patch('study-programs/update-order', [AdminStudyProgramController::class, 'updateOrder'])->name('study-programs.update-order');
-        
-        // Lecturer Management  
-        Route::resource('lecturers', AdminLecturerController::class);
-        Route::patch('lecturers/{lecturer}/toggle-status', [AdminLecturerController::class, 'toggleStatus'])->name('lecturers.toggle-status');
-        
-        // Students Management
-        Route::resource('students', AdminStudentController::class);
-        Route::patch('students/{student}/toggle-status', [AdminStudentController::class, 'toggleStatus'])->name('students.toggle-status');
         
         // Study Program Management
         Route::resource('study-programs', AdminStudyProgramController::class);
@@ -453,27 +392,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
             Route::post('/create', [AdminBackupController::class, 'create'])->name('create');
             Route::get('/download/{filename}', [AdminBackupController::class, 'download'])->name('download');
             Route::delete('/delete/{filename}', [AdminBackupController::class, 'delete'])->name('delete');
-            Route::delete('/{filename}', [AdminBackupController::class, 'destroy'])->name('destroy');
         });
         
         // Menu Management
         Route::resource('menus', AdminMenuController::class);
         Route::patch('menus/{menu}/toggle-status', [AdminMenuController::class, 'toggleStatus'])->name('menus.toggle-status');
-        
-        // Components Management (Admin Only)
-        Route::prefix('components')->name('components.')->group(function () {
-            Route::get('/', [App\Http\Controllers\Admin\ComponentController::class, 'index'])->name('index');
-            
-            // Quick Access
-            Route::get('/quick-access', [App\Http\Controllers\Admin\ComponentController::class, 'quickAccess'])->name('quick-access');
-            Route::put('/quick-access', [App\Http\Controllers\Admin\ComponentController::class, 'updateQuickAccess'])->name('quick-access.update');
-            Route::post('/quick-access/test', [App\Http\Controllers\Admin\ComponentController::class, 'testQuickAccess'])->name('quick-access.test');
-            
-            // Live Chat
-            Route::get('/live-chat', [App\Http\Controllers\Admin\ComponentController::class, 'liveChat'])->name('live-chat');
-            Route::put('/live-chat', [App\Http\Controllers\Admin\ComponentController::class, 'updateLiveChat'])->name('live-chat.update');
-            Route::post('/live-chat/test', [App\Http\Controllers\Admin\ComponentController::class, 'testLiveChat'])->name('live-chat.test');
-        });
     });
     
     // Profile & Language (All authenticated users)
@@ -485,30 +408,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
     // Languages Management (Admin + Editor)
     Route::middleware('role:admin,editor')->group(function () {
         Route::resource('languages', AdminLanguageController::class);
-        Route::resource('themes', AdminThemeController::class);
-        
-        // Theme compatibility routes (singular naming)
-        Route::get('/theme', [AdminThemeController::class, 'index'])->name('theme.index');
-        Route::post('/theme', [AdminThemeController::class, 'store'])->name('theme.store');
-        Route::get('/theme/create', [AdminThemeController::class, 'create'])->name('theme.create');
-        Route::get('/theme/{theme}', [AdminThemeController::class, 'show'])->name('theme.show');
-        Route::put('/theme/{theme}', [AdminThemeController::class, 'update'])->name('theme.update');
-        Route::delete('/theme/{theme}', [AdminThemeController::class, 'destroy'])->name('theme.destroy');
-        Route::get('/theme/{theme}/edit', [AdminThemeController::class, 'edit'])->name('theme.edit');
-        
-        // Theme management specific routes
-        Route::post('/theme/apply', [AdminThemeController::class, 'applyTheme'])->name('admin.theme.apply');
-        Route::post('/theme/reset', [AdminThemeController::class, 'resetTheme'])->name('admin.theme.reset');
-        Route::post('/theme/settings', [AdminThemeController::class, 'updateSettings'])->name('admin.theme.update');
     });
     
     // Read-only routes for viewers
     Route::middleware('role:admin,editor,viewer')->group(function () {
         // Analytics (view only for viewers)
         Route::get('/analytics', [AdminAnalyticsController::class, 'index'])->name('analytics.index');
-        
-        // Notifications Management
-        Route::resource('notifications', AdminNotificationController::class);
         
         // SEO Management (view only for viewers)
         Route::prefix('seo')->name('seo.')->group(function () {

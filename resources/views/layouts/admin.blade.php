@@ -45,11 +45,7 @@
             left: 0;
             height: 100vh;
             width: var(--sidebar-width);
-            @if(auth()->user()->role === 'editor')
-                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            @else
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            @endif
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             z-index: 1000;
             transition: all 0.3s;
             overflow-y: auto;
@@ -147,7 +143,6 @@
         /* Dropdown Navigation Styles */
         .dropdown-nav .nav-link.dropdown-toggle {
             cursor: pointer;
-            position: relative;
         }
         
         .dropdown-nav .nav-link.dropdown-toggle .fa-chevron-down {
@@ -157,10 +152,6 @@
         
         .dropdown-nav .nav-link.dropdown-toggle[aria-expanded="true"] .fa-chevron-down {
             transform: rotate(180deg);
-        }
-        
-        .dropdown-nav .collapse {
-            transition: all 0.3s ease;
         }
         
         .submenu {
@@ -246,11 +237,7 @@
         }
         
         .btn-primary {
-            @if(auth()->user()->role === 'editor')
-                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            @else
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            @endif
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
         }
         
@@ -271,138 +258,6 @@
             padding: 0.375rem 0.75rem;
         }
         
-        /* Avatar Styles - Enhanced for Perfect Proportions */
-        .profile-avatar {
-            width: 40px !important;
-            height: 40px !important;
-            min-width: 40px;
-            min-height: 40px;
-            max-width: 40px;
-            max-height: 40px;
-            border-radius: 50% !important;
-            object-fit: cover !important;
-            object-position: center center !important;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
-            background-color: #f8f9fa;
-            flex-shrink: 0;
-            display: block;
-            aspect-ratio: 1 / 1;
-        }
-        
-        .profile-avatar:hover {
-            transform: scale(1.08);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            border-color: rgba(255,255,255,0.9);
-        }
-        
-        .sidebar-profile {
-            padding: 1.25rem 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-            background: rgba(255,255,255,0.05);
-        }
-        
-        .sidebar-profile-avatar {
-            width: 60px !important;
-            height: 60px !important;
-            min-width: 60px;
-            min-height: 60px;
-            max-width: 60px;
-            max-height: 60px;
-            border-radius: 50% !important;
-            object-fit: cover !important;
-            object-position: center center !important;
-            border: 3px solid rgba(255,255,255,0.9);
-            margin: 0 auto 0.75rem auto;
-            transition: all 0.3s ease;
-            background-color: rgba(255,255,255,0.1);
-            display: block;
-            aspect-ratio: 1 / 1;
-        }
-        
-        .sidebar-profile-avatar:hover {
-            border-color: #fff;
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        .sidebar-profile-name {
-            color: white;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin: 0;
-        }
-        
-        .sidebar-profile-role {
-            color: rgba(255,255,255,0.8);
-            font-size: 0.75rem;
-            margin: 0;
-        }
-        
-        /* Profile Dropdown Styles */
-        .dropdown-toggle:hover {
-            background-color: rgba(0,0,0,0.05) !important;
-            transform: translateY(-1px);
-        }
-        
-        .dropdown-menu {
-            border: none;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .dropdown-item:hover {
-            background-color: rgba(0,0,0,0.05);
-            transform: translateX(5px);
-            transition: all 0.2s ease;
-        }
-        
-        /* Profile fallback image styles */
-        .profile-avatar[src=""], .profile-avatar:not([src]) {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .profile-avatar[src=""]:before, .profile-avatar:not([src]):before {
-            content: "\f007";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            color: white;
-            font-size: 16px;
-        }
-        
-        /* Additional avatar classes for perfect circles */
-        .avatar-circle {
-            border-radius: 50% !important;
-            object-fit: cover !important;
-            object-position: center !important;
-            aspect-ratio: 1 / 1 !important;
-        }
-        
-        .avatar-32 {
-            width: 32px !important;
-            height: 32px !important;
-            min-width: 32px !important;
-            min-height: 32px !important;
-        }
-        
-        .avatar-40 {
-            width: 40px !important;
-            height: 40px !important;
-            min-width: 40px !important;
-            min-height: 40px !important;
-        }
-        
-        .avatar-60 {
-            width: 60px !important;
-            height: 60px !important;
-            min-width: 60px !important;
-            min-height: 60px !important;
-        }
-        
         @media (max-width: 768px) {
             .sidebar {
                 margin-left: calc(-1 * var(--sidebar-width));
@@ -417,14 +272,6 @@
             }
         }
     </style>
-    
-    <!-- Dynamic Theme CSS -->
-    @if(isset($dynamicCSS))
-    <style id="dynamic-theme-css">
-        {!! $dynamicCSS !!}
-    </style>
-    @endif
-    
     @stack('styles')
 </head>
 <body>
@@ -436,29 +283,16 @@
                 <h5 class="mb-0">{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</h5>
             @else
                 <div class="default-logo-container" style="background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px; margin-bottom: 12px;">
-                    @if(auth()->user()->role === 'editor')
-                        <div class="default-logo" style="width: 50px; height: 50px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-edit" style="color: white; font-size: 24px;"></i>
-                        </div>
-                    @else
-                        <div class="default-logo" style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-graduation-cap" style="color: white; font-size: 24px;"></i>
-                        </div>
-                    @endif
+                    <div class="default-logo" style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-graduation-cap" style="color: white; font-size: 24px;"></i>
+                    </div>
                 </div>
                 <h4>{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</h4>
             @endif
-            <small class="text-white-50">
-                @if(auth()->user()->role === 'editor')
-                    Editor Panel
-                @else
-                    Admin Panel
-                @endif
-            </small>
+            <small class="text-white-50">Admin Panel</small>
         </div>
         
         <nav class="sidebar-nav">
-            <!-- Dashboard -->
             <div class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" 
                    href="{{ route('admin.dashboard') }}">
@@ -466,404 +300,126 @@
                     Dashboard
                 </a>
             </div>
-
-            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
             
-            @if(auth()->user()->role === 'editor')
-                <!-- EDITOR MENU STRUCTURE -->
-                
-                <!-- Content Management Section -->
-                <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                    📝 Content Management
-                </div>
-                
-                <!-- Berita Menu -->
-                <div class="nav-item dropdown-nav">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'active' : '' }}" 
-                       href="#" data-bs-toggle="collapse" data-bs-target="#beritaMenu" aria-expanded="{{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-newspaper"></i>
-                        Berita
-                        <i class="fas fa-chevron-down ms-auto"></i>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'show' : '' }}" id="beritaMenu">
-                        <div class="submenu">
-                            <a class="nav-link {{ request()->routeIs('admin.news.*') ? 'active' : '' }}" href="{{ route('admin.news.index') }}">
-                                <i class="fas fa-newspaper"></i> Kelola Berita
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.news-categories.*') ? 'active' : '' }}" href="{{ route('admin.news-categories.index') }}">
-                                <i class="fas fa-tags"></i> Kategori Berita
-                            </a>
-                        </div>
+            <!-- Berita Menu with Dropdown -->
+            <div class="nav-item dropdown-nav">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'active' : '' }}" 
+                   href="#" data-bs-toggle="collapse" data-bs-target="#beritaMenu" aria-expanded="{{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'true' : 'false' }}">
+                    <i class="fas fa-newspaper"></i>
+                    Berita
+                    <i class="fas fa-chevron-down ms-auto"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'show' : '' }}" id="beritaMenu">
+                    <div class="submenu">
+                        <a class="nav-link {{ request()->routeIs('admin.news.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.news.index') }}">
+                            <i class="fas fa-newspaper"></i>
+                            Kelola Berita
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.news-categories.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.news-categories.index') }}">
+                            <i class="fas fa-tags"></i>
+                            Kategori Berita
+                        </a>
                     </div>
                 </div>
-                
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}" href="{{ route('admin.announcements.index') }}">
-                        <i class="fas fa-bullhorn"></i> Pengumuman
-                    </a>
-                </div>
-                
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}" href="{{ route('admin.pages.index') }}">
-                        <i class="fas fa-file-alt"></i> Halaman
-                    </a>
-                </div>
-
-                <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
-                
-                <!-- Academic Management Section -->
-                <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                    🎓 Academic Management
-                </div>
-                
-                <div class="nav-item dropdown-nav">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'active' : '' }}" 
-                       href="#" data-bs-toggle="collapse" data-bs-target="#akademikMenu" aria-expanded="{{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-university"></i>
-                        Akademik
-                        <i class="fas fa-chevron-down ms-auto"></i>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'show' : '' }}" id="akademikMenu">
-                        <div class="submenu">
-                            <a class="nav-link {{ request()->routeIs('admin.faculties.*') ? 'active' : '' }}" href="{{ route('admin.faculties.index') }}">
-                                <i class="fas fa-building"></i> Fakultas
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.study-programs.*') ? 'active' : '' }}" href="{{ route('admin.study-programs.index') }}">
-                                <i class="fas fa-graduation-cap"></i> Program Studi
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.lecturers.*') ? 'active' : '' }}" href="{{ route('admin.lecturers.index') }}">
-                                <i class="fas fa-chalkboard-teacher"></i> Dosen
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.students.*') ? 'active' : '' }}" href="{{ route('admin.students.index') }}">
-                                <i class="fas fa-user-graduate"></i> Mahasiswa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
-                
-                <!-- Media Management Section -->
-                <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                    🎨 Media Management
-                </div>
-                
-                <div class="nav-item dropdown-nav">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'active' : '' }}" 
-                       href="#" data-bs-toggle="collapse" data-bs-target="#mediaMenu" aria-expanded="{{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-images"></i>
-                        Media
-                        <i class="fas fa-chevron-down ms-auto"></i>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'show' : '' }}" id="mediaMenu">
-                        <div class="submenu">
-                            <a class="nav-link {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}" href="{{ route('admin.galleries.index') }}">
-                                <i class="fas fa-images"></i> Galeri
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.sliders.*') ? 'active' : '' }}" href="{{ route('admin.sliders.index') }}">
-                                <i class="fas fa-sliders-h"></i> Slider
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.sections.*') ? 'active' : '' }}" href="{{ route('admin.sections.index') }}">
-                                <i class="fas fa-layer-group"></i> Sections
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}" href="{{ route('admin.menus.index') }}">
-                        <i class="fas fa-bars"></i> Menu
-                    </a>
-                </div>
-
-            @else
-                <!-- ADMIN FULL MENU STRUCTURE -->
-                
-                <!-- Content Management Section -->
-                <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                    Content Management
-                </div>
-                
-                <!-- Berita Menu with Dropdown -->
-                <div class="nav-item dropdown-nav">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'active' : '' }}" 
-                       href="#" data-bs-toggle="collapse" data-bs-target="#beritaMenu" aria-expanded="{{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-newspaper"></i>
-                        Berita
-                        <i class="fas fa-chevron-down ms-auto"></i>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('admin.news.*') || request()->routeIs('admin.news-categories.*') ? 'show' : '' }}" id="beritaMenu">
-                        <div class="submenu">
-                            <a class="nav-link {{ request()->routeIs('admin.news.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.news.index') }}">
-                                <i class="fas fa-newspaper"></i>
-                                Kelola Berita
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.news-categories.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.news-categories.index') }}">
-                                <i class="fas fa-tags"></i>
-                                Kategori Berita
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.announcements.index') }}">
-                        <i class="fas fa-bullhorn"></i>
-                        Pengumuman
-                    </a>
-                </div>
-                
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.pages.index') }}">
-                        <i class="fas fa-file-alt"></i>
-                        Halaman
-                    </a>
-                </div>
-
-                <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
-                
-                <!-- Academic Management Section -->
-                <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                    Academic Management
-                </div>
-                
-                <!-- Akademik Menu with Dropdown -->
-                <div class="nav-item dropdown-nav">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'active' : '' }}" 
-                       href="#" data-bs-toggle="collapse" data-bs-target="#akademikMenu" aria-expanded="{{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-university"></i>
-                        Akademik
-                        <i class="fas fa-chevron-down ms-auto"></i>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'show' : '' }}" id="akademikMenu">
-                        <div class="submenu">
-                            <a class="nav-link {{ request()->routeIs('admin.faculties.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.faculties.index') }}">
-                                <i class="fas fa-building"></i>
-                                Fakultas
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.study-programs.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.study-programs.index') }}">
-                                <i class="fas fa-graduation-cap"></i>
-                                Program Studi
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.lecturers.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.lecturers.index') }}">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                                Dosen
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.students.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.students.index') }}">
-                                <i class="fas fa-user-graduate"></i>
-                                Mahasiswa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
-                
-                <!-- Media & Design Section -->
-                <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                    Media & Design
-                </div>
-                
-                <!-- Media Menu with Dropdown -->
-                <div class="nav-item dropdown-nav">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'active' : '' }}" 
-                       href="#" data-bs-toggle="collapse" data-bs-target="#mediaMenu" aria-expanded="{{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-images"></i>
-                        Media
-                        <i class="fas fa-chevron-down ms-auto"></i>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'show' : '' }}" id="mediaMenu">
-                        <div class="submenu">
-                            <a class="nav-link {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.galleries.index') }}">
-                                <i class="fas fa-images"></i>
-                                Galeri
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.sliders.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.sliders.index') }}">
-                                <i class="fas fa-sliders-h"></i>
-                                Slider
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.sections.*') ? 'active' : '' }}" 
-                               href="{{ route('admin.sections.index') }}">
-                                <i class="fas fa-layer-group"></i>
-                                Sections
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Menu Management -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.menus.index') }}">
-                        <i class="fas fa-bars"></i>
-                        Menu
-                    </a>
-                </div>
-
-                <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
-                
-                <!-- SEO & Analytics Section (Admin Only) -->
-                <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                    SEO & Analytics
-                </div>
-                
-                <!-- SEO Menu with Dropdown -->
-                <div class="nav-item dropdown-nav">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.seo.*') ? 'active' : '' }}" 
-                       href="#" data-bs-toggle="collapse" data-bs-target="#seoMenu" aria-expanded="{{ request()->routeIs('admin.seo.*') ? 'true' : 'false' }}">
-                        <i class="fas fa-search"></i>
-                        SEO Management
-                        <i class="fas fa-chevron-down ms-auto"></i>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('admin.seo.*') ? 'show' : '' }}" id="seoMenu">
-                        <div class="submenu">
-                            <a class="nav-link {{ request()->routeIs('admin.seo.dashboard') ? 'active' : '' }}" 
-                               href="{{ route('admin.seo.dashboard') }}">
-                                <i class="fas fa-chart-line"></i>
-                                SEO Dashboard
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.seo.audit') ? 'active' : '' }}" 
-                               href="{{ route('admin.seo.audit') }}">
-                                <i class="fas fa-search-plus"></i>
-                                SEO Audit
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.seo.meta-tags') ? 'active' : '' }}" 
-                               href="{{ route('admin.seo.meta-tags') }}">
-                                <i class="fas fa-tags"></i>
-                                Meta Tags
-                            </a>
-                            <a class="nav-link {{ request()->routeIs('admin.seo.sitemap') ? 'active' : '' }}" 
-                               href="{{ route('admin.seo.sitemap') }}">
-                                <i class="fas fa-sitemap"></i>
-                                Sitemap
-                            </a>
-                            <a class="nav-link" href="/seo-test" target="_blank">
-                                <i class="fas fa-external-link-alt"></i>
-                                SEO Tester
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Analytics Dashboard -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.analytics.index') }}">
-                        <i class="fas fa-chart-pie"></i>
-                        Analytics Dashboard
-                    </a>
-                </div>
-
-                <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
-                
-                <!-- System Tools Section (Admin Only) -->
-                <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                    System Tools
-                </div>
-                
-                <!-- User Management -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.system.users.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.system.users.index') }}">
-                        <i class="fas fa-users-cog"></i>
-                        User Management
-                    </a>
-                </div>
-                
-                <!-- Database Backup -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.backups.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.backups.index') }}">
-                        <i class="fas fa-database"></i>
-                        Database Backup
-                    </a>
-                </div>
-                
-                <!-- PDF Generator -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.system.pdf.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.system.pdf.index') }}">
-                        <i class="fas fa-file-pdf"></i>
-                        PDF Generator
-                    </a>
-                </div>
-                
-                <!-- Advanced Search -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.search.*') ? 'active' : '' }}" 
-                       href="{{ route('search.advanced') }}">
-                        <i class="fas fa-search-plus"></i>
-                        Advanced Search
-                    </a>
-                </div>
-                
-                <!-- Push Notifications (Admin Only) -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.notifications.index') }}">
-                        <i class="fas fa-bell"></i>
-                        Push Notifications
-                    </a>
-                </div>
-
-                <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
-                
-                <!-- Customization Section (Admin Only) -->
-                <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                    Customization
-                </div>
-                
-                <!-- Components Management -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.components.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.components.index') }}">
-                        <i class="fas fa-puzzle-piece"></i>
-                        Components
-                    </a>
-                </div>
-                
-                <!-- Multi-language -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.languages.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.languages.index') }}">
-                        <i class="fas fa-language"></i>
-                        Multi-language
-                    </a>
-                </div>
-                
-                <!-- Theme Customizer -->
-                <div class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.theme.*') ? 'active' : '' }}" 
-                       href="{{ route('admin.theme.index') }}">
-                        <i class="fas fa-palette"></i>
-                        Theme Customizer
-                    </a>
-                </div>
-            @endif
-            
-            <!-- Common sections for both Admin and Editor -->
-            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
-            
-            <!-- Personal Section -->
-            <div class="nav-section-header" style="padding: 0.5rem 1rem; color: rgba(255,255,255,0.8); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-                @if(auth()->user()->role === 'editor')
-                    ⚙️ Settings & Profile
-                @else
-                    Personal
-                @endif
             </div>
             
-            <!-- Settings (Both Admin and Editor can access) -->
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.announcements.index') }}">
+                    <i class="fas fa-bullhorn"></i>
+                    Pengumuman
+                </a>
+            </div>
+            
+            <!-- Akademik Menu with Dropdown -->
+            <div class="nav-item dropdown-nav">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'active' : '' }}" 
+                   href="#" data-bs-toggle="collapse" data-bs-target="#akademikMenu" aria-expanded="{{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'true' : 'false' }}">
+                    <i class="fas fa-university"></i>
+                    Akademik
+                    <i class="fas fa-chevron-down ms-auto"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'show' : '' }}" id="akademikMenu">
+                    <div class="submenu">
+                        <a class="nav-link {{ request()->routeIs('admin.faculties.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.faculties.index') }}">
+                            <i class="fas fa-building"></i>
+                            Fakultas
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.study-programs.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.study-programs.index') }}">
+                            <i class="fas fa-graduation-cap"></i>
+                            Program Studi
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.lecturers.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.lecturers.index') }}">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            Dosen
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.students.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.students.index') }}">
+                            <i class="fas fa-user-graduate"></i>
+                            Mahasiswa
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Media Menu with Dropdown -->
+            <div class="nav-item dropdown-nav">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'active' : '' }}" 
+                   href="#" data-bs-toggle="collapse" data-bs-target="#mediaMenu" aria-expanded="{{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'true' : 'false' }}">
+                    <i class="fas fa-photo-video"></i>
+                    Media
+                    <i class="fas fa-chevron-down ms-auto"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('admin.galleries.*') || request()->routeIs('admin.sliders.*') || request()->routeIs('admin.sections.*') ? 'show' : '' }}" id="mediaMenu">
+                    <div class="submenu">
+                        <a class="nav-link {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.galleries.index') }}">
+                            <i class="fas fa-images"></i>
+                            Galeri
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.sliders.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.sliders.index') }}">
+                            <i class="fas fa-sliders-h"></i>
+                            Slider
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.sections.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.sections.index') }}">
+                            <i class="fas fa-th-large"></i>
+                            Sections
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.pages.index') }}">
+                    <i class="fas fa-file-alt"></i>
+                    Halaman
+                </a>
+            </div>
+            
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.menus.index') }}">
+                    <i class="fas fa-bars"></i>
+                    Menu
+                </a>
+            </div>
+            
+            <div class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}" 
+                   href="{{ route('admin.profile.show') }}">
+                    <i class="fas fa-user"></i>
+                    Profil
+                </a>
+            </div>
+            
             <div class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" 
                    href="{{ route('admin.settings.index') }}">
@@ -872,15 +428,6 @@
                 </a>
             </div>
             
-            <!-- Profile -->
-            <div class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.profile.show') }}">
-                    <i class="fas fa-user"></i>
-                    Profil
-                </a>
-            </div>
-
             <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
             
             <div class="nav-item">
@@ -891,7 +438,7 @@
             </div>
             
             <div class="nav-item">
-                <form method="POST" action="{{ route('admin.logout') }}" class="d-inline">
+                <form method="POST" action="{{ route('logout') }}" class="d-inline">
                     @csrf
                     <a class="nav-link" href="#" onclick="event.preventDefault(); this.closest('form').submit();">
                         <i class="fas fa-sign-out-alt"></i>
@@ -913,67 +460,29 @@
                 @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
                     <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="topbar-logo d-none d-lg-inline" style="height: 35px; margin-right: 10px;">
                 @else
-                    @if(auth()->user()->role === 'editor')
-                        <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 6px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-edit" style="color: white; font-size: 16px;"></i>
-                        </div>
-                    @else
-                        <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-graduation-cap" style="color: white; font-size: 16px;"></i>
-                        </div>
-                    @endif
+                    <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-graduation-cap" style="color: white; font-size: 16px;"></i>
+                    </div>
                 @endif
                 <h5 class="mb-0 d-none d-md-block">@yield('title', 'Dashboard')</h5>
             </div>
             
             <div class="d-flex align-items-center">
                 <div class="dropdown">
-                    <button class="btn btn-link dropdown-toggle d-flex align-items-center p-2" type="button" data-bs-toggle="dropdown" style="text-decoration: none; border-radius: 25px; transition: all 0.3s ease;">
-                        <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}" 
-                             class="profile-avatar avatar-circle avatar-40 me-2"
-                             style="object-fit: cover !important; aspect-ratio: 1/1 !important;"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="avatar-circle avatar-40 me-2 d-none align-items-center justify-content-center" 
-                             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 16px;">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="d-flex flex-column align-items-start">
-                            <span class="text-dark fw-medium" style="font-size: 0.9rem;">{{ Auth::user()->name }}</span>
-                            <small class="text-muted" style="font-size: 0.75rem;">
-                                @if(auth()->user()->role === 'editor')
-                                    Editor
-                                @else
-                                    {{ ucfirst(auth()->user()->role) }}
-                                @endif
-                            </small>
-                        </div>
+                    <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle fa-lg"></i>
+                        <span class="ms-2">{{ Auth::user()->name }}</span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" style="min-width: 200px; border-radius: 12px;">
-                        <li class="px-3 py-2 border-bottom">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}" 
-                                     class="avatar-circle avatar-32 me-2"
-                                     style="object-fit: cover !important; aspect-ratio: 1/1 !important;"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="avatar-circle avatar-32 me-2 d-none align-items-center justify-content-center" 
-                                     style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 12px;">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div>
-                                    <div class="fw-medium text-dark" style="font-size: 0.85rem;">{{ Auth::user()->name }}</div>
-                                    <div class="text-muted" style="font-size: 0.75rem;">{{ Auth::user()->email }}</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li><a class="dropdown-item py-2" href="{{ route('admin.profile.show') }}"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item py-2" href="{{ route('admin.settings.index') }}"><i class="fas fa-cog me-2"></i> Settings</a></li>
-                        <li><hr class="dropdown-divider my-1"></li>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i class="fas fa-user"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.settings.index') }}"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
                         <li>
-                            <form method="POST" action="{{ route('admin.logout') }}">
+                            <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <a class="dropdown-item py-2 text-danger" href="#" 
+                                <a class="dropdown-item" href="#" 
                                    onclick="event.preventDefault(); this.closest('form').submit();">
-                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                    <i class="fas fa-sign-out-alt"></i> Logout
                                 </a>
                             </form>
                         </li>
@@ -990,9 +499,6 @@
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
         // Sidebar toggle for mobile
@@ -1017,18 +523,17 @@
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(e) {
                     e.preventDefault();
-                    e.stopPropagation();
                     
                     const targetId = this.getAttribute('data-bs-target');
                     const targetElement = document.querySelector(targetId);
-                    const isCurrentlyExpanded = targetElement.classList.contains('show');
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
                     
-                    // Close all other dropdowns first
+                    // Close all other dropdowns
                     dropdownToggles.forEach(otherToggle => {
                         if (otherToggle !== this) {
                             const otherTargetId = otherToggle.getAttribute('data-bs-target');
                             const otherTarget = document.querySelector(otherTargetId);
-                            if (otherTarget && otherTarget.classList.contains('show')) {
+                            if (otherTarget) {
                                 otherTarget.classList.remove('show');
                                 otherToggle.setAttribute('aria-expanded', 'false');
                                 otherToggle.classList.remove('active');
@@ -1037,35 +542,17 @@
                     });
                     
                     // Toggle current dropdown
-                    if (isCurrentlyExpanded) {
-                        // Close it
+                    if (isExpanded) {
                         targetElement.classList.remove('show');
                         this.setAttribute('aria-expanded', 'false');
                         this.classList.remove('active');
                     } else {
-                        // Open it
                         targetElement.classList.add('show');
                         this.setAttribute('aria-expanded', 'true');
                         this.classList.add('active');
                     }
                 });
             });
-            
-            // Handle clicks outside to close dropdowns
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.dropdown-nav')) {
-                    dropdownToggles.forEach(toggle => {
-                        const targetId = toggle.getAttribute('data-bs-target');
-                        const targetElement = document.querySelector(targetId);
-                        if (targetElement && targetElement.classList.contains('show')) {
-                            targetElement.classList.remove('show');
-                            toggle.setAttribute('aria-expanded', 'false');
-                            toggle.classList.remove('active');
-                        }
-                    });
-                }
-            });
-        });
         });
     </script>
     

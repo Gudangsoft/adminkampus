@@ -4,17 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use App\Models\GalleryCategory;
-use App\Services\SEOService;
 use Illuminate\Http\Request;
 
 class GalleryController extends Controller
 {
-    protected $seoService;
-
-    public function __construct(SEOService $seoService)
-    {
-        $this->seoService = $seoService;
-    }
     public function index(Request $request)
     {
         $query = Gallery::with(['category', 'user']);
@@ -48,9 +41,6 @@ class GalleryController extends Controller
             $featuredGalleries = Gallery::where('is_featured', true)->latest()->take(8)->get();
         }
         
-        // SEO for gallery listing
-        $this->seoService->forGallery();
-        
         return view('frontend.gallery.index', compact('galleries', 'categories', 'featuredGalleries'));
     }
     
@@ -64,9 +54,6 @@ class GalleryController extends Controller
             ->latest()
             ->take(8)
             ->get();
-        
-        // SEO for specific gallery
-        $this->seoService->forGallery($gallery);
         
         return view('frontend.gallery.show', compact('gallery', 'relatedGalleries'));
     }

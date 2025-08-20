@@ -17,25 +17,20 @@ class Announcement extends Model
         'excerpt',
         'content',
         'featured_image',
-        'type',
+        'user_id',
         'status',
         'priority',
-        'user_id',
-        'start_date',
-        'end_date',
-        'is_featured',
-        'send_notification',
-        'target_audience',
+        'is_pinned',
         'views',
+        'published_at',
+        'expires_at',
         'meta_data'
     ];
 
     protected $casts = [
-        'is_featured' => 'boolean',
-        'send_notification' => 'boolean',
-        'start_date' => 'datetime',
-        'end_date' => 'datetime',
-        'target_audience' => 'array',
+        'is_pinned' => 'boolean',
+        'published_at' => 'datetime',
+        'expires_at' => 'datetime',
         'meta_data' => 'array'
     ];
 
@@ -63,17 +58,17 @@ class Announcement extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('status', 'active')
-                    ->where('start_date', '<=', now())
+        return $query->where('status', 'published')
+                    ->where('published_at', '<=', now())
                     ->where(function($q) {
-                        $q->whereNull('end_date')
-                          ->orWhere('end_date', '>', now());
+                        $q->whereNull('expires_at')
+                          ->orWhere('expires_at', '>', now());
                     });
     }
 
     public function scopePinned($query)
     {
-        return $query->where('is_featured', true);
+        return $query->where('is_pinned', true);
     }
 
     public function scopeByPriority($query, $priority = 'high')
@@ -96,7 +91,7 @@ class Announcement extends Model
 
     public function getIsExpiredAttribute()
     {
-        return $this->end_date && $this->end_date->isPast();
+        return $this->expires_at && $this->expires_at->isPast();
     }
 
     public function getRouteKeyName()

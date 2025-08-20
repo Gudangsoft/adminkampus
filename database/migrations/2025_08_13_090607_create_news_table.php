@@ -13,19 +13,6 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('excerpt')->nullable();
-            $table->text('content');
-            $table->string('featured_image')->nullable();
-            $table->json('gallery')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->enum('status', ['draft', 'published'])->default('draft');
-            $table->boolean('is_featured')->default(false);
-            $table->integer('views')->default(0);
-            $table->timestamp('published_at')->nullable();
-            $table->json('meta_data')->nullable();
             $table->timestamps();
         });
     }

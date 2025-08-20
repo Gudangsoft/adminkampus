@@ -27,7 +27,7 @@
                          style="width: 150px; height: 150px; object-fit: cover;">
                     
                     <h4 class="card-title">{{ $lecturer->full_name }}</h4>
-                    <p class="text-muted mb-2">{{ $lecturer->position_label }}</p>
+                    <p class="text-muted mb-2">{{ $lecturer->position }}</p>
                     <p class="text-muted mb-3">NIDN: {{ $lecturer->nidn }}</p>
                     
                     <span class="badge {{ $lecturer->is_active ? 'bg-success' : 'bg-secondary' }} mb-3">
@@ -71,12 +71,12 @@
                     <div class="mb-3">
                         <strong>Jabatan:</strong><br>
                         <span class="badge 
-                            @if($lecturer->position == 'guru_besar') bg-danger
-                            @elseif($lecturer->position == 'lektor_kepala') bg-warning text-dark
-                            @elseif($lecturer->position == 'lektor') bg-success
+                            @if($lecturer->position == 'Guru Besar') bg-danger
+                            @elseif($lecturer->position == 'Lektor Kepala') bg-warning text-dark
+                            @elseif($lecturer->position == 'Lektor') bg-success
                             @else bg-secondary
                             @endif">
-                            {{ $lecturer->position_label }}
+                            {{ $lecturer->position }}
                         </span>
                     </div>
                     
@@ -87,10 +87,10 @@
                         </div>
                     @endif
                     
-                    @if($lecturer->studyPrograms->count() > 0)
+                    @if($studyPrograms->count() > 0)
                         <div>
                             <strong>Program Studi:</strong><br>
-                            @foreach($lecturer->studyPrograms as $program)
+                            @foreach($studyPrograms as $program)
                                 <span class="badge bg-secondary me-1">{{ $program->name }}</span>
                             @endforeach
                         </div>

@@ -47,26 +47,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Kode Fakultas -->
-                                <div class="mb-4">
-                                    <label for="code" class="form-label">
-                                        Kode Fakultas
-                                    </label>
-                                    <input type="text" 
-                                           class="form-control @error('code') is-invalid @enderror" 
-                                           id="code" 
-                                           name="code" 
-                                           value="{{ old('code') }}" 
-                                           placeholder="Contoh: FTI"
-                                           maxlength="10">
-                                    @error('code')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <div class="form-text">
-                                        Kosongkan untuk generate otomatis dari nama fakultas
-                                    </div>
-                                </div>
-                                
                                 <!-- Deskripsi -->
                                 <div class="mb-4">
                                     <label for="description" class="form-label">Deskripsi Fakultas</label>

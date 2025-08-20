@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -26,7 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -37,38 +36,5 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
-    }
-
-    /**
-     * The user has been authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    protected function authenticated(Request $request, $user)
-    {
-        // Check if user can access admin
-        if ($user->canAccessAdmin()) {
-            // Return a response that opens admin in new tab and redirects to home
-            return response()->view('auth.login-success', [
-                'adminUrl' => route('admin.dashboard'),
-                'homeUrl' => url('/')
-            ]);
-        }
-        
-        // For non-admin users, redirect to home
-        return redirect('/');
-    }
-
-    /**
-     * The user has logged out of the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    protected function loggedOut(Request $request)
-    {
-        return redirect('/login');
     }
 }

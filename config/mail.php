@@ -104,18 +104,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Additional Email Settings
-    |--------------------------------------------------------------------------
-    |
-    | Additional settings for email functionality in the application.
-    |
-    */
-
-    'admin_email' => env('MAIL_ADMIN_EMAIL', 'admin@example.com'),
-    'send_contact_reply' => env('MAIL_SEND_CONTACT_REPLY', true),
-
-    /*
-    |--------------------------------------------------------------------------
     | Markdown Mail Settings
     |--------------------------------------------------------------------------
     |

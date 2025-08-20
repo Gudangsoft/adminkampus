@@ -85,9 +85,9 @@ class Gallery extends Model
                 return $this->file_path;
             }
             
-            // Jika file lokal, gunakan storage URL yang konsisten
+            // Jika file lokal, gunakan storage URL
             if ($this->file_path) {
-                return Storage::url($this->file_path);
+                return asset('storage/' . $this->file_path);
             }
         }
         

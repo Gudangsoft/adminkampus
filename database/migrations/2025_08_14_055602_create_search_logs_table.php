@@ -13,15 +13,7 @@ return new class extends Migration
     {
         Schema::create('search_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('query');
-            $table->string('type')->default('all');
-            $table->string('ip_address', 45);
-            $table->text('user_agent')->nullable();
-            $table->integer('results_count')->default(0);
             $table->timestamps();
-            
-            $table->index(['query', 'created_at']);
-            $table->index(['type', 'created_at']);
         });
     }
 

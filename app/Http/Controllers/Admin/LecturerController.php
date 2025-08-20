@@ -62,95 +62,51 @@ class LecturerController extends Controller
     
     public function store(Request $request)
     {
-        // Debug: Log incoming request data
-        \Log::info('Lecturer creation attempt', [
-            'request_data' => $request->all(),
-            'has_files' => $request->hasFile('photo')
-        ]);
-        
         $request->validate([
-            'nidn' => 'required|string|unique:lecturers,lecturer_id',
+            'nidn' => 'required|string|unique:lecturers,nidn',
             'name' => 'required|string|max:255',
-            'title_prefix' => 'nullable|string|max:50',
-            'title_suffix' => 'nullable|string|max:100',
-            'gender' => 'required|in:male,female',
-            'email' => 'nullable|email|unique:lecturers,email',
-            'phone' => 'nullable|string|max:20',
             'faculty_id' => 'required|exists:faculties,id',
-            'position' => 'required|in:Asisten Ahli,Lektor,Lektor Kepala,Guru Besar',
-            'education_background' => 'nullable|string|max:255',
-            'office_room' => 'nullable|string|max:100',
-            'google_scholar' => 'nullable|url',
-            'scopus_id' => 'nullable|string|max:100',
-            'expertise' => 'nullable|string',
-            'biography' => 'nullable|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'study_program_ids' => 'nullable|array',
             'study_program_ids.*' => 'exists:study_programs,id',
+            'gender' => 'required|in:male,female',
+            'position' => 'required|in:Asisten Ahli,Lektor,Lektor Kepala,Guru Besar',
+            'title_prefix' => 'nullable|string|max:50',
+            'title_suffix' => 'nullable|string|max:50',
+            'education_background' => 'nullable|string|max:255',
+            'expertise' => 'nullable|string',
+            'biography' => 'nullable|string',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'office_room' => 'nullable|string|max:50',
+            'google_scholar' => 'nullable|url',
+            'scopus_id' => 'nullable|string|max:50',
+            'orcid' => 'nullable|string|max:50',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'is_active' => 'boolean',
         ]);
         
-        \Log::info('Validation passed');
-        
-        $data = $request->except(['photo', 'study_program_ids', 'nidn']);
-        
-        // Map nidn to lecturer_id
-        $data['lecturer_id'] = $request->nidn;
-        
-        // Map position from form format to database format
-        $positionMap = [
-            'Asisten Ahli' => 'asisten_ahli',
-            'Lektor' => 'lektor',
-            'Lektor Kepala' => 'lektor_kepala',
-            'Guru Besar' => 'guru_besar'
-        ];
-        $data['position'] = $positionMap[$request->position] ?? null;
-        
-        // Set default values for required fields that aren't in form
-        $data['birth_date'] = now()->subYears(30)->format('Y-m-d'); // Default birth date
-        $data['birth_place'] = 'Jakarta'; // Default birth place
-        $data['join_date'] = now()->format('Y-m-d'); // Default join date
-        $data['employment_status'] = 'tetap'; // Default employment status
-        
+        $data = $request->except(['photo']);
+        $data['slug'] = Str::slug($request->name);
         $data['is_active'] = $request->has('is_active');
-        
-        \Log::info('Data prepared for creation', ['data' => $data]);
+        $data['study_program_ids'] = $request->study_program_ids ? json_encode($request->study_program_ids) : null;
         
         // Handle photo upload
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('lecturers', 'public');
-            \Log::info('Photo uploaded', ['photo_path' => $data['photo']]);
         }
         
-        try {
-            $lecturer = Lecturer::create($data);
-            \Log::info('Lecturer created successfully', ['lecturer_id' => $lecturer->id]);
-            
-            // Sync study programs
-            if ($request->study_program_ids) {
-                $lecturer->studyPrograms()->sync($request->study_program_ids);
-                \Log::info('Study programs synced', ['study_program_ids' => $request->study_program_ids]);
-            }
-            
-            return redirect()->route('admin.lecturers.index')
-                            ->with('success', 'Dosen berhasil ditambahkan.');
-        } catch (\Exception $e) {
-            \Log::error('Failed to create lecturer', [
-                'error' => $e->getMessage(),
-                'data' => $data
-            ]);
-            
-            return redirect()->back()
-                            ->withInput()
-                            ->with('error', 'Gagal menyimpan data dosen: ' . $e->getMessage());
-        }
+        Lecturer::create($data);
+        
+        return redirect()->route('admin.lecturers.index')
+                        ->with('success', 'Dosen berhasil ditambahkan.');
     }
     
     public function show(Lecturer $lecturer)
     {
-        $lecturer->load(['faculty', 'studyPrograms']);
+        $lecturer->load(['faculty']);
+        $studyPrograms = StudyProgram::whereIn('id', json_decode($lecturer->study_program_ids ?? '[]'))->get();
         
-        return view('admin.lecturers.show', compact('lecturer'));
+        return view('admin.lecturers.show', compact('lecturer', 'studyPrograms'));
     }
     
     public function edit(Lecturer $lecturer)
@@ -158,7 +114,7 @@ class LecturerController extends Controller
         $faculties = Faculty::active()->orderBy('name')->get();
         $studyPrograms = StudyProgram::active()->orderBy('name')->get();
         $positions = ['Asisten Ahli', 'Lektor', 'Lektor Kepala', 'Guru Besar'];
-        $lecturerStudyPrograms = $lecturer->studyPrograms->pluck('id')->toArray();
+        $lecturerStudyPrograms = json_decode($lecturer->study_program_ids ?? '[]');
         
         return view('admin.lecturers.edit', compact('lecturer', 'faculties', 'studyPrograms', 'positions', 'lecturerStudyPrograms'));
     }
@@ -166,42 +122,32 @@ class LecturerController extends Controller
     public function update(Request $request, Lecturer $lecturer)
     {
         $request->validate([
-            'nidn' => 'required|string|unique:lecturers,lecturer_id,' . $lecturer->id,
+            'nidn' => 'required|string|unique:lecturers,nidn,' . $lecturer->id,
             'name' => 'required|string|max:255',
-            'title_prefix' => 'nullable|string|max:50',
-            'title_suffix' => 'nullable|string|max:100',
-            'gender' => 'required|in:male,female',
-            'email' => 'nullable|email|unique:lecturers,email,' . $lecturer->id,
-            'phone' => 'nullable|string|max:20',
             'faculty_id' => 'required|exists:faculties,id',
-            'position' => 'required|in:Asisten Ahli,Lektor,Lektor Kepala,Guru Besar',
-            'education_background' => 'nullable|string|max:255',
-            'office_room' => 'nullable|string|max:100',
-            'google_scholar' => 'nullable|url',
-            'scopus_id' => 'nullable|string|max:100',
-            'expertise' => 'nullable|string',
-            'biography' => 'nullable|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'study_program_ids' => 'nullable|array',
             'study_program_ids.*' => 'exists:study_programs,id',
+            'gender' => 'required|in:male,female',
+            'position' => 'required|in:Asisten Ahli,Lektor,Lektor Kepala,Guru Besar',
+            'title_prefix' => 'nullable|string|max:50',
+            'title_suffix' => 'nullable|string|max:50',
+            'education_background' => 'nullable|string|max:255',
+            'expertise' => 'nullable|string',
+            'biography' => 'nullable|string',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'office_room' => 'nullable|string|max:50',
+            'google_scholar' => 'nullable|url',
+            'scopus_id' => 'nullable|string|max:50',
+            'orcid' => 'nullable|string|max:50',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'is_active' => 'boolean',
         ]);
         
-        $data = $request->except(['photo', 'study_program_ids', 'nidn']);
-        
-        // Map nidn to lecturer_id
-        $data['lecturer_id'] = $request->nidn;
-        
-        // Map position from form format to database format
-        $positionMap = [
-            'Asisten Ahli' => 'asisten_ahli',
-            'Lektor' => 'lektor',
-            'Lektor Kepala' => 'lektor_kepala',
-            'Guru Besar' => 'guru_besar'
-        ];
-        $data['position'] = $positionMap[$request->position] ?? null;
-        
+        $data = $request->except(['photo']);
+        $data['slug'] = Str::slug($request->name);
         $data['is_active'] = $request->has('is_active');
+        $data['study_program_ids'] = $request->study_program_ids ? json_encode($request->study_program_ids) : null;
         
         // Handle photo upload
         if ($request->hasFile('photo')) {
@@ -213,13 +159,6 @@ class LecturerController extends Controller
         }
         
         $lecturer->update($data);
-        
-        // Sync study programs
-        if ($request->study_program_ids) {
-            $lecturer->studyPrograms()->sync($request->study_program_ids);
-        } else {
-            $lecturer->studyPrograms()->detach();
-        }
         
         return redirect()->route('admin.lecturers.index')
                         ->with('success', 'Dosen berhasil diperbarui.');

@@ -8,20 +8,17 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\News;
 
-class NewsNotificationMail extends Mailable implements ShouldQueue
+class NewsNotificationMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $news;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(News $news)
+    public function __construct()
     {
-        $this->news = $news;
+        //
     }
 
     /**
@@ -30,7 +27,7 @@ class NewsNotificationMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Berita Baru: ' . $this->news->title,
+            subject: 'News Notification Mail',
         );
     }
 
@@ -40,12 +37,7 @@ class NewsNotificationMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'emails.news-notification',
-            with: [
-                'news' => $this->news,
-                'siteName' => config('app.name'),
-                'newsUrl' => route('news.show', $this->news->slug),
-            ]
+            view: 'view.name',
         );
     }
 

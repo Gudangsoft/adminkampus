@@ -599,421 +599,6 @@
         transform: translateY(-2px) scale(1.05);
         box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
-    
-    /* Gallery Section Styles */
-    .gallery-section {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    }
-    
-    .gallery-item {
-        transition: all 0.3s ease;
-        cursor: pointer;
-        position: relative;
-    }
-    
-    .gallery-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
-    }
-    
-    .gallery-featured {
-        height: 400px;
-    }
-    
-    .gallery-medium {
-        height: 250px;
-    }
-    
-    .gallery-small {
-        height: 200px;
-    }
-    
-    .gallery-compact {
-        height: 120px;
-    }
-    
-    .gallery-image {
-        transition: transform 0.3s ease;
-        object-fit: cover;
-    }
-    
-    .gallery-item:hover .gallery-image {
-        transform: scale(1.05);
-    }
-    
-    .gallery-overlay,
-    .gallery-overlay-small,
-    .gallery-overlay-tiny,
-    .gallery-overlay-compact {
-        background: transparent;
-        transition: all 0.3s ease;
-    }
-    
-    .gallery-gradient,
-    .gallery-gradient-small,
-    .gallery-gradient-tiny,
-    .gallery-gradient-compact {
-        background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 100%);
-        opacity: 0.8;
-    }
-    
-    .gallery-item:hover .gallery-gradient,
-    .gallery-item:hover .gallery-gradient-small,
-    .gallery-item:hover .gallery-gradient-tiny,
-    .gallery-item:hover .gallery-gradient-compact {
-        opacity: 1;
-    }
-    
-    .gallery-title {
-        font-size: 1.25rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-    
-    .gallery-title-small {
-        font-size: 1rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-    
-    .gallery-title-tiny {
-        font-size: 0.875rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-    
-    .gallery-title-compact {
-        font-size: 0.75rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        line-height: 1.2;
-    }
-    
-    .gallery-description {
-        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-    }
-    
-    .gallery-meta {
-        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-    }
-    
-    .gallery-category,
-    .gallery-category-small,
-    .gallery-category-compact {
-        background: rgba(102, 126, 234, 0.9) !important;
-        backdrop-filter: blur(5px);
-    }
-    
-    .gallery-type-badge,
-    .gallery-type-badge-small,
-    .gallery-type-badge-tiny,
-    .gallery-type-badge-compact {
-        backdrop-filter: blur(5px);
-        font-weight: 600;
-    }
-    
-    .gallery-play-btn button {
-        width: 60px;
-        height: 60px;
-        backdrop-filter: blur(10px);
-        border: none;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
-    }
-    
-    .gallery-play-btn button:hover {
-        transform: scale(1.1);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    }
-    
-    .gallery-play-btn-small button {
-        width: 45px;
-        height: 45px;
-        backdrop-filter: blur(10px);
-        border: none;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
-    }
-    
-    .gallery-play-btn-small button:hover {
-        transform: scale(1.1);
-    }
-    
-    .gallery-play-btn-tiny button {
-        width: 35px;
-        height: 35px;
-        backdrop-filter: blur(10px);
-        border: none;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
-    }
-    
-    .gallery-play-btn-tiny button:hover {
-        transform: scale(1.1);
-    }
-    
-    .gallery-play-btn-compact button {
-        width: 30px;
-        height: 30px;
-        backdrop-filter: blur(10px);
-        border: none;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
-    }
-    
-    .gallery-play-btn-compact button:hover {
-        transform: scale(1.1);
-    }
-    
-    .gallery-link {
-        z-index: 5;
-        text-decoration: none;
-    }
-    
-    .object-cover {
-        object-fit: cover;
-    }
-    
-    /* Video Modal Styles */
-    .modal-dialog-centered {
-        max-width: 900px;
-    }
-    
-    .modal-body {
-        padding: 0;
-        border-radius: 15px;
-        overflow: hidden;
-    }
-    
-    .modal-content {
-        border: none;
-        border-radius: 15px;
-        overflow: hidden;
-    }
-    
-    .video-responsive {
-        position: relative;
-        padding-bottom: 56.25%;
-        height: 0;
-        overflow: hidden;
-    }
-    
-    .video-responsive iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-    
-    /* Mobile Responsive for Gallery */
-    @media (max-width: 768px) {
-        .gallery-featured {
-            height: 300px;
-        }
-        
-        .gallery-medium {
-            height: 200px;
-        }
-        
-        .gallery-small {
-            height: 180px;
-        }
-        
-        .gallery-title {
-            font-size: 1rem;
-        }
-        
-        .gallery-title-small {
-            font-size: 0.9rem;
-        }
-        
-        .gallery-title-tiny {
-            font-size: 0.8rem;
-        }
-        
-        .gallery-play-btn button {
-            width: 50px;
-            height: 50px;
-        }
-        
-        .gallery-play-btn-small button {
-            width: 40px;
-            height: 40px;
-        }
-        
-        .gallery-play-btn-tiny button {
-            width: 30px;
-            height: 30px;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .gallery-featured {
-            height: 250px;
-        }
-        
-        .gallery-medium,
-        .gallery-small {
-            height: 160px;
-        }
-        
-        .gallery-overlay,
-        .gallery-overlay-small,
-        .gallery-overlay-tiny,
-        .gallery-overlay-compact {
-            padding: 1rem !important;
-        }
-        
-        .gallery-compact {
-            height: 100px;
-        }
-        
-        .gallery-title-compact {
-            font-size: 0.7rem;
-        }
-    }
-    
-    /* Gallery Loading Skeleton */
-    .gallery-skeleton {
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: galleryLoading 1.5s infinite;
-    }
-    
-    @keyframes galleryLoading {
-        0% {
-            background-position: 200% 0;
-        }
-        100% {
-            background-position: -200% 0;
-        }
-    }
-    
-    .gallery-item.loading {
-        pointer-events: none;
-    }
-    
-    .gallery-item.loading .gallery-image {
-        opacity: 0;
-    }
-    
-    .gallery-item.loading::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: galleryLoading 1.5s infinite;
-        border-radius: inherit;
-        z-index: 1;
-    }
-    
-    /* Announcements Section Styles */
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .bg-gradient-primary::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="30" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="70" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="90" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
-        animation: float 20s infinite linear;
-    }
-    
-    @keyframes float {
-        0% { transform: translateX(-100px) translateY(-100px); }
-        100% { transform: translateX(100vw) translateY(100vh); }
-    }
-    
-    .announcement-icon {
-        transition: all 0.3s ease;
-    }
-    
-    .announcement-icon:hover {
-        transform: scale(1.1) rotate(5deg);
-    }
-    
-    .announcement-item {
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-    
-    .announcement-item:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateX(5px);
-    }
-    
-    .announcement-item:last-child {
-        border-bottom: none !important;
-    }
-    
-    .backdrop-blur {
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-    
-    .btn-white {
-        background: white;
-        color: #667eea;
-        border: 2px solid white;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-white:hover {
-        background: transparent;
-        color: white;
-        border-color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    
-    .announcement-content {
-        animation: slideInLeft 1s ease-out;
-    }
-    
-    .announcement-list {
-        animation: slideInRight 1s ease-out;
-    }
-    
-    @keyframes slideInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    @keyframes slideInRight {
-        from {
-            opacity: 0;
-            transform: translateX(50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    @media (max-width: 991px) {
-        .announcement-content {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .announcement-list {
-            margin-top: 2rem;
-        }
-    }
 </style>
 @endpush
 
@@ -1083,6 +668,9 @@
         </div>
     </section>
     @endif
+
+    <!-- Spacer untuk pemisahan -->
+    <div class="section-spacer" style="height: 50px; background: #f8f9fa;"></div>
 
     <!-- Featured News Section -->
     @if(isset($latestNews) && $latestNews->count() > 0)
@@ -1477,7 +1065,64 @@
     </section>
     @endif
 
-    
+    <!-- Dynamic Sections -->
+    <section id="sections" class="py-5 bg-white">
+        <div class="container">
+            @if($sections->count() > 0)
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-dark">Informasi Kampus</h2>
+                    <p class="text-muted fs-5">{{ $sections->count() }} informasi penting yang dapat dikelola melalui admin</p>
+                    <div class="mx-auto" style="width: 60px; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 2px;"></div>
+                </div>
+                
+                <div class="row">
+                    @foreach($sections as $section)
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card card-section h-100 border-0 shadow-sm">
+                                <div class="card-header bg-primary text-white border-0">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-bookmark me-2"></i>
+                                        {{ $section->title }}
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="section-content">
+                                        {!! nl2br(e($section->content)) !!}
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-light border-0">
+                                    <small class="text-muted">
+                                        <i class="fas fa-sort me-1"></i>Urutan: {{ $section->order }}
+                                        <span class="float-end">
+                                            <i class="fas fa-{{ $section->is_active ? 'check text-success' : 'times text-danger' }}"></i>
+                                            {{ $section->is_active ? 'Aktif' : 'Nonaktif' }}
+                                        </span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Management Link -->
+                <div class="text-center mt-5">
+                    <a href="/admin/sections" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-edit me-2"></i>Kelola Informasi Kampus
+                    </a>
+                </div>
+            @else
+                <!-- Empty State -->
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox fa-5x text-muted mb-4"></i>
+                    <h3>Belum Ada Informasi</h3>
+                    <p class="text-muted mb-4">Mulai membuat informasi untuk mengisi halaman homepage</p>
+                    <a href="/admin/sections" class="btn btn-primary btn-lg">
+                        <i class="fas fa-plus me-2"></i>Buat Informasi Pertama
+                    </a>
+                </div>
+            @endif
+        </div>
+    </section>
 @endsection
 
 @push('scripts')
@@ -1572,234 +1217,4 @@
         });
     });
 </script>
-
-<!-- Video Modals for Gallery -->
-@if(isset($featuredGalleries))
-    @foreach($featuredGalleries->where('type', 'video') as $video)
-        <div class="modal fade" id="videoModal{{ $video->id }}" tabindex="-1" aria-labelledby="videoModalLabel{{ $video->id }}" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header border-0 pb-0">
-                        <h5 class="modal-title" id="videoModalLabel{{ $video->id }}">{{ $video->title }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        @if($video->youtube_id)
-                            <div class="video-responsive">
-                                <iframe src="https://www.youtube.com/embed/{{ $video->youtube_id }}?autoplay=1&rel=0" 
-                                        title="{{ $video->title }}" 
-                                        allowfullscreen>
-                                </iframe>
-                            </div>
-                        @elseif($video->embed_url)
-                            <div class="video-responsive">
-                                <iframe src="{{ $video->embed_url }}" 
-                                        title="{{ $video->title }}" 
-                                        allowfullscreen>
-                                </iframe>
-                            </div>
-                        @else
-                            <div class="text-center p-5">
-                                <i class="fas fa-video fa-3x text-muted mb-3"></i>
-                                <p class="text-muted">Video tidak dapat dimuat</p>
-                            </div>
-                        @endif
-                    </div>
-                    @if($video->description)
-                        <div class="modal-footer border-0 pt-0">
-                            <div class="w-100">
-                                <p class="text-muted mb-0">{{ $video->description }}</p>
-                                @if($video->category)
-                                    <span class="badge bg-primary mt-2">{{ $video->category->name }}</span>
-                                @endif
-                                @if($video->photographer)
-                                    <span class="badge bg-secondary mt-2">{{ $video->photographer }}</span>
-                                @endif
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    @endforeach
-@endif
-
-<!-- Image Lightbox Modal -->
-<div class="modal fade" id="imageLightbox" tabindex="-1" aria-labelledby="imageLightboxLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content bg-transparent border-0">
-            <div class="modal-header border-0 position-absolute top-0 end-0 z-index-3">
-                <button type="button" class="btn btn-light btn-sm rounded-circle me-3 mt-3" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body p-0 text-center">
-                <img id="lightboxImage" src="" alt="" class="img-fluid rounded-3 shadow-lg" style="max-height: 80vh; width: auto;">
-                <div class="mt-3 text-white">
-                    <h5 id="lightboxTitle" class="fw-bold"></h5>
-                    <p id="lightboxDescription" class="text-muted"></p>
-                    <div id="lightboxMeta" class="small text-muted"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Gallery JavaScript -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Gallery item click tracking
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                // Check if it's an image gallery item
-                const image = this.querySelector('.gallery-image');
-                const link = this.querySelector('.gallery-link');
-                
-                if (image && image.src && this.querySelector('[data-bs-target^="#videoModal"]') === null) {
-                    // Prevent default link action for images
-                    if (e.target === link || link.contains(e.target)) {
-                        e.preventDefault();
-                        
-                        // Open lightbox for images
-                        const title = this.querySelector('.gallery-title, .gallery-title-small, .gallery-title-tiny')?.textContent || '';
-                        const description = this.querySelector('.gallery-description')?.textContent || '';
-                        const meta = this.querySelector('.gallery-meta')?.textContent || '';
-                        
-                        openLightbox(image.src, title, description, meta);
-                    }
-                }
-                
-                // Analytics tracking
-                console.log('Gallery item clicked:', link?.getAttribute('href'));
-            });
-        });
-        
-        // Lightbox functionality
-        function openLightbox(imageSrc, title, description, meta) {
-            const modal = new bootstrap.Modal(document.getElementById('imageLightbox'));
-            const lightboxImage = document.getElementById('lightboxImage');
-            const lightboxTitle = document.getElementById('lightboxTitle');
-            const lightboxDescription = document.getElementById('lightboxDescription');
-            const lightboxMeta = document.getElementById('lightboxMeta');
-            
-            lightboxImage.src = imageSrc;
-            lightboxImage.alt = title;
-            lightboxTitle.textContent = title;
-            lightboxDescription.textContent = description;
-            lightboxMeta.textContent = meta;
-            
-            modal.show();
-        }
-        
-        // Gallery loading animation
-        const galleryObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    
-                    // Lazy load images
-                    const img = entry.target.querySelector('.gallery-image');
-                    if (img && img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                        
-                        img.onload = function() {
-                            entry.target.classList.remove('loading');
-                        };
-                    } else {
-                        // For items without lazy loading
-                        setTimeout(() => {
-                            entry.target.classList.remove('loading');
-                        }, 300);
-                    }
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-        
-        // Observe gallery items for smooth loading animation
-        document.querySelectorAll('.gallery-item').forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(30px)';
-            item.style.transition = `all 0.6s ease ${index * 0.1}s`;
-            item.classList.add('loading');
-            galleryObserver.observe(item);
-        });
-        
-        // Video modal reset when closed
-        document.querySelectorAll('[id^="videoModal"]').forEach(modal => {
-            modal.addEventListener('hidden.bs.modal', function () {
-                const iframe = this.querySelector('iframe');
-                if (iframe) {
-                    const src = iframe.src;
-                    iframe.src = '';
-                    iframe.src = src.replace('autoplay=1', 'autoplay=0');
-                }
-            });
-        });
-    });
-</script>
-
-<!-- Admin Panel Access Button -->
-<div class="admin-access-float" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
-    <div class="dropdown">
-        <button class="btn btn-dark rounded-circle p-3 shadow-lg" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Admin Panel">
-            <i class="fas fa-user-shield"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-            <li>
-                <h6 class="dropdown-header">
-                    <i class="fas fa-shield-alt me-2"></i>
-                    Admin Panel
-                </h6>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-                <a class="dropdown-item" href="{{ route('admin.login') }}">
-                    <i class="fas fa-tachometer-alt me-2 text-primary"></i>
-                    Admin Sistem
-                    <small class="text-muted d-block">Panel utama kampus</small>
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ route('component.login') }}">
-                    <i class="fas fa-cogs me-2 text-info"></i>
-                    Admin Komponen
-                    <small class="text-muted d-block">Kelola floating widgets</small>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<style>
-.admin-access-float .btn {
-    transition: all 0.3s ease;
-}
-
-.admin-access-float .btn:hover {
-    transform: scale(1.1);
-    background-color: #495057 !important;
-}
-
-.admin-access-float .dropdown-menu {
-    min-width: 250px;
-    border: none;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    border-radius: 12px;
-}
-
-.admin-access-float .dropdown-item {
-    padding: 12px 20px;
-    border-radius: 8px;
-    margin: 2px 8px;
-}
-
-.admin-access-float .dropdown-item:hover {
-    background-color: #f8f9fa;
-    transform: translateX(5px);
-}
-</style>
 @endpush

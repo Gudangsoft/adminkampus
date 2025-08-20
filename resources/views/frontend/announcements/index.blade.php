@@ -53,18 +53,18 @@
         @forelse($announcements as $announcement)
             <div class="col-12 mb-4">
                 <div class="card h-100 shadow-sm border-0 
-                    @if($announcement->is_featured) border-warning border-2 @endif
+                    @if($announcement->is_pinned) border-warning border-2 @endif
                     @if($announcement->priority == 'urgent') border-danger border-2 @endif">
                     
-                    @if($announcement->is_featured || $announcement->priority == 'urgent')
+                    @if($announcement->is_pinned || $announcement->priority == 'urgent')
                         <div class="card-header 
                             @if($announcement->priority == 'urgent') bg-danger text-white @else bg-warning text-dark @endif
                             py-2">
                             <small class="fw-bold">
                                 @if($announcement->priority == 'urgent')
                                     <i class="fas fa-exclamation-triangle me-1"></i>MENDESAK
-                                @elseif($announcement->is_featured)
-                                    <i class="fas fa-star me-1"></i>UNGGULAN
+                                @elseif($announcement->is_pinned)
+                                    <i class="fas fa-thumbtack me-1"></i>DISEMATKAN
                                 @endif
                             </small>
                         </div>
@@ -130,7 +130,7 @@
                                     <div class="text-muted small">
                                         <i class="fas fa-user me-1"></i>{{ $announcement->user->name }}
                                         <span class="mx-2">•</span>
-                                        <i class="fas fa-calendar me-1"></i>{{ $announcement->start_date->format('d M Y') }}
+                                        <i class="fas fa-calendar me-1"></i>{{ $announcement->published_at->format('d M Y') }}
                                         <span class="mx-2">•</span>
                                         <i class="fas fa-eye me-1"></i>{{ number_format($announcement->views) }} views
                                     </div>

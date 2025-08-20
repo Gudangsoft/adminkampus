@@ -4,17 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use App\Models\NewsCategory;
-use App\Services\SEOService;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    protected $seoService;
-
-    public function __construct(SEOService $seoService)
-    {
-        $this->seoService = $seoService;
-    }
     public function index(Request $request)
     {
         $query = News::published()->with(['category', 'user']);
@@ -39,9 +32,6 @@ class NewsController extends Controller
         $categories = NewsCategory::active()->orderBy('name')->get();
         $featuredNews = News::published()->featured()->latest('published_at')->take(5)->get();
         
-        // SEO for news listing
-        $this->seoService->forNews();
-        
         return view('frontend.news.index', compact('news', 'categories', 'featuredNews'));
     }
     
@@ -64,9 +54,6 @@ class NewsController extends Controller
             ->latest('published_at')
             ->take(5)
             ->get(['id', 'title', 'slug', 'featured_image', 'published_at', 'category_id']);
-        
-        // SEO for specific news article
-        $this->seoService->forNews($news);
         
         return view('frontend.news.show', compact('news', 'relatedNews', 'latestNews'));
     }

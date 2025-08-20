@@ -13,14 +13,6 @@ return new class extends Migration
     {
         Schema::create('sliders', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->string('image');
-            $table->string('link')->nullable();
-            $table->string('link_target')->default('_self');
-            $table->string('button_text')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }

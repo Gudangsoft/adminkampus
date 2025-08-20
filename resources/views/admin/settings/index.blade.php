@@ -34,6 +34,71 @@
     padding: 20px;
     border-radius: 0 0 6px 6px;
 }
+
+.color-picker-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-preview {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.theme-card {
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-card:hover {
+    border-color: #007bff;
+    box-shadow: 0 2px 10px rgba(0,123,255,0.1);
+}
+
+.theme-card.active {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+}
+
+.theme-preview {
+    width: 100%;
+    height: 60px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.theme-color {
+    flex: 1;
+    height: 100%;
+}
+
+/* Live theme preview */
+:root {
+    --primary-color: {{ isset($settings['primary_color']) ? $settings['primary_color']->value : '#007bff' }};
+    --secondary-color: {{ isset($settings['secondary_color']) ? $settings['secondary_color']->value : '#6c757d' }};
+    --accent-color: {{ isset($settings['accent_color']) ? $settings['accent_color']->value : '#28a745' }};
+}
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.theme-card.active {
+    border-color: var(--primary-color) !important;
+}
 </style>
 @endpush
 
@@ -65,6 +130,11 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab">
                                 <i class="fas fa-cog me-1"></i> Umum
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="theme-tab" data-bs-toggle="tab" data-bs-target="#theme" type="button" role="tab">
+                                <i class="fas fa-palette me-1"></i> Tema
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -144,6 +214,136 @@
 
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i> Simpan Pengaturan Umum
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Theme Settings -->
+                        <div class="tab-pane fade" id="theme" role="tabpanel">
+                            <form action="{{ route('admin.settings.update') }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                
+                                <div class="row">
+                                    <!-- Pre-defined Themes -->
+                                    <div class="col-md-6">
+                                        <h5 class="mb-3">Pilih Tema</h5>
+                                        
+                                        <div class="theme-card {{ (isset($settings['theme_name']) && $settings['theme_name']->value == 'default') || !isset($settings['theme_name']) ? 'active' : '' }}" data-theme="default">
+                                            <div class="theme-preview">
+                                                <div class="theme-color" style="background-color: #007bff;"></div>
+                                                <div class="theme-color" style="background-color: #6c757d;"></div>
+                                                <div class="theme-color" style="background-color: #28a745;"></div>
+                                            </div>
+                                            <h6>Default Blue</h6>
+                                            <small class="text-muted">Tema biru klasik dengan aksen hijau</small>
+                                            <input type="radio" name="settings[theme_name]" value="default" {{ (isset($settings['theme_name']) && $settings['theme_name']->value == 'default') || !isset($settings['theme_name']) ? 'checked' : '' }} style="display: none;">
+                                        </div>
+
+                                        <div class="theme-card {{ isset($settings['theme_name']) && $settings['theme_name']->value == 'dark' ? 'active' : '' }}" data-theme="dark">
+                                            <div class="theme-preview">
+                                                <div class="theme-color" style="background-color: #343a40;"></div>
+                                                <div class="theme-color" style="background-color: #495057;"></div>
+                                                <div class="theme-color" style="background-color: #fd7e14;"></div>
+                                            </div>
+                                            <h6>Dark Mode</h6>
+                                            <small class="text-muted">Tema gelap dengan aksen orange</small>
+                                            <input type="radio" name="settings[theme_name]" value="dark" {{ isset($settings['theme_name']) && $settings['theme_name']->value == 'dark' ? 'checked' : '' }} style="display: none;">
+                                        </div>
+
+                                        <div class="theme-card {{ isset($settings['theme_name']) && $settings['theme_name']->value == 'green' ? 'active' : '' }}" data-theme="green">
+                                            <div class="theme-preview">
+                                                <div class="theme-color" style="background-color: #28a745;"></div>
+                                                <div class="theme-color" style="background-color: #20c997;"></div>
+                                                <div class="theme-color" style="background-color: #17a2b8;"></div>
+                                            </div>
+                                            <h6>Nature Green</h6>
+                                            <small class="text-muted">Tema hijau alami dengan aksen teal</small>
+                                            <input type="radio" name="settings[theme_name]" value="green" {{ isset($settings['theme_name']) && $settings['theme_name']->value == 'green' ? 'checked' : '' }} style="display: none;">
+                                        </div>
+
+                                        <div class="theme-card {{ isset($settings['theme_name']) && $settings['theme_name']->value == 'purple' ? 'active' : '' }}" data-theme="purple">
+                                            <div class="theme-preview">
+                                                <div class="theme-color" style="background-color: #6f42c1;"></div>
+                                                <div class="theme-color" style="background-color: #e83e8c;"></div>
+                                                <div class="theme-color" style="background-color: #fd7e14;"></div>
+                                            </div>
+                                            <h6>Royal Purple</h6>
+                                            <small class="text-muted">Tema ungu elegan dengan aksen pink</small>
+                                            <input type="radio" name="settings[theme_name]" value="purple" {{ isset($settings['theme_name']) && $settings['theme_name']->value == 'purple' ? 'checked' : '' }} style="display: none;">
+                                        </div>
+                                    </div>
+
+                                    <!-- Custom Colors -->
+                                    <div class="col-md-6">
+                                        <h5 class="mb-3">Kustomisasi Warna</h5>
+                                        
+                                        <div class="mb-3">
+                                            <label for="primary_color" class="form-label">Warna Primer</label>
+                                            <div class="color-picker-wrapper">
+                                                <input type="color" class="form-control form-control-color" id="primary_color_picker" 
+                                                       value="{{ isset($settings['primary_color']) ? $settings['primary_color']->value : '#007bff' }}">
+                                                <input type="text" class="form-control" id="primary_color" name="settings[primary_color]" 
+                                                       value="{{ isset($settings['primary_color']) ? $settings['primary_color']->value : '#007bff' }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="secondary_color" class="form-label">Warna Sekunder</label>
+                                            <div class="color-picker-wrapper">
+                                                <input type="color" class="form-control form-control-color" id="secondary_color_picker" 
+                                                       value="{{ isset($settings['secondary_color']) ? $settings['secondary_color']->value : '#6c757d' }}">
+                                                <input type="text" class="form-control" id="secondary_color" name="settings[secondary_color]" 
+                                                       value="{{ isset($settings['secondary_color']) ? $settings['secondary_color']->value : '#6c757d' }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="accent_color" class="form-label">Warna Aksen</label>
+                                            <div class="color-picker-wrapper">
+                                                <input type="color" class="form-control form-control-color" id="accent_color_picker" 
+                                                       value="{{ isset($settings['accent_color']) ? $settings['accent_color']->value : '#28a745' }}">
+                                                <input type="text" class="form-control" id="accent_color" name="settings[accent_color]" 
+                                                       value="{{ isset($settings['accent_color']) ? $settings['accent_color']->value : '#28a745' }}">
+                                            </div>
+                                        </div>
+
+                                        <hr>
+                                        <h6>Pengaturan Layout</h6>
+                                        
+                                        <div class="mb-3">
+                                            <label for="layout_style" class="form-label">Gaya Layout</label>
+                                            <select class="form-select" id="layout_style" name="settings[layout_style]">
+                                                <option value="boxed" {{ isset($settings['layout_style']) && $settings['layout_style']->value == 'boxed' ? 'selected' : '' }}>Boxed</option>
+                                                <option value="wide" {{ isset($settings['layout_style']) && $settings['layout_style']->value == 'wide' ? 'selected' : '' }}>Wide</option>
+                                                <option value="fluid" {{ isset($settings['layout_style']) && $settings['layout_style']->value == 'fluid' ? 'selected' : '' }}>Fluid</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="dark_mode" name="settings[dark_mode]" 
+                                                       value="1" {{ isset($settings['dark_mode']) && $settings['dark_mode']->value == '1' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="dark_mode">
+                                                    Aktifkan Mode Gelap
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="rounded_corners" name="settings[rounded_corners]" 
+                                                       value="1" {{ isset($settings['rounded_corners']) && $settings['rounded_corners']->value == '1' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="rounded_corners">
+                                                    Sudut Membulat
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Simpan Pengaturan Tema
                                 </button>
                             </form>
                         </div>
@@ -331,6 +531,104 @@ $(document).ready(function() {
             tabTrigger.show()
         })
     });
+
+    // Theme card selection
+    $('.theme-card').on('click', function() {
+        $('.theme-card').removeClass('active');
+        $(this).addClass('active');
+        $(this).find('input[type="radio"]').prop('checked', true);
+        
+        var theme = $(this).data('theme');
+        updateThemeColors(theme);
+        applyThemePreview(theme);
+    });
+
+    // Color picker synchronization
+    $('#primary_color_picker').on('input', function() {
+        $('#primary_color').val($(this).val());
+        applyCustomColors();
+    });
+
+    $('#secondary_color_picker').on('input', function() {
+        $('#secondary_color').val($(this).val());
+        applyCustomColors();
+    });
+
+    $('#accent_color_picker').on('input', function() {
+        $('#accent_color').val($(this).val());
+        applyCustomColors();
+    });
+
+    // Text input synchronization
+    $('#primary_color').on('input', function() {
+        $('#primary_color_picker').val($(this).val());
+        applyCustomColors();
+    });
+
+    $('#secondary_color').on('input', function() {
+        $('#secondary_color_picker').val($(this).val());
+        applyCustomColors();
+    });
+
+    $('#accent_color').on('input', function() {
+        $('#accent_color_picker').val($(this).val());
+        applyCustomColors();
+    });
+
+    function updateThemeColors(theme) {
+        var colors = {
+            'default': {
+                primary: '#007bff',
+                secondary: '#6c757d',
+                accent: '#28a745'
+            },
+            'dark': {
+                primary: '#343a40',
+                secondary: '#495057',
+                accent: '#fd7e14'
+            },
+            'green': {
+                primary: '#28a745',
+                secondary: '#20c997',
+                accent: '#17a2b8'
+            },
+            'purple': {
+                primary: '#6f42c1',
+                secondary: '#e83e8c',
+                accent: '#fd7e14'
+            }
+        };
+
+        if (colors[theme]) {
+            $('#primary_color').val(colors[theme].primary);
+            $('#primary_color_picker').val(colors[theme].primary);
+            $('#secondary_color').val(colors[theme].secondary);
+            $('#secondary_color_picker').val(colors[theme].secondary);
+            $('#accent_color').val(colors[theme].accent);
+            $('#accent_color_picker').val(colors[theme].accent);
+        }
+    }
+
+    function applyThemePreview(theme) {
+        // Apply theme to current page for preview
+        $('body').removeClass('theme-default theme-dark theme-green theme-purple');
+        $('body').addClass('theme-' + theme);
+    }
+
+    function applyCustomColors() {
+        var primaryColor = $('#primary_color').val();
+        var secondaryColor = $('#secondary_color').val();
+        var accentColor = $('#accent_color').val();
+        
+        // Update CSS variables for immediate preview
+        document.documentElement.style.setProperty('--primary-color', primaryColor);
+        document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+        document.documentElement.style.setProperty('--accent-color', accentColor);
+        
+        // Remove theme selection when using custom colors
+        $('.theme-card').removeClass('active');
+        $('input[name="settings[theme_name]"]').prop('checked', false);
+    }
 });
 </script>
 @endpush

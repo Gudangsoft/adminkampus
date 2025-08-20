@@ -12,10 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->string('featured_image')->nullable()->after('content');
-            $table->json('meta_data')->nullable()->after('meta_description');
-            $table->foreignId('user_id')->nullable()->constrained()->after('meta_data');
-            $table->string('template')->nullable()->after('menu_order');
+            //
         });
     }
 
@@ -25,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->dropColumn(['featured_image', 'meta_data', 'user_id', 'template']);
+            //
         });
     }
 };

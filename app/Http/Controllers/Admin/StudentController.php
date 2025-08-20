@@ -20,7 +20,7 @@ class StudentController extends Controller
         if ($request->has('search') && $request->search) {
             $query->where(function($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('student_id', 'like', '%' . $request->search . '%')
+                  ->orWhere('nim', 'like', '%' . $request->search . '%')
                   ->orWhere('email', 'like', '%' . $request->search . '%');
             });
         }
@@ -44,11 +44,19 @@ class StudentController extends Controller
         
         // Status filter
         if ($request->has('status') && $request->status !== '') {
-            $query->where('status', $request->status);
+            if (Schema::hasColumn('students', 'is_active')) {
+                if ($request->status === 'active') {
+                    $query->where('is_active', true);
+                } else {
+                    $query->where('is_active', false);
+                }
+            } else {
+                $query->where('status', $request->status);
+            }
         }
         
         $students = $query->orderBy('entry_year', 'desc')
-                         ->orderBy('student_id', 'asc')
+                         ->orderBy('nim', 'asc')
                          ->paginate(15);
         
         $faculties = Faculty::active()->orderBy('name')->get();
@@ -73,25 +81,28 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'student_id' => 'required|string|unique:students,student_id',
+            'nim' => 'required|string|unique:students,nim',
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students,email',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
-            'gender' => 'required|in:male,female',
-            'birth_date' => 'required|date',
-            'birth_place' => 'required|string|max:255',
-            'faculty_id' => 'required|exists:faculties,id',
             'study_program_id' => 'required|exists:study_programs,id',
-            'class' => 'nullable|string|max:255',
             'entry_year' => 'required|integer|min:2000|max:' . (date('Y') + 1),
-            'status' => 'required|in:active,inactive,graduated,dropped',
+            'gender' => 'required|in:male,female',
+            'date_of_birth' => 'nullable|date',
+            'place_of_birth' => 'nullable|string|max:100',
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string|max:20',
+            'email' => 'nullable|email|max:255',
+            'parent_name' => 'nullable|string|max:255',
+            'parent_phone' => 'nullable|string|max:20',
+            'school_origin' => 'nullable|string|max:255',
             'gpa' => 'nullable|numeric|min:0|max:4',
-            'semester' => 'required|integer|min:1|max:20',
+            'semester' => 'nullable|integer|min:1|max:14',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'is_active' => 'boolean',
         ]);
         
         $data = $request->except(['photo']);
+        $data['slug'] = Str::slug($request->nim);
+        $data['is_active'] = $request->has('is_active');
         
         // Handle photo upload
         if ($request->hasFile('photo')) {
@@ -124,25 +135,28 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $request->validate([
-            'student_id' => 'required|string|unique:students,student_id,' . $student->id,
+            'nim' => 'required|string|unique:students,nim,' . $student->id,
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students,email,' . $student->id,
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
-            'gender' => 'required|in:male,female',
-            'birth_date' => 'required|date',
-            'birth_place' => 'required|string|max:255',
-            'faculty_id' => 'required|exists:faculties,id',
             'study_program_id' => 'required|exists:study_programs,id',
-            'class' => 'nullable|string|max:255',
             'entry_year' => 'required|integer|min:2000|max:' . (date('Y') + 1),
-            'status' => 'required|in:active,inactive,graduated,dropped',
+            'gender' => 'required|in:male,female',
+            'date_of_birth' => 'nullable|date',
+            'place_of_birth' => 'nullable|string|max:100',
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string|max:20',
+            'email' => 'nullable|email|max:255',
+            'parent_name' => 'nullable|string|max:255',
+            'parent_phone' => 'nullable|string|max:20',
+            'school_origin' => 'nullable|string|max:255',
             'gpa' => 'nullable|numeric|min:0|max:4',
-            'semester' => 'required|integer|min:1|max:20',
+            'semester' => 'nullable|integer|min:1|max:14',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'is_active' => 'boolean',
         ]);
         
         $data = $request->except(['photo']);
+        $data['slug'] = Str::slug($request->nim);
+        $data['is_active'] = $request->has('is_active');
         
         // Handle photo upload
         if ($request->hasFile('photo')) {
@@ -174,16 +188,14 @@ class StudentController extends Controller
     
     public function toggleStatus(Student $student)
     {
-        $newStatus = ($student->status === 'active') ? 'inactive' : 'active';
-        
         $student->update([
-            'status' => $newStatus
+            'is_active' => !$student->is_active
         ]);
         
-        $statusText = ($newStatus === 'active') ? 'diaktifkan' : 'dinonaktifkan';
+        $status = $student->is_active ? 'diaktifkan' : 'dinonaktifkan';
         
         return redirect()->back()
-                        ->with('success', "Status mahasiswa berhasil {$statusText}.");
+                        ->with('success', "Status mahasiswa berhasil {$status}.");
     }
     
     public function getStudyPrograms(Request $request)

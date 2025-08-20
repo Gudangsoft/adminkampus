@@ -10,22 +10,25 @@ class Menu extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'name',
         'url',
-        'route',
-        'icon',
+        'page_id',
         'parent_id',
-        'order',
-        'is_active',
         'target',
-        'description',
-        'permissions'
+        'icon',
+        'is_active',
+        'sort_order',
+        'location'
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
-        'permissions' => 'array'
+        'is_active' => 'boolean'
     ];
+
+    public function page()
+    {
+        return $this->belongsTo(Page::class);
+    }
 
     public function parent()
     {
@@ -34,25 +37,17 @@ class Menu extends Model
 
     public function children()
     {
-        return $this->hasMany(Menu::class, 'parent_id')->orderBy('order');
+        return $this->hasMany(Menu::class, 'parent_id')->orderBy('sort_order');
     }
 
-    public function getFullUrlAttribute()
+    public function getUrlAttribute($value)
     {
-        if ($this->url && (str_starts_with($this->url, 'http') || str_starts_with($this->url, '/'))) {
-            return $this->url;
+        if ($value) {
+            return $value;
         }
         
-        if ($this->route) {
-            try {
-                return route($this->route);
-            } catch (\Exception $e) {
-                return '#';
-            }
-        }
-        
-        if ($this->url) {
-            return url($this->url);
+        if ($this->page) {
+            return route('page.show', $this->page->slug);
         }
         
         return '#';
@@ -63,6 +58,16 @@ class Menu extends Model
         return $query->where('is_active', true);
     }
 
+    public function scopeHeader($query)
+    {
+        return $query->where('location', 'header');
+    }
+
+    public function scopeFooter($query)
+    {
+        return $query->where('location', 'footer');
+    }
+
     public function scopeParent($query)
     {
         return $query->whereNull('parent_id');
@@ -70,23 +75,6 @@ class Menu extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('order');
-    }
-    
-    public function hasPermission($user = null)
-    {
-        if (!$this->permissions || empty($this->permissions)) {
-            return true; // Jika tidak ada permission yang ditentukan, semua bisa akses
-        }
-        
-        if (!$user) {
-            $user = auth()->user();
-        }
-        
-        if (!$user) {
-            return false;
-        }
-        
-        return in_array($user->role, $this->permissions);
+        return $query->orderBy('sort_order');
     }
 }

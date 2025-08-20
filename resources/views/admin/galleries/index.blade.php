@@ -198,7 +198,7 @@
                                         
                                         <div class="card-body">
                                             <h6 class="card-title mb-2">{{ Str::limit($gallery->title, 50) }}</h6>
-                                            <p class="card-text text-muted small">{{ $gallery->category ? $gallery->category->name : 'Tidak ada kategori' }}</p>
+                                            <p class="card-text text-muted small">{{ $gallery->category->name }}</p>
                                             
                                             @if($gallery->description)
                                                 <p class="card-text small">{{ Str::limit(strip_tags($gallery->description), 80) }}</p>
