@@ -35,7 +35,7 @@ use App\Http\Controllers\Admin\LanguageController as AdminLanguageController;
 use App\Http\Controllers\Admin\ThemeController as AdminThemeController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\PDFController as AdminPDFController;
-use App\Http\Controllers\SectionController as AdminSectionController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdvancedSearchController;
 
@@ -51,7 +51,7 @@ use App\Http\Controllers\AdvancedSearchController;
 */
 
 // Frontend Routes
-Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('seo');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Auto login route untuk testing (hapus di production)
 Route::get('/auto-login', function() {
@@ -246,14 +246,14 @@ Route::get('/debug-settings', function() {
 });
 
 // News Routes
-Route::prefix('berita')->name('news.')->middleware('seo')->group(function () {
+Route::prefix('berita')->name('news.')->group(function () {
     Route::get('/', [NewsController::class, 'index'])->name('index');
     Route::get('/kategori/{slug}', [NewsController::class, 'category'])->name('category');
     Route::get('/{slug}', [NewsController::class, 'show'])->name('show');
 });
 
 // Announcement Routes
-Route::prefix('pengumuman')->name('announcements.')->middleware('seo')->group(function () {
+Route::prefix('pengumuman')->name('announcements.')->group(function () {
     Route::get('/', [AnnouncementController::class, 'index'])->name('index');
     Route::get('/{slug}', [AnnouncementController::class, 'show'])->name('show');
 });
@@ -278,14 +278,14 @@ Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
 });
 
 // Gallery Routes
-Route::prefix('galeri')->name('gallery.')->middleware('seo')->group(function () {
+Route::prefix('galeri')->name('gallery.')->group(function () {
     Route::get('/', [GalleryController::class, 'index'])->name('index');
     Route::get('/kategori/{slug}', [GalleryController::class, 'category'])->name('category');
     Route::get('/{slug}', [GalleryController::class, 'show'])->name('show');
 });
 
 // Search Routes
-Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware('seo');
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::get('/advanced-search', [AdvancedSearchController::class, 'index'])->name('search.advanced');
 Route::get('/search-suggestions', [AdvancedSearchController::class, 'suggestions'])->name('search.suggestions');
 
@@ -304,7 +304,7 @@ Route::get('/seo-test', function() {
 })->name('seo.test');
 
 // Dynamic Pages
-Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show')->middleware('seo');
+Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show');
 
 // Authentication Routes
 Auth::routes(['register' => false]); // Disable registration for admin only
@@ -327,16 +327,19 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
         Route::patch('announcements/{announcement}/toggle-status', [AdminAnnouncementController::class, 'toggleStatus'])->name('announcements.toggle-status');
         
         // Gallery Management
-        Route::resource('galleries', AdminGalleryController::class);
-        Route::delete('galleries/{gallery}/photo/{photo}', [AdminGalleryController::class, 'deletePhoto'])->name('galleries.delete-photo');
+    Route::resource('galleries', AdminGalleryController::class);
+    Route::patch('galleries/{gallery}/toggle-featured', [AdminGalleryController::class, 'toggleFeatured'])->name('galleries.toggle-featured');
+    Route::delete('galleries/{gallery}/photo/{photo}', [AdminGalleryController::class, 'deletePhoto'])->name('galleries.delete-photo');
         
         // Slider Management
-        Route::resource('sliders', AdminSliderController::class);
-        Route::patch('sliders/{slider}/toggle-status', [AdminSliderController::class, 'toggleStatus'])->name('sliders.toggle-status');
+    Route::resource('sliders', AdminSliderController::class);
+    Route::patch('sliders/{slider}/toggle-status', [AdminSliderController::class, 'toggleStatus'])->name('sliders.toggle-status');
+    Route::patch('sliders/{slider}/toggle-active', [AdminSliderController::class, 'toggleActive'])->name('sliders.toggle-active');
+    Route::post('sliders/update-order', [AdminSliderController::class, 'updateOrder'])->name('sliders.update-order');
         
         // Section Management
-        Route::resource('sections', AdminSectionController::class);
-        Route::patch('sections/{section}/toggle-status', [AdminSectionController::class, 'toggleStatus'])->name('sections.toggle-status');
+    Route::resource('sections', SectionController::class);
+    Route::patch('sections/{section}/toggle-status', [SectionController::class, 'toggleStatus'])->name('sections.toggle-status');
         
         // Pages Management
         Route::resource('pages', AdminPageController::class);
@@ -345,17 +348,23 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
     
     // Academic Management (Admin + Editor)
     Route::middleware('role:admin,editor')->group(function () {
-        // Faculty Management
-        Route::resource('faculties', AdminFacultyController::class);
-        Route::patch('faculties/{faculty}/toggle-status', [AdminFacultyController::class, 'toggleStatus'])->name('faculties.toggle-status');
-        
-        // Study Program Management
-        Route::resource('study-programs', AdminStudyProgramController::class);
-        Route::patch('study-programs/{study_program}/toggle-status', [AdminStudyProgramController::class, 'toggleStatus'])->name('study-programs.toggle-status');
-        
-        // Lecturer Management  
-        Route::resource('lecturers', AdminLecturerController::class);
-        Route::patch('lecturers/{lecturer}/toggle-status', [AdminLecturerController::class, 'toggleStatus'])->name('lecturers.toggle-status');
+    // Faculty Management
+    Route::resource('faculties', AdminFacultyController::class);
+    Route::patch('faculties/{faculty}/toggle-status', [AdminFacultyController::class, 'toggleStatus'])->name('faculties.toggle-status');
+    Route::post('faculties/update-order', [AdminFacultyController::class, 'updateOrder'])->name('faculties.update-order');
+
+    // Study Program Management
+    Route::resource('study-programs', AdminStudyProgramController::class);
+    Route::patch('study-programs/{study_program}/toggle-status', [AdminStudyProgramController::class, 'toggleStatus'])->name('study-programs.toggle-status');
+    Route::post('study-programs/update-order', [AdminStudyProgramController::class, 'updateOrder'])->name('study-programs.update-order');
+
+    // Lecturer Management  
+    Route::resource('lecturers', AdminLecturerController::class);
+    Route::patch('lecturers/{lecturer}/toggle-status', [AdminLecturerController::class, 'toggleStatus'])->name('lecturers.toggle-status');
+
+    // Student Management
+    Route::resource('students', AdminStudentController::class);
+    // (tambahkan custom route toggle-status jika dibutuhkan)
     });
     
     // System Management (Admin Only)

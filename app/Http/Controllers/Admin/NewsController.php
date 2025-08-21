@@ -153,8 +153,9 @@ class NewsController extends Controller
 
     public function create()
     {
-        $categories = NewsCategory::where('is_active', true)->get();
-        return view('admin.news.create', compact('categories'));
+    $categories = NewsCategory::where('is_active', true)->get();
+    $tags = \App\Models\Tag::where('is_active', true)->get();
+    return view('admin.news.create', compact('categories', 'tags'));
     }
 
     public function store(Request $request)

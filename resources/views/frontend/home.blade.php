@@ -556,46 +556,46 @@
         font-weight: 500;
     }
     
-    /* Faculty Section Styles */
-    .faculty-card {
+    /* Study Program (Prodi) Section Styles */
+    .prodi-card {
         transition: all 0.3s ease;
         border-radius: 15px;
         overflow: hidden;
         background: white;
     }
-    .faculty-card:hover {
+    .prodi-card:hover {
         transform: translateY(-10px);
         box-shadow: 0 20px 40px rgba(102, 126, 234, 0.1) !important;
     }
-    .faculty-image {
+    .prodi-image {
         position: relative;
         overflow: hidden;
     }
-    .faculty-image img {
+    .prodi-image img {
         transition: transform 0.3s ease;
     }
-    .faculty-card:hover .faculty-image img {
+    .prodi-card:hover .prodi-image img {
         transform: scale(1.1);
     }
-    .faculty-overlay {
+    .prodi-overlay {
         background: rgba(102, 126, 234, 0.9);
         opacity: 0;
         transition: all 0.3s ease;
     }
-    .faculty-card:hover .faculty-overlay {
+    .prodi-card:hover .prodi-overlay {
         opacity: 1;
     }
-    .faculty-btn {
+    .prodi-btn {
         transform: translateY(20px);
         transition: all 0.3s ease;
         border-radius: 25px;
         font-weight: 600;
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
-    .faculty-card:hover .faculty-btn {
+    .prodi-card:hover .prodi-btn {
         transform: translateY(0);
     }
-    .faculty-btn:hover {
+    .prodi-btn:hover {
         transform: translateY(-2px) scale(1.05);
         box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
@@ -803,7 +803,11 @@
                             <div class="d-flex align-items-center gap-3 mb-4">
                                 <span class="badge bg-white text-primary px-3 py-2">
                                     <i class="fas fa-calendar-alt me-2"></i>
-                                    {{ $latestAnnouncements->first()->start_date->format('d M Y') }}
+                                    @if($latestAnnouncements->first()->start_date)
+                                        {{ $latestAnnouncements->first()->start_date->format('d M Y') }}
+                                    @else
+                                        -
+                                    @endif
                                 </span>
                                 @if($latestAnnouncements->first()->priority === 'urgent')
                                 <span class="badge bg-danger px-3 py-2">
@@ -853,7 +857,11 @@
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <span class="text-white-50 small">
                                                     <i class="fas fa-calendar-alt me-1"></i>
-                                                    {{ $announcement->start_date->format('d M Y') }}
+                                                    @if($announcement->start_date)
+                                                        {{ $announcement->start_date->format('d M Y') }}
+                                                    @else
+                                                        -
+                                                    @endif
                                                 </span>
                                                 <a href="{{ route('announcements.show', $announcement->slug) }}" 
                                                    class="btn btn-sm btn-outline-light">
@@ -880,73 +888,88 @@
     </section>
     @endif
 
-    <!-- Faculties Section -->
-    <section id="faculties" class="py-5 bg-light">
+
+    <!-- Study Programs (Prodi) Section -->
+    <section id="study-programs" class="py-5 bg-light">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold text-primary">Fakultas</h2>
-                <p class="lead text-muted">Pilihan fakultas terbaik untuk masa depan cerah Anda</p>
+                <h2 class="display-5 fw-bold text-primary">Program Studi</h2>
+                <p class="lead text-muted">Temukan program studi unggulan untuk masa depan gemilang Anda</p>
                 <div class="d-flex justify-content-center">
                     <div class="border-bottom border-primary" style="width: 100px; height: 3px;"></div>
                 </div>
             </div>
 
-            @if($faculties->count() > 0)
+            @if($studyPrograms->count() > 0)
                 <div class="row g-4">
-                    @foreach($faculties as $faculty)
+                    @foreach($studyPrograms as $prodi)
                         <div class="col-lg-4 col-md-6">
-                            <div class="card faculty-card h-100 border-0 shadow-sm">
-                                <div class="faculty-image position-relative">
-                                    @if($faculty->image)
-                                        <img src="{{ asset('storage/' . $faculty->image) }}" alt="{{ $faculty->name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                            <div class="card prodi-card h-100 border-0 shadow-sm">
+                                <div class="prodi-image position-relative">
+                                    @if($prodi->image)
+                                        <img src="{{ asset('storage/' . $prodi->image) }}" alt="{{ $prodi->name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
                                     @else
                                         <div class="bg-primary d-flex align-items-center justify-content-center" style="height: 200px;">
-                                            <i class="fas fa-university text-white" style="font-size: 3rem;"></i>
+                                            <i class="fas fa-graduation-cap text-white" style="font-size: 3rem;"></i>
                                         </div>
                                     @endif
-                                    <div class="faculty-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
-                                        <a href="{{ route('fakultas.show', $faculty->slug) }}" class="btn btn-light btn-lg faculty-btn">
-                                            <i class="fas fa-eye me-2"></i>Lihat Detail
-                                        </a>
+                                    <div class="prodi-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                                        @if($prodi->slug)
+                                            <a href="{{ route('program-studi.show', $prodi->slug) }}" class="btn btn-light btn-lg prodi-btn">
+                                                <i class="fas fa-eye me-2"></i>Lihat Detail
+                                            </a>
+                                        @else
+                                            <span class="btn btn-light btn-lg prodi-btn disabled"><i class="fas fa-eye me-2"></i>Lihat Detail</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $faculty->name }}</h5>
-                                    <p class="card-text text-muted">{{ Str::limit($faculty->description, 100) }}</p>
-                                    
+                                    <h5 class="card-title">{{ $prodi->full_name ?? $prodi->name }}</h5>
+                                    <p class="card-text text-muted">{{ Str::limit($prodi->description, 100) }}</p>
                                     <div class="row text-center">
                                         <div class="col-6">
-                                            <div class="fw-bold text-primary h5">{{ $faculty->study_programs_count }}</div>
-                                            <small class="text-muted">Program Studi</small>
+                                            <div class="fw-bold text-primary h5">{{ $prodi->students ? $prodi->students->count() : 0 }}</div>
+                                            <small class="text-muted">Mahasiswa</small>
                                         </div>
                                         <div class="col-6">
-                                            <div class="fw-bold text-success h5">{{ $faculty->lecturers_count }}</div>
+                                            <div class="fw-bold text-success h5">{{ $prodi->lecturers ? $prodi->lecturers->count() : 0 }}</div>
                                             <small class="text-muted">Dosen</small>
                                         </div>
                                     </div>
+                                    @if($prodi->faculty && $prodi->faculty->name)
+                                        <div class="mt-3">
+                                            <span class="badge bg-secondary">{{ $prodi->faculty->name }}</span>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="card-footer bg-transparent border-0">
-                                    <a href="{{ route('fakultas.show', $faculty->slug) }}" class="btn btn-outline-primary w-100">
-                                        <i class="fas fa-arrow-right me-2"></i>Pelajari Lebih Lanjut
-                                    </a>
+                                    @if($prodi->slug)
+                                        <a href="{{ route('program-studi.show', $prodi->slug) }}" class="btn btn-outline-primary w-100">
+                                            <i class="fas fa-arrow-right me-2"></i>Pelajari Lebih Lanjut
+                                        </a>
+                                    @else
+                                        <span class="btn btn-outline-primary w-100 disabled">
+                                            <i class="fas fa-arrow-right me-2"></i>Pelajari Lebih Lanjut
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
 
-                <!-- View All Faculties Button -->
+                <!-- View All Study Programs Button -->
                 <div class="text-center mt-5">
-                    <a href="{{ route('fakultas.index') }}" class="btn btn-primary btn-lg px-5 py-3">
-                        <i class="fas fa-university me-2"></i>Lihat Semua Fakultas
+                    <a href="{{ route('program-studi.index') }}" class="btn btn-primary btn-lg px-5 py-3">
+                        <i class="fas fa-graduation-cap me-2"></i>Lihat Semua Prodi
                         <i class="fas fa-arrow-right ms-2"></i>
                     </a>
                 </div>
             @else
                 <div class="text-center py-5">
-                    <i class="fas fa-university fa-5x text-muted mb-4"></i>
-                    <h3>Belum Ada Fakultas</h3>
-                    <p class="text-muted">Fakultas akan segera tersedia</p>
+                    <i class="fas fa-graduation-cap fa-5x text-muted mb-4"></i>
+                    <h3>Belum Ada Program Studi</h3>
+                    <p class="text-muted">Program studi akan segera tersedia</p>
                 </div>
             @endif
         </div>
@@ -961,7 +984,6 @@
                 <p class="text-muted fs-5">Dokumentasi kegiatan dan momen berharga di {{ $globalSettings['site_name'] ?? 'KESOSI' }}</p>
                 <div class="mx-auto" style="width: 60px; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 2px;"></div>
             </div>
-            
             <!-- Featured Gallery Grid -->
             <div class="row g-3">
                 @foreach($featuredGalleries->take(9) as $index => $gallery)
@@ -1008,7 +1030,6 @@
                                 <a href="{{ route('gallery.show', $gallery->slug) }}" class="gallery-link position-absolute top-0 start-0 w-100 h-100"></a>
                             </div>
                         </div>
-                        
                         <!-- Small Grid Container for Other Items -->
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="row g-2 h-100">
@@ -1053,7 +1074,6 @@
                     @endif
                 @endforeach
             </div>
-            
             <!-- View All Gallery Button -->
             <div class="text-center mt-5">
                 <a href="{{ route('gallery.index') }}" class="btn btn-primary btn-lg px-5 py-3">
@@ -1066,60 +1086,11 @@
     @endif
 
     <!-- Dynamic Sections -->
+    <!-- Dynamic Sections (empty state dihilangkan) -->
     <section id="sections" class="py-5 bg-white">
         <div class="container">
             @if($sections->count() > 0)
-                <div class="text-center mb-5">
-                    <h2 class="fw-bold text-dark">Informasi Kampus</h2>
-                    <p class="text-muted fs-5">{{ $sections->count() }} informasi penting yang dapat dikelola melalui admin</p>
-                    <div class="mx-auto" style="width: 60px; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 2px;"></div>
-                </div>
-                
-                <div class="row">
-                    @foreach($sections as $section)
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card card-section h-100 border-0 shadow-sm">
-                                <div class="card-header bg-primary text-white border-0">
-                                    <h5 class="card-title mb-0">
-                                        <i class="fas fa-bookmark me-2"></i>
-                                        {{ $section->title }}
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="section-content">
-                                        {!! nl2br(e($section->content)) !!}
-                                    </div>
-                                </div>
-                                <div class="card-footer bg-light border-0">
-                                    <small class="text-muted">
-                                        <i class="fas fa-sort me-1"></i>Urutan: {{ $section->order }}
-                                        <span class="float-end">
-                                            <i class="fas fa-{{ $section->is_active ? 'check text-success' : 'times text-danger' }}"></i>
-                                            {{ $section->is_active ? 'Aktif' : 'Nonaktif' }}
-                                        </span>
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
-                <!-- Management Link -->
-                <div class="text-center mt-5">
-                    <a href="/admin/sections" class="btn btn-outline-primary btn-lg">
-                        <i class="fas fa-edit me-2"></i>Kelola Informasi Kampus
-                    </a>
-                </div>
-            @else
-                <!-- Empty State -->
-                <div class="text-center py-5">
-                    <i class="fas fa-inbox fa-5x text-muted mb-4"></i>
-                    <h3>Belum Ada Informasi</h3>
-                    <p class="text-muted mb-4">Mulai membuat informasi untuk mengisi halaman homepage</p>
-                    <a href="/admin/sections" class="btn btn-primary btn-lg">
-                        <i class="fas fa-plus me-2"></i>Buat Informasi Pertama
-                    </a>
-                </div>
+                <!-- Section content here -->
             @endif
         </div>
     </section>

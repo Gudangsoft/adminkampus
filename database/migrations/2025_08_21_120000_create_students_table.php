@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
+            $table->string('nim')->nullable();
+            $table->unsignedBigInteger('study_program_id')->nullable();
+            $table->year('entry_year')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->enum('status', ['active', 'inactive', 'graduate'])->default('active');
             $table->timestamps();
+
+            $table->foreign('study_program_id')->references('id')->on('study_programs')->onDelete('set null');
         });
     }
 

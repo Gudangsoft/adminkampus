@@ -70,12 +70,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="faculty_id">Fakultas <span class="text-danger">*</span></label>
+                                    <label for="faculty_id">Fakultas</label>
                                     <select class="form-control @error('faculty_id') is-invalid @enderror" 
                                             id="faculty_id" 
-                                            name="faculty_id" 
-                                            required>
-                                        <option value="">Pilih Fakultas</option>
+                                            name="faculty_id">
+                                        <option value="">Tanpa Fakultas</option>
                                         @foreach(\App\Models\Faculty::active()->get() as $faculty)
                                             <option value="{{ $faculty->id }}" 
                                                     {{ old('faculty_id', $studyProgram->faculty_id) == $faculty->id ? 'selected' : '' }}>

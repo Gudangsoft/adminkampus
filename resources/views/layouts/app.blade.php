@@ -201,16 +201,7 @@
                                 <i class="fas fa-graduation-cap"></i> Program Studi
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('fakultas.*') ? 'active fw-bold' : '' }}" href="{{ route('fakultas.index') }}">
-                                <i class="fas fa-university"></i> Fakultas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('mahasiswa.*') ? 'active fw-bold' : '' }}" href="{{ route('mahasiswa.index') }}">
-                                <i class="fas fa-users"></i> Mahasiswa
-                            </a>
-                        </li>
+                        <!-- Fakultas and Mahasiswa menu removed as requested -->
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('gallery.*') ? 'active fw-bold' : '' }}" href="{{ route('gallery.index') }}">
                                 <i class="fas fa-images"></i> Galeri

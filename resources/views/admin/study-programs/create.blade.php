@@ -47,13 +47,12 @@
                                 <!-- Fakultas -->
                                 <div class="mb-4">
                                     <label for="faculty_id" class="form-label">
-                                        Fakultas <span class="text-danger">*</span>
+                                        Fakultas
                                     </label>
                                     <select class="form-select @error('faculty_id') is-invalid @enderror" 
                                             id="faculty_id" 
-                                            name="faculty_id" 
-                                            required>
-                                        <option value="">Pilih Fakultas</option>
+                                            name="faculty_id">
+                                        <option value="">Tanpa Fakultas</option>
                                         @foreach($faculties as $faculty)
                                             <option value="{{ $faculty->id }}" {{ old('faculty_id') == $faculty->id ? 'selected' : '' }}>
                                                 {{ $faculty->name }}

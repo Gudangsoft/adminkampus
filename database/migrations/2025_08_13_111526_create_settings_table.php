@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            $table->string('key')->unique();
+            $table->text('value')->nullable();
+            $table->string('group')->nullable();
+            $table->string('type')->nullable();
+            $table->string('label')->nullable();
+            $table->text('description')->nullable();
+            $table->boolean('is_editable')->default(true);
             $table->timestamps();
         });
     }

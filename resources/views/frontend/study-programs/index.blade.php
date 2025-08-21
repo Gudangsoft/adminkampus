@@ -92,13 +92,15 @@
                             </h5>
 
                             <!-- Faculty -->
-                            <p class="text-muted mb-2">
-                                <i class="fas fa-university me-1"></i>
-                                <a href="{{ route('fakultas.show', $program->faculty->slug) }}" 
-                                   class="text-decoration-none">
-                                    {{ $program->faculty->name }}
-                                </a>
-                            </p>
+                            @if($program->faculty && $program->faculty->slug)
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-university me-1"></i>
+                                    <a href="{{ route('fakultas.show', $program->faculty->slug) }}" 
+                                       class="text-decoration-none">
+                                        {{ $program->faculty->name }}
+                                    </a>
+                                </p>
+                            @endif
 
                             <!-- Description -->
                             @if($program->description)

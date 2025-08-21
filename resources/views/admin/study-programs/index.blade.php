@@ -124,7 +124,9 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="small">{{ $program->faculty->name }}</span>
+                                            <span class="small">
+                                                {{ $program->faculty ? $program->faculty->name : '-' }}
+                                            </span>
                                         </td>
                                         <td>
                                             <span class="badge bg-primary">{{ $program->degree }}</span>

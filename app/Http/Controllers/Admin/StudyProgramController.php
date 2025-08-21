@@ -60,7 +60,7 @@ class StudyProgramController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'faculty_id' => 'required|exists:faculties,id',
+            'faculty_id' => 'nullable|exists:faculties,id',
             'degree' => 'required|string|max:50',
             'description' => 'nullable|string',
             'accreditation' => 'nullable|string|max:10',

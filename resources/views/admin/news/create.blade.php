@@ -199,18 +199,12 @@
                                     @error('content')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
-                                </div> 
-                                              id="content" name="content" rows="15" required>{{ old('content') }}</textarea>
-                                    @error('content')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tags" class="form-label">Tags</label>
-                                    <input type="text" class="form-control @error('tags') is-invalid @enderror" 
-                                           id="tags" name="tags" value="{{ old('tags') }}">
-                                    <div class="form-text">Pisahkan dengan koma. Contoh: teknologi, pendidikan, kampus</div>
+                                    <input type="text" class="form-control @error('tags') is-invalid @enderror" id="tags" name="tags" value="{{ old('tags') }}" placeholder="Contoh: pendidikan, teknologi, kampus" />
+                                    <div class="form-text">Isi tag secara manual, pisahkan dengan koma. Boleh dikosongkan.</div>
                                     @error('tags')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
