@@ -20,8 +20,13 @@ return new class extends Migration
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->boolean('show_in_menu')->default(false);
             $table->integer('menu_order')->default(0);
+            $table->string('featured_image')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('template', 255)->nullable();
             $table->json('meta_data')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 
