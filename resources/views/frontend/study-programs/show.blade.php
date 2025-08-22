@@ -226,11 +226,15 @@
                     <h6 class="mb-0"><i class="fas fa-phone me-2"></i>Kontak Fakultas</h6>
                 </div>
                 <div class="card-body text-center">
-                    <p class="mb-3">Butuh informasi lebih lanjut tentang program studi ini?</p>
-                    <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" 
-                       class="btn btn-secondary btn-sm">
-                        <i class="fas fa-university me-1"></i>Hubungi Fakultas
-                    </a>
+                    @if($studyProgram->faculty)
+                        <p class="mb-3">Butuh informasi lebih lanjut tentang program studi ini?</p>
+                        <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" 
+                           class="btn btn-secondary btn-sm">
+                            <i class="fas fa-university me-1"></i>Hubungi Fakultas
+                        </a>
+                    @else
+                        <p class="mb-3">Tidak ada fakultas terkait. Silakan hubungi admin untuk informasi lebih lanjut.</p>
+                    @endif
                 </div>
             </div>
         </div>

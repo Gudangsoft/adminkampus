@@ -42,30 +42,32 @@ class StudyProgramController extends Controller
     
     public function show($slug)
     {
-        // Ensure the study program belongs to an active faculty to avoid null relations
+        // Load the study program; faculty is optional so don't require whereHas
         $studyProgram = StudyProgram::where('slug', $slug)
             ->active()
-            ->whereHas('faculty', function ($q) {
-                $q->where('is_active', true);
-            })
             ->with('faculty')
             ->firstOrFail();
         
         // Get lecturers for this study program
-        $lecturers = Lecturer::active()
-            ->where('faculty_id', $studyProgram->faculty_id)
-            ->whereJsonContains('study_program_ids', $studyProgram->id)
-            ->orderBy('position')
+        // If study program has a faculty, prefer lecturers from that faculty and linked to program.
+        // If no faculty, fetch lecturers linked to the program regardless of faculty.
+        $lecturerQuery = Lecturer::active()
+            ->whereJsonContains('study_program_ids', $studyProgram->id);
+
+        if ($studyProgram->faculty_id) {
+            $lecturerQuery->where('faculty_id', $studyProgram->faculty_id);
+        }
+
+        $lecturers = $lecturerQuery->orderBy('position')
             ->take(8)
             ->get();
         
-        // Get other programs in the same faculty
-        $relatedPrograms = StudyProgram::active()
-            ->where('faculty_id', $studyProgram->faculty_id)
-            ->where('id', '!=', $studyProgram->id)
-            ->orderBy('sort_order')
-            ->take(4)
-            ->get();
+        // Get other programs in the same faculty if faculty exists, otherwise get other active programs
+        $relatedQuery = StudyProgram::active()->where('id', '!=', $studyProgram->id)->orderBy('sort_order');
+        if ($studyProgram->faculty_id) {
+            $relatedQuery->where('faculty_id', $studyProgram->faculty_id);
+        }
+        $relatedPrograms = $relatedQuery->take(4)->get();
         
         return view('frontend.study-programs.show', compact('studyProgram', 'lecturers', 'relatedPrograms'));
     }
