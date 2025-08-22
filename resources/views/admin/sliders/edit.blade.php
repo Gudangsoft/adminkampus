@@ -209,7 +209,7 @@
                                     <div class="card-body p-2">
                                         <div class="position-relative">
                                             <img id="preview-image" 
-                                                 src="{{ $slider->image ? asset('storage/' . $slider->image) : '#' }}" 
+                                                 src="{{ $slider->image ? $slider->image_url : '#' }}" 
                                                  alt="Preview" 
                                                  class="w-100 rounded" 
                                                  style="height: 120px; object-fit: cover;">

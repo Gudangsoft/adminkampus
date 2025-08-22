@@ -45,18 +45,20 @@
         /* Sidebar Styles */
         .sidebar {
             position: fixed;
-            top: 0;
+            top: var(--topbar-height);
             left: 0;
-            height: 100vh;
+            bottom: 0;
             width: var(--sidebar-width);
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            z-index: 1000;
-            transition: transform 0.3s ease;
+            z-index: 1040;
+            transition: transform 0.25s ease;
             overflow-y: auto;
             overflow-x: hidden;
+            transform: translateX(0);
         }
-        
-        .sidebar.hidden {
+
+        /* Collapsed / hidden sidebar state (desktop) */
+        body.sidebar-collapsed .sidebar {
             transform: translateX(-100%);
         }
         
@@ -228,13 +230,17 @@
         /* Content Wrapper */
         .content-wrapper {
             margin-left: var(--sidebar-width);
-            min-height: 100vh;
-            transition: margin-left 0.3s ease;
+            min-height: calc(100vh - var(--topbar-height));
+            transition: margin-left 0.25s ease, width 0.25s ease;
             background-color: #f8f9fa;
+            box-sizing: border-box;
+            width: calc(100% - var(--sidebar-width));
         }
-        
-        .content-wrapper.expanded {
+
+        /* When sidebar is collapsed, content should use full width */
+        body.sidebar-collapsed .content-wrapper {
             margin-left: 0;
+            width: 100%;
         }
         
         /* Topbar */
@@ -370,7 +376,9 @@
     </style>
     @stack('styles')
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <!-- small helper styles and scripts intentionally removed to avoid conflicts with consolidated layout handling below -->
+
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
@@ -597,125 +605,80 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Sidebar toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebarToggle = document.getElementById('sidebarToggle');
+        // Consolidated sidebar + dropdown + small UI helpers
+        document.addEventListener('DOMContentLoaded', function () {
+            const body = document.body;
             const sidebar = document.getElementById('sidebar');
-            const contentWrapper = document.querySelector('.content-wrapper');
-            
-            // Load saved state
-            const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
-            if (sidebarHidden) {
-                sidebar.classList.add('hidden');
-                contentWrapper.classList.add('expanded');
-            }
-            
-            // Toggle function
-            sidebarToggle?.addEventListener('click', function() {
-                const isHidden = sidebar.classList.contains('hidden');
-                
-                if (isHidden) {
-                    // Show sidebar
-                    sidebar.classList.remove('hidden');
-                    contentWrapper.classList.remove('expanded');
-                    localStorage.setItem('sidebarHidden', 'false');
-                } else {
-                    // Hide sidebar
-                    sidebar.classList.add('hidden');
-                    contentWrapper.classList.add('expanded');
-                    localStorage.setItem('sidebarHidden', 'true');
+            const toggle = document.getElementById('sidebarToggle');
+            const storageKey = 'adminSidebarCollapsed';
+
+            // Initialize desktop collapsed state
+            try {
+                if (localStorage.getItem(storageKey) === 'true' && window.innerWidth > 768) {
+                    body.classList.add('sidebar-collapsed');
                 }
-            });
-            
-            // Mobile specific behavior
-            if (window.innerWidth <= 768) {
-                // On mobile, always start with sidebar hidden
-                sidebar.classList.add('hidden');
-                contentWrapper.classList.add('expanded');
-                
-                // Mobile toggle shows sidebar temporarily
-                sidebarToggle?.addEventListener('click', function() {
+            } catch (e) { /* ignore */ }
+
+            // Toggle handler
+            toggle?.addEventListener('click', function (e) {
+                e && e.preventDefault();
+
+                if (window.innerWidth <= 768) {
+                    // Mobile: toggle temporary sidebar visibility
                     sidebar.classList.toggle('show');
-                });
-                
-                // Close sidebar when clicking outside on mobile
-                document.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 768) {
-                        if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
-                            sidebar.classList.remove('show');
-                        }
-                    }
-                });
-            }
-            
-            // Handle window resize
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768) {
-                    sidebar.classList.remove('show');
-                    // Restore desktop state
-                    const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
-                    if (sidebarHidden) {
-                        sidebar.classList.add('hidden');
-                        contentWrapper.classList.add('expanded');
-                    } else {
-                        sidebar.classList.remove('hidden');
-                        contentWrapper.classList.remove('expanded');
-                    }
                 } else {
-                    // Mobile: always start hidden
-                    sidebar.classList.add('hidden');
-                    contentWrapper.classList.add('expanded');
+                    // Desktop: persist collapsed state on body
+                    const collapsed = body.classList.toggle('sidebar-collapsed');
+                    try { localStorage.setItem(storageKey, collapsed ? 'true' : 'false'); } catch (e) {}
                 }
             });
-        });
-        
-        // Auto dismiss alerts
-        setTimeout(function() {
-            const alerts = document.querySelectorAll('.alert-dismissible');
-            alerts.forEach(alert => {
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
+
+            // Clicking outside on mobile should close the sidebar
+            document.addEventListener('click', function (e) {
+                if (window.innerWidth <= 768) {
+                    if (sidebar.classList.contains('show') && !sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                        sidebar.classList.remove('show');
+                    }
+                }
             });
-        }, 5000);
-        
-        // Dropdown navigation handling
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle dropdown toggle clicks
+
+            // Keep dropdown nav single-open behaviour
             const dropdownToggles = document.querySelectorAll('.dropdown-nav .dropdown-toggle');
-            
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', function(e) {
+            dropdownToggles.forEach(toggleEl => {
+                toggleEl.addEventListener('click', function (e) {
                     e.preventDefault();
-                    
                     const targetId = this.getAttribute('data-bs-target');
-                    const targetElement = document.querySelector(targetId);
-                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                    
-                    // Close all other dropdowns
-                    dropdownToggles.forEach(otherToggle => {
-                        if (otherToggle !== this) {
-                            const otherTargetId = otherToggle.getAttribute('data-bs-target');
-                            const otherTarget = document.querySelector(otherTargetId);
-                            if (otherTarget) {
-                                otherTarget.classList.remove('show');
-                                otherToggle.setAttribute('aria-expanded', 'false');
-                                otherToggle.classList.remove('active');
-                            }
+                    const targetEl = document.querySelector(targetId);
+                    const isOpen = this.getAttribute('aria-expanded') === 'true';
+
+                    // Close others
+                    dropdownToggles.forEach(other => {
+                        if (other !== this) {
+                            const otherTarget = document.querySelector(other.getAttribute('data-bs-target'));
+                            otherTarget && otherTarget.classList.remove('show');
+                            other.setAttribute('aria-expanded', 'false');
+                            other.classList.remove('active');
                         }
                     });
-                    
-                    // Toggle current dropdown
-                    if (isExpanded) {
-                        targetElement.classList.remove('show');
+
+                    if (isOpen) {
+                        targetEl && targetEl.classList.remove('show');
                         this.setAttribute('aria-expanded', 'false');
                         this.classList.remove('active');
                     } else {
-                        targetElement.classList.add('show');
+                        targetEl && targetEl.classList.add('show');
                         this.setAttribute('aria-expanded', 'true');
                         this.classList.add('active');
                     }
                 });
             });
+
+            // Auto-dismiss alerts
+            setTimeout(function () {
+                document.querySelectorAll('.alert-dismissible').forEach(a => {
+                    try { new bootstrap.Alert(a).close(); } catch (e) {}
+                });
+            }, 5000);
         });
     </script>
     

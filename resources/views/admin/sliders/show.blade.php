@@ -24,7 +24,7 @@
                             <!-- Slider Image -->
                             <div class="mb-4">
                                 @if($slider->image)
-                                    <img src="{{ asset('storage/' . $slider->image) }}" 
+                                    <img src="{{ $slider->image_url }}" 
                                          alt="{{ $slider->title }}" 
                                          class="img-fluid rounded shadow">
                                 @else
@@ -168,7 +168,7 @@
                                 <div class="card-body p-2">
                                     <div class="position-relative bg-dark rounded overflow-hidden">
                                         @if($slider->image)
-                                            <img src="{{ asset('storage/' . $slider->image) }}" 
+                                            <img src="{{ $slider->image_url }}" 
                                                  alt="{{ $slider->title }}" 
                                                  class="w-100" 
                                                  style="height: 120px; object-fit: cover; opacity: 0.8;">
