@@ -42,7 +42,14 @@ class StudyProgramController extends Controller
     
     public function show($slug)
     {
-        $studyProgram = StudyProgram::where('slug', $slug)->active()->with('faculty')->firstOrFail();
+        // Ensure the study program belongs to an active faculty to avoid null relations
+        $studyProgram = StudyProgram::where('slug', $slug)
+            ->active()
+            ->whereHas('faculty', function ($q) {
+                $q->where('is_active', true);
+            })
+            ->with('faculty')
+            ->firstOrFail();
         
         // Get lecturers for this study program
         $lecturers = Lecturer::active()

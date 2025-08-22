@@ -27,9 +27,13 @@
                         <h1 class="display-5 fw-bold mb-3">{{ $studyProgram->name }}</h1>
                         <p class="lead mb-3">
                             <i class="fas fa-university me-2"></i>
-                            <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" class="text-white">
-                                {{ $studyProgram->faculty->name }}
-                            </a>
+                            @if($studyProgram->faculty)
+                                <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" class="text-white">
+                                    {{ $studyProgram->faculty->name }}
+                                </a>
+                            @else
+                                <span class="text-white">-</span>
+                            @endif
                         </p>
                     </div>
                     
@@ -136,7 +140,7 @@
                             @endforeach
                         </div>
                         
-                        @if($studyProgram->faculty->lecturers()->count() > $lecturers->count())
+                        @if($studyProgram->faculty && $studyProgram->faculty->lecturers()->count() > $lecturers->count())
                             <div class="text-center">
                                 <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" 
                                    class="btn btn-outline-success">
@@ -160,10 +164,14 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <strong>Fakultas:</strong><br>
-                            <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" 
-                               class="text-decoration-none">
-                                {{ $studyProgram->faculty->name }}
-                            </a>
+                            @if($studyProgram->faculty)
+                                <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" 
+                                   class="text-decoration-none">
+                                    {{ $studyProgram->faculty->name }}
+                                </a>
+                            @else
+                                -
+                            @endif
                         </div>
                         <div class="col-6">
                             <strong>Jenjang:</strong><br>
