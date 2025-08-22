@@ -54,18 +54,18 @@
                                 <code>{{ $page->slug }}</code>
                                 <br>
                                 <small>
-                                    <a href="{{ route('page.show', $page->slug) }}" target="_blank" class="text-primary">
+                                    <a href="{{ route('pages.show', $page->slug) }}" target="_blank" class="text-primary">
                                         <i class="fas fa-external-link-alt"></i> Lihat
                                     </a>
                                 </small>
                             </td>
                             <td>
-                                <span class="badge badge-{{ $page->status === 'published' ? 'success' : 'warning' }}">
-                                    {{ $page->status === 'published' ? 'Terbit' : 'Draft' }}
+                                <span class="badge {{ $page->status === 'published' ? 'badge-success' : 'badge-warning' }}">
+                                    {{ $page->status === 'published' ? 'Terbit' : ($page->status ?: 'Draft') }}
                                 </span>
                             </td>
                             <td>
-                                <span class="badge badge-{{ $page->show_in_menu ? 'info' : 'secondary' }}">
+                                <span class="badge {{ $page->show_in_menu ? 'badge-info' : 'badge-secondary' }}">
                                     {{ $page->show_in_menu ? 'Ya' : 'Tidak' }}
                                 </span>
                             </td>

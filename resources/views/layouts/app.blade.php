@@ -215,7 +215,7 @@
                         @endphp
                         @foreach($menuPages as $menuPage)
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is($menuPage->slug) ? 'active fw-bold' : '' }}" href="{{ route('page.show', $menuPage->slug) }}">
+                            <a class="nav-link {{ request()->is($menuPage->slug) ? 'active fw-bold' : '' }}" href="{{ route('pages.show', $menuPage->slug) }}">
                                 <i class="fas fa-file"></i>{{ $menuPage->title }}
                             </a>
                         </li>

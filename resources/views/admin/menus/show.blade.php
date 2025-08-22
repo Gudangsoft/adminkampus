@@ -49,8 +49,8 @@
                                     <span>{{ $menu->page->title }}</span>
                                 </div>
                                 <small class="text-muted">URL: 
-                                    <a href="{{ route('page.show', $menu->page->slug) }}" target="_blank">
-                                        {{ route('page.show', $menu->page->slug) }}
+                                    <a href="{{ route('pages.show', $menu->page->slug) }}" target="_blank">
+                                        {{ route('pages.show', $menu->page->slug) }}
                                     </a>
                                 </small>
                             @elseif($menu->url)
@@ -185,7 +185,7 @@
                         </a>
                         
                         @if($menu->url || $menu->page)
-                        <a href="{{ $menu->url ?: route('page.show', $menu->page->slug) }}" 
+                        <a href="{{ $menu->url ?: route('pages.show', $menu->page->slug) }}" 
                            target="{{ $menu->target }}" class="btn btn-success btn-sm">
                             <i class="fas fa-external-link-alt"></i> Lihat Link
                         </a>
@@ -261,7 +261,7 @@ function copyMenuInfo() {
     const menuInfo = `
 Menu: {{ $menu->name }}
 Lokasi: {{ ucfirst($menu->location) }}
-@if($menu->page)Link: {{ route('page.show', $menu->page->slug) }}@elseif($menu->url)Link: {{ $menu->url }}@endif
+@if($menu->page)Link: {{ route('pages.show', $menu->page->slug) }}@elseif($menu->url)Link: {{ $menu->url }}@endif
 Status: {{ $menu->is_active ? 'Aktif' : 'Nonaktif' }}
 Urutan: {{ $menu->sort_order }}
 @if($menu->parent)Parent: {{ $menu->parent->name }}@endif

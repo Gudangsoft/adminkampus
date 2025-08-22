@@ -103,7 +103,7 @@
                     <div class="card-body p-0">
                         <div class="list-group list-group-flush">
                             @foreach($menuPages as $menuPage)
-                                <a href="{{ route('page.show', $menuPage->slug) }}" 
+                                <a href="{{ route('pages.show', $menuPage->slug) }}" 
                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {{ $menuPage->slug === $page->slug ? 'active' : '' }}">
                                     {{ $menuPage->title }}
                                     @if($menuPage->slug === $page->slug)

@@ -37,6 +37,9 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
         
         .sidebar {
@@ -44,29 +47,27 @@
             top: 0;
             left: 0;
             height: 100vh;
-            width: var(--sidebar-width);
+            width: 250px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             z-index: 1000;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             overflow-y: auto;
             overflow-x: hidden;
+            transform: translateX(0);
         }
         
-        /* Custom scrollbar for sidebar */
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }        /* Custom scrollbar for sidebar */
         .sidebar::-webkit-scrollbar {
             width: 6px;
         }
         
         .sidebar::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.3);
         }
         
         .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.3);
-            border-radius: 3px;
-        }
-        
-        .sidebar::-webkit-scrollbar-thumb:hover {
             background: rgba(255,255,255,0.5);
         }
         
@@ -201,14 +202,51 @@
             opacity: 1;
         }
         
+        /* Bootstrap 4 Badge Compatibility */
+        .badge-success {
+            background-color: #28a745 !important;
+            color: white !important;
+        }
+        
+        .badge-warning {
+            background-color: #ffc107 !important;
+            color: #212529 !important;
+        }
+        
+        .badge-info {
+            background-color: #17a2b8 !important;
+            color: white !important;
+        }
+        
+        .badge-secondary {
+            background-color: #6c757d !important;
+            color: white !important;
+        }
+        
+        .badge {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+            display: inline-block;
+        }
+            opacity: 1;
+        }
+        
         .content-wrapper {
-            margin-left: var(--sidebar-width);
+            margin-left: 250px;
             min-height: 100vh;
+            transition: margin-left 0.3s ease;
+            position: relative;
+        }
+        
+        .content-wrapper.expanded {
+            margin-left: 0;
         }
         
         .topbar {
             background: white;
-            height: var(--topbar-height);
+            height: 60px;
             padding: 0 1.5rem;
             display: flex;
             align-items: center;
@@ -217,10 +255,31 @@
             position: sticky;
             top: 0;
             z-index: 999;
+            width: 100%;
+        }
+        
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #495057;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-toggle:hover {
+            background-color: #f8f9fa;
+            color: #667eea;
         }
         
         .main-content {
             padding: 2rem;
+            min-height: calc(100vh - 60px);
+            background-color: #f8f9fa;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .card {
@@ -260,15 +319,19 @@
         
         @media (max-width: 768px) {
             .sidebar {
-                margin-left: calc(-1 * var(--sidebar-width));
+                transform: translateX(-100%);
             }
             
             .sidebar.show {
-                margin-left: 0;
+                transform: translateX(0);
             }
             
             .content-wrapper {
                 margin-left: 0;
+            }
+            
+            .main-content {
+                padding: 1rem;
             }
         }
     </style>
@@ -454,13 +517,13 @@
         <!-- Topbar -->
         <div class="topbar">
             <div class="d-flex align-items-center">
-                <button class="btn btn-link d-md-none" id="sidebarToggle">
+                <button class="sidebar-toggle" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
                 </button>
                 @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
-                    <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="topbar-logo d-none d-lg-inline" style="height: 35px; margin-right: 10px;">
+                    <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="topbar-logo d-none d-lg-inline" style="height: 35px; margin-right: 10px; margin-left: 10px;">
                 @else
-                    <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
+                    <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; margin-right: 10px; margin-left: 10px; display: flex; align-items: center; justify-content: center;">
                         <i class="fas fa-graduation-cap" style="color: white; font-size: 16px;"></i>
                     </div>
                 @endif
@@ -501,9 +564,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Sidebar toggle for mobile
+        // Sidebar toggle functionality
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('show');
+            const sidebar = document.getElementById('sidebar');
+            const contentWrapper = document.querySelector('.content-wrapper');
+            
+            if (sidebar && contentWrapper) {
+                sidebar.classList.toggle('hidden');
+                contentWrapper.classList.toggle('expanded');
+                
+                // Store state in localStorage
+                const isHidden = sidebar.classList.contains('hidden');
+                localStorage.setItem('sidebarHidden', isHidden);
+            }
+        });
+        
+        // Restore sidebar state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
+            if (sidebarHidden) {
+                const sidebar = document.getElementById('sidebar');
+                const contentWrapper = document.querySelector('.content-wrapper');
+                if (sidebar && contentWrapper) {
+                    sidebar.classList.add('hidden');
+                    contentWrapper.classList.add('expanded');
+                }
+            }
         });
         
         // Auto dismiss alerts

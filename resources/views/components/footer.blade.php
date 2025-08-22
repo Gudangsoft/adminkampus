@@ -72,7 +72,7 @@
                 <h6 class="fw-bold mb-3">Menu Cepat</h6>
                 <ul class="list-unstyled">
                     <li class="mb-2"><a href="{{ route('home') }}" class="text-light text-decoration-none">Beranda</a></li>
-                    <li class="mb-2"><a href="{{ route('page.show', 'tentang-kami') }}" class="text-light text-decoration-none">Tentang</a></li>
+                    <li class="mb-2"><a href="{{ route('pages.show', 'tentang-kami') }}" class="text-light text-decoration-none">Tentang</a></li>
                     <li class="mb-2"><a href="{{ route('news.index') }}" class="text-light text-decoration-none">Berita</a></li>
                     <li class="mb-2"><a href="{{ route('announcements.index') }}" class="text-light text-decoration-none">Pengumuman</a></li>
                     <li class="mb-2"><a href="{{ route('program-studi.index') }}" class="text-light text-decoration-none">Program Studi</a></li>
@@ -103,7 +103,7 @@
                         <i class="fas fa-globe me-1"></i> Website Resmi
                     </a>
                 @endif
-                <a href="{{ route('page.show', 'kontak') }}" class="text-light text-decoration-none">
+                <a href="{{ route('pages.show', 'kontak') }}" class="text-light text-decoration-none">
                     <i class="fas fa-envelope me-1"></i> Kontak
                 </a>
             </div>

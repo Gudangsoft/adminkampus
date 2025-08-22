@@ -47,7 +47,7 @@ class Menu extends Model
         }
         
         if ($this->page) {
-            return route('page.show', $this->page->slug);
+            return route('pages.show', $this->page->slug);
         }
         
         return '#';

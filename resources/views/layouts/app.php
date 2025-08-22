@@ -186,7 +186,7 @@
                         <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('tentang-kami') ? 'active' : '' }}" href="{{ route('page.show', 'tentang-kami') }}">Tentang</a>
+                        <a class="nav-link {{ request()->is('tentang-kami') ? 'active' : '' }}" href="{{ route('pages.show', 'tentang-kami') }}">Tentang</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {{ request()->routeIs('program-studi.*') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown">
@@ -209,7 +209,7 @@
                         <a class="nav-link {{ request()->routeIs('gallery.*') ? 'active' : '' }}" href="{{ route('gallery.index') }}">Galeri</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('kontak') ? 'active' : '' }}" href="{{ route('page.show', 'kontak') }}">Kontak</a>
+                        <a class="nav-link {{ request()->is('kontak') ? 'active' : '' }}" href="{{ route('pages.show', 'kontak') }}">Kontak</a>
                     </li>
                 </ul>
             </div>
@@ -256,7 +256,7 @@
                     <h6 class="text-white mb-3">Menu</h6>
                     <ul class="list-unstyled">
                         <li><a href="{{ route('home') }}">Beranda</a></li>
-                        <li><a href="{{ route('page.show', 'tentang-kami') }}">Tentang</a></li>
+                        <li><a href="{{ route('pages.show', 'tentang-kami') }}">Tentang</a></li>
                         <li><a href="{{ route('program-studi.index') }}">Program Studi</a></li>
                         <li><a href="{{ route('news.index') }}">Berita</a></li>
                     </ul>
@@ -267,7 +267,7 @@
                     <ul class="list-unstyled">
                         <li><a href="{{ route('announcements.index') }}">Pengumuman</a></li>
                         <li><a href="{{ route('gallery.index') }}">Galeri</a></li>
-                        <li><a href="{{ route('page.show', 'kontak') }}">Kontak</a></li>
+                        <li><a href="{{ route('pages.show', 'kontak') }}">Kontak</a></li>
                         <li><a href="{{ route('admin.dashboard') }}">Admin</a></li>
                     </ul>
                 </div>

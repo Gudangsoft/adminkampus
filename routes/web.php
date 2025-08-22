@@ -52,6 +52,8 @@ use App\Http\Controllers\AdvancedSearchController;
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/tentang', function() { return view('frontend.about'); })->name('about');
+Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
 
 // Auto login route untuk testing (hapus di production)
 Route::get('/auto-login', function() {
@@ -290,7 +292,6 @@ Route::get('/advanced-search', [AdvancedSearchController::class, 'index'])->name
 Route::get('/search-suggestions', [AdvancedSearchController::class, 'suggestions'])->name('search.suggestions');
 
 // Contact Routes
-Route::get('/kontak', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/kontak', [ContactController::class, 'store'])->name('contact.store');
 
 // Email Test Route (development only)
@@ -304,7 +305,7 @@ Route::get('/seo-test', function() {
 })->name('seo.test');
 
 // Dynamic Pages
-Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('page.show');
+Route::get('/halaman/{slug}', [PageController::class, 'show'])->name('pages.show');
 
 // Authentication Routes
 Auth::routes(['register' => false]); // Disable registration for admin only

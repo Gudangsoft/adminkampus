@@ -38,7 +38,7 @@
                         <div class="form-group mb-3">
                             <label for="slug">Slug URL</label>
                             <input type="text" class="form-control @error('slug') is-invalid @enderror" 
-                                   id="slug" name="slug" value="{{ old('slug') }}">
+                                   id="slug" name="slug" value="{{ old('slug') }}" data-auto="true">
                             <small class="form-text text-muted">Kosongkan untuk generate otomatis dari judul</small>
                             @error('slug')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -49,7 +49,7 @@
                         <div class="form-group mb-3">
                             <label for="content">Konten <span class="text-danger">*</span></label>
                             <textarea class="form-control @error('content') is-invalid @enderror" 
-                                      id="content" name="content" rows="15" required>{{ old('content') }}</textarea>
+                                      id="content" name="content" rows="15" required>{{ old('content', 'Masukkan konten halaman di sini...') }}</textarea>
                             @error('content')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -162,15 +162,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const title = this.value;
         const slugField = document.getElementById('slug');
         
-        // Only auto-generate if slug field is empty
-        if (!slugField.value) {
+        // Only auto-generate if slug field is empty or still contains default value
+        if (!slugField.value || slugField.value === '' || slugField.getAttribute('data-auto') === 'true') {
             const slug = title.toLowerCase()
-                .replace(/[^a-z0-9 -]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-')
-                .trim('-');
+                .replace(/[^\w\s-]/g, '') // Remove special characters except word chars, spaces, and hyphens
+                .replace(/\s+/g, '-')     // Replace spaces with hyphens
+                .replace(/-+/g, '-')     // Replace multiple hyphens with single hyphen
+                .replace(/^-+|-+$/g, ''); // Remove leading and trailing hyphens
             slugField.value = slug;
+            slugField.setAttribute('data-auto', 'true');
         }
+    });
+    
+    // Manual edit detection for slug field
+    document.getElementById('slug').addEventListener('input', function() {
+        // Mark as manually edited
+        this.removeAttribute('data-auto');
     });
 
     // Auto-fill meta title from title if empty
@@ -201,6 +208,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 ]
             }
         })
+        .then(editor => {
+            window.editor = editor;
+            console.log('CKEditor initialized successfully');
+        })
         .catch(error => {
             console.error('CKEditor initialization error:', error);
         });
@@ -208,6 +219,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form validation on submit
     document.querySelector('form').addEventListener('submit', function(e) {
         const title = document.getElementById('title').value.trim();
+        
+        // Update CKEditor content to textarea before validation
+        if (window.editor) {
+            document.getElementById('content').value = window.editor.getData();
+        }
+        
         const content = document.getElementById('content').value.trim();
         
         if (!title) {
@@ -217,10 +234,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        if (!content) {
+        if (!content || content === 'Masukkan konten halaman di sini...') {
             e.preventDefault();
             alert('Konten halaman wajib diisi!');
-            document.getElementById('content').focus();
+            if (window.editor) {
+                window.editor.focus();
+            } else {
+                document.getElementById('content').focus();
+            }
             return false;
         }
         
