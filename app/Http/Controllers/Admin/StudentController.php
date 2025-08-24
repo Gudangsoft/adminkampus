@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
-use App\Models\Faculty;
 use App\Models\StudyProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,7 +13,7 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Student::with(['studyProgram.faculty']);
+        $query = Student::with(['studyProgram']);
         
         // Search
         if ($request->has('search') && $request->search) {
@@ -22,13 +21,6 @@ class StudentController extends Controller
                 $q->where('name', 'like', '%' . $request->search . '%')
                   ->orWhere('nim', 'like', '%' . $request->search . '%')
                   ->orWhere('email', 'like', '%' . $request->search . '%');
-            });
-        }
-        
-        // Faculty filter
-        if ($request->has('faculty') && $request->faculty) {
-            $query->whereHas('studyProgram.faculty', function($q) use ($request) {
-                $q->where('id', $request->faculty);
             });
         }
         
@@ -59,23 +51,21 @@ class StudentController extends Controller
                          ->orderBy('nim', 'asc')
                          ->paginate(15);
         
-        $faculties = Faculty::active()->orderBy('name')->get();
         $studyPrograms = StudyProgram::active()->orderBy('name')->get();
         $entryYears = Student::selectRaw('DISTINCT entry_year')
                            ->orderBy('entry_year', 'desc')
                            ->pluck('entry_year');
         
-        return view('admin.students.index', compact('students', 'faculties', 'studyPrograms', 'entryYears'));
+        return view('admin.students.index', compact('students', 'studyPrograms', 'entryYears'));
     }
     
     public function create()
     {
-        $faculties = Faculty::active()->orderBy('name')->get();
         $studyPrograms = StudyProgram::active()->orderBy('name')->get();
         $currentYear = date('Y');
         $entryYears = range($currentYear - 10, $currentYear + 1);
         
-        return view('admin.students.create', compact('faculties', 'studyPrograms', 'entryYears'));
+        return view('admin.students.create', compact('studyPrograms', 'entryYears'));
     }
     
     public function store(Request $request)
@@ -117,19 +107,18 @@ class StudentController extends Controller
     
     public function show(Student $student)
     {
-        $student->load(['studyProgram.faculty']);
+        $student->load(['studyProgram']);
         
         return view('admin.students.show', compact('student'));
     }
     
     public function edit(Student $student)
     {
-        $faculties = Faculty::active()->orderBy('name')->get();
         $studyPrograms = StudyProgram::active()->orderBy('name')->get();
         $currentYear = date('Y');
         $entryYears = range($currentYear - 10, $currentYear + 1);
         
-        return view('admin.students.edit', compact('student', 'faculties', 'studyPrograms', 'entryYears'));
+        return view('admin.students.edit', compact('student', 'studyPrograms', 'entryYears'));
     }
     
     public function update(Request $request, Student $student)

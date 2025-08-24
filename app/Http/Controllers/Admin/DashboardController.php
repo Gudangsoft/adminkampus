@@ -8,7 +8,7 @@ use App\Models\Announcement;
 use App\Models\Student;
 use App\Models\Lecturer;
 use App\Models\StudyProgram;
-use App\Models\Faculty;
+
 use App\Models\Gallery;
 use Illuminate\Http\Request;
 
@@ -32,7 +32,7 @@ class DashboardController extends Controller
             'active_lecturers' => Lecturer::where('is_active', true)->count(),
             'total_study_programs' => StudyProgram::count(),
             'active_study_programs' => StudyProgram::where('is_active', true)->count(),
-            'total_faculties' => Faculty::count(),
+           
             'total_galleries' => Gallery::count(),
         ];
 

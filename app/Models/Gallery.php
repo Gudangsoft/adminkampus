@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Schema;
 
 class Gallery extends Model
 {
@@ -177,16 +176,6 @@ class Gallery extends Model
 
     public function incrementViews()
     {
-        // Defensive: if the column doesn't exist (migrations not run), skip increment
-        try {
-            if (!Schema::hasColumn($this->getTable(), 'views')) {
-                return;
-            }
-        } catch (\Throwable $e) {
-            // If schema inspector fails for any reason, do not crash the request
-            return;
-        }
-
         $this->increment('views');
     }
 

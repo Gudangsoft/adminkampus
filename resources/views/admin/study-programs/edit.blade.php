@@ -70,22 +70,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="faculty_id">Fakultas</label>
-                                    <select class="form-control @error('faculty_id') is-invalid @enderror" 
-                                            id="faculty_id" 
-                                            name="faculty_id">
-                                        <option value="">Tanpa Fakultas</option>
-                                        @foreach(\App\Models\Faculty::active()->get() as $faculty)
-                                            <option value="{{ $faculty->id }}" 
-                                                    {{ old('faculty_id', $studyProgram->faculty_id) == $faculty->id ? 'selected' : '' }}>
-                                                {{ $faculty->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('faculty_id')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                                   
 
                                 <div class="row">
                                     <div class="col-md-6">

@@ -61,11 +61,6 @@ class Student extends Model
         return $this->belongsTo(StudyProgram::class);
     }
 
-    public function faculty()
-    {
-        return $this->hasOneThrough(Faculty::class, StudyProgram::class, 'id', 'id', 'study_program_id', 'faculty_id');
-    }
-
     public function getPhotoUrlAttribute()
     {
         if ($this->photo) {

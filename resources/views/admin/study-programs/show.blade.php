@@ -70,7 +70,7 @@
                                         </tr>
                                         <tr>
                                             <td><strong>Fakultas</strong></td>
-                                            <td>: {{ $studyProgram->faculty ? $studyProgram->faculty->name : '-' }}</td>
+                                            <td>: {{ $studyProgram->faculty->name }}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Jenjang</strong></td>

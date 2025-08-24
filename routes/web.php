@@ -5,7 +5,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\StudyProgramController;
-use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PageController;
@@ -17,7 +16,6 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\NewsCategoryController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
-use App\Http\Controllers\Admin\FacultyController as AdminFacultyController;
 use App\Http\Controllers\Admin\StudyProgramController as AdminStudyProgramController;
 use App\Http\Controllers\Admin\LecturerController as AdminLecturerController;
 use App\Http\Controllers\Admin\StudentController as AdminStudentController;
@@ -181,7 +179,6 @@ Route::get('/debug-analytics', function() {
             'App\Models\News',
             'App\Models\Announcement', 
             'App\Models\Gallery',
-            'App\Models\Faculty',
             'App\Models\StudyProgram',
             'App\Models\Student',
             'App\Models\Lecturer',
@@ -263,14 +260,7 @@ Route::prefix('pengumuman')->name('announcements.')->group(function () {
 // Study Program Routes
 Route::prefix('program-studi')->name('program-studi.')->group(function () {
     Route::get('/', [StudyProgramController::class, 'index'])->name('index');
-    Route::get('/fakultas/{slug}', [StudyProgramController::class, 'faculty'])->name('faculty');
     Route::get('/{slug}', [StudyProgramController::class, 'show'])->name('show');
-});
-
-// Faculty Routes
-Route::prefix('fakultas')->name('fakultas.')->group(function () {
-    Route::get('/', [FacultyController::class, 'index'])->name('index');
-    Route::get('/{slug}', [FacultyController::class, 'show'])->name('show');
 });
 
 // Student Routes
@@ -349,11 +339,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
     
     // Academic Management (Admin + Editor)
     Route::middleware('role:admin,editor')->group(function () {
-    // Faculty Management
-    Route::resource('faculties', AdminFacultyController::class);
-    Route::patch('faculties/{faculty}/toggle-status', [AdminFacultyController::class, 'toggleStatus'])->name('faculties.toggle-status');
-    Route::post('faculties/update-order', [AdminFacultyController::class, 'updateOrder'])->name('faculties.update-order');
-
     // Study Program Management
     Route::resource('study-programs', AdminStudyProgramController::class);
     Route::patch('study-programs/{study_program}/toggle-status', [AdminStudyProgramController::class, 'toggleStatus'])->name('study-programs.toggle-status');

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\StudyProgram;
-use App\Models\Faculty;
 use App\Models\Lecturer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -13,8 +12,7 @@ class StudyProgramController extends Controller
 {
     public function index(Request $request)
     {
-        $query = StudyProgram::with(['faculty'])
-                            ->withCount(['students']);
+        $query = StudyProgram::withCount(['students']);
         
         // Search
         if ($request->has('search') && $request->search) {
@@ -22,11 +20,6 @@ class StudyProgramController extends Controller
                 $q->where('name', 'like', '%' . $request->search . '%')
                   ->orWhere('description', 'like', '%' . $request->search . '%');
             });
-        }
-        
-        // Faculty filter
-        if ($request->has('faculty') && $request->faculty) {
-            $query->where('faculty_id', $request->faculty);
         }
         
         // Degree filter
@@ -39,28 +32,24 @@ class StudyProgramController extends Controller
             $query->where('is_active', $request->status);
         }
         
-        $studyPrograms = $query->orderBy('faculty_id', 'asc')
-                             ->orderBy('sort_order', 'asc')
+        $studyPrograms = $query->orderBy('sort_order', 'asc')
                              ->orderBy('name', 'asc')
                              ->paginate(15);
         
-        $faculties = Faculty::active()->orderBy('name')->get();
         $degrees = StudyProgram::distinct()->pluck('degree')->filter()->sort();
         
-        return view('admin.study-programs.index', compact('studyPrograms', 'faculties', 'degrees'));
+        return view('admin.study-programs.index', compact('studyPrograms', 'degrees'));
     }
     
     public function create()
     {
-        $faculties = Faculty::active()->orderBy('name')->get();
-        return view('admin.study-programs.create', compact('faculties'));
+        return view('admin.study-programs.create');
     }
     
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'faculty_id' => 'nullable|exists:faculties,id',
             'degree' => 'required|string|max:50',
             'description' => 'nullable|string',
             'accreditation' => 'nullable|string|max:10',
@@ -83,7 +72,6 @@ class StudyProgramController extends Controller
         $studyProgram = StudyProgram::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
-            'faculty_id' => $request->faculty_id,
             'degree' => $request->degree,
             'description' => $request->description,
             'accreditation' => $request->accreditation,
@@ -98,8 +86,8 @@ class StudyProgramController extends Controller
     
     public function show(StudyProgram $studyProgram)
     {
-        $studyProgram->load(['faculty', 'students']);
-        $students = $studyProgram->students()->with('studyProgram.faculty')->latest()->limit(10)->get();
+        $studyProgram->load(['students']);
+        $students = $studyProgram->students()->latest()->limit(10)->get();
         $lecturers = collect(); // Empty collection for now
         
         return view('admin.study-programs.show', compact('studyProgram', 'students', 'lecturers'));
@@ -107,15 +95,13 @@ class StudyProgramController extends Controller
     
     public function edit(StudyProgram $studyProgram)
     {
-        $faculties = Faculty::active()->orderBy('name')->get();
-        return view('admin.study-programs.edit', compact('studyProgram', 'faculties'));
+        return view('admin.study-programs.edit', compact('studyProgram'));
     }
     
     public function update(Request $request, StudyProgram $studyProgram)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'faculty_id' => 'nullable|exists:faculties,id',
             'degree' => 'required|string|max:50',
             'description' => 'nullable|string',
             'accreditation' => 'nullable|string|max:10',
@@ -138,7 +124,6 @@ class StudyProgramController extends Controller
         $studyProgram->update([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
-            'faculty_id' => $request->faculty_id,
             'degree' => $request->degree,
             'description' => $request->description,
             'accreditation' => $request->accreditation,

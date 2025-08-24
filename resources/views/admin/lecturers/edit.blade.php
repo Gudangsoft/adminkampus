@@ -102,25 +102,6 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="faculty_id" class="form-label">Fakultas <span class="text-danger">*</span></label>
-                                <select class="form-select @error('faculty_id') is-invalid @enderror" 
-                                        id="faculty_id" 
-                                        name="faculty_id" 
-                                        required>
-                                    <option value="">Pilih Fakultas</option>
-                                    @foreach($faculties as $faculty)
-                                        <option value="{{ $faculty->id }}" 
-                                                {{ old('faculty_id', $lecturer->faculty_id) == $faculty->id ? 'selected' : '' }}>
-                                            {{ $faculty->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('faculty_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
                                 <label for="position" class="form-label">Jabatan Akademik <span class="text-danger">*</span></label>
                                 <select class="form-select @error('position') is-invalid @enderror" 
                                         id="position" 
@@ -171,6 +152,73 @@
                                 @error('education_background')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informasi Jabatan Struktural -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h6 class="mb-0"><i class="fas fa-sitemap me-2"></i>Jabatan Struktural Kampus</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="structural_position" class="form-label">Jabatan Struktural</label>
+                                <select class="form-select @error('structural_position') is-invalid @enderror" 
+                                        id="structural_position" 
+                                        name="structural_position">
+                                    <option value="">Tidak Ada Jabatan Struktural</option>
+                                    @foreach($structuralPositions as $key => $position)
+                                        <option value="{{ $key }}" 
+                                                {{ old('structural_position', $lecturer->structural_position) == $key ? 'selected' : '' }}>
+                                            {{ $position }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('structural_position')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="structural_description" class="form-label">Deskripsi Jabatan</label>
+                                <textarea class="form-control @error('structural_description') is-invalid @enderror" 
+                                          id="structural_description" 
+                                          name="structural_description" 
+                                          rows="3"
+                                          placeholder="Deskripsi tugas dan tanggung jawab">{{ old('structural_description', $lecturer->structural_description) }}</textarea>
+                                @error('structural_description')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="structural_start_date" class="form-label">Tanggal Mulai Jabatan</label>
+                                <input type="date" 
+                                       class="form-control @error('structural_start_date') is-invalid @enderror" 
+                                       id="structural_start_date" 
+                                       name="structural_start_date" 
+                                       value="{{ old('structural_start_date', $lecturer->structural_start_date?->format('Y-m-d')) }}">
+                                @error('structural_start_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="structural_end_date" class="form-label">Tanggal Berakhir Jabatan</label>
+                                <input type="date" 
+                                       class="form-control @error('structural_end_date') is-invalid @enderror" 
+                                       id="structural_end_date" 
+                                       name="structural_end_date" 
+                                       value="{{ old('structural_end_date', $lecturer->structural_end_date?->format('Y-m-d')) }}">
+                                @error('structural_end_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="form-text">Kosongkan jika jabatan masih aktif</div>
                             </div>
                         </div>
                     </div>

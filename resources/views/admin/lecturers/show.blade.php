@@ -64,11 +64,6 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <strong>Fakultas:</strong><br>
-                        <span class="badge bg-info text-dark">{{ $lecturer->faculty->name }}</span>
-                    </div>
-                    
-                    <div class="mb-3">
                         <strong>Jabatan:</strong><br>
                         <span class="badge 
                             @if($lecturer->position == 'Guru Besar') bg-danger
@@ -97,6 +92,56 @@
                     @endif
                 </div>
             </div>
+            
+            <!-- Structural Position Info -->
+            @if($lecturer->structural_position)
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0"><i class="fas fa-sitemap me-2"></i>Jabatan Struktural</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Jabatan:</strong><br>
+                        <span class="badge bg-info fs-6">{{ $lecturer->structural_position }}</span>
+                        @if($lecturer->structural_status)
+                            <span class="badge 
+                                @if($lecturer->structural_status == 'active') bg-success
+                                @elseif($lecturer->structural_status == 'upcoming') bg-warning text-dark
+                                @else bg-secondary
+                                @endif ms-1">
+                                @if($lecturer->structural_status == 'active') Aktif
+                                @elseif($lecturer->structural_status == 'upcoming') Akan Datang
+                                @else Berakhir
+                                @endif
+                            </span>
+                        @endif
+                    </div>
+                    
+                    @if($lecturer->structural_description)
+                        <div class="mb-3">
+                            <strong>Deskripsi:</strong><br>
+                            {{ $lecturer->structural_description }}
+                        </div>
+                    @endif
+                    
+                    <div class="row">
+                        @if($lecturer->structural_start_date)
+                            <div class="col-md-6">
+                                <strong>Mulai Jabatan:</strong><br>
+                                <span class="text-muted">{{ $lecturer->structural_start_date->format('d F Y') }}</span>
+                            </div>
+                        @endif
+                        
+                        @if($lecturer->structural_end_date)
+                            <div class="col-md-6">
+                                <strong>Berakhir:</strong><br>
+                                <span class="text-muted">{{ $lecturer->structural_end_date->format('d F Y') }}</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
         
         <div class="col-lg-8">

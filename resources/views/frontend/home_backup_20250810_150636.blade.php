@@ -86,11 +86,11 @@
                     @foreach($sliders as $index => $slider)
                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                         <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <img src="{{ $slider->image_url }}" 
-                         alt="{{ $slider->title }}" 
-                         class="img-fluid rounded shadow">
-                    </div>
+                            <div class="col-lg-6">
+                                <img src="{{ asset('storage/' . $slider->image) }}" 
+                                     alt="{{ $slider->title }}" 
+                                     class="img-fluid rounded shadow">
+                            </div>
                             <div class="col-lg-6">
                                 <div class="p-4">
                                     <h3 class="h4 mb-3">{{ $slider->title }}</h3>

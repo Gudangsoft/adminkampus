@@ -33,17 +33,7 @@
                                                placeholder="Cari program studi..." value="{{ request('search') }}">
                                     </div>
                                     
-                                    <div class="col-md-2">
-                                        <select name="faculty" class="form-select">
-                                            <option value="">Semua Fakultas</option>
-                                            @foreach($faculties as $faculty)
-                                                <option value="{{ $faculty->id }}" 
-                                                        {{ request('faculty') == $faculty->id ? 'selected' : '' }}>
-                                                    {{ $faculty->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                   
                                     
                                     <div class="col-md-2">
                                         <select name="degree" class="form-select">
@@ -124,11 +114,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="small">
-                                                {{ $program->faculty ? $program->faculty->name : '-' }}
-                                            </span>
-                                        </td>
-                                        <td>
+                                            
                                             <span class="badge bg-primary">{{ $program->degree }}</span>
                                         </td>
                                         <td>

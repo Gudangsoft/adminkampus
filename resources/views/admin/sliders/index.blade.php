@@ -41,7 +41,7 @@
                                     </td>
                                     <td>
                                         @if($slider->image)
-                                            <img src="{{ $slider->image_url }}" 
+                                            <img src="{{ asset('storage/' . $slider->image) }}" 
                                                  alt="{{ $slider->title }}" 
                                                  class="img-thumbnail"
                                                  style="max-width: 100px; max-height: 60px; object-fit: cover;">

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lecturer;
-use App\Models\Faculty;
 use App\Models\StudyProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,7 +13,7 @@ class LecturerController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Lecturer::with(['faculty']);
+        $query = Lecturer::query();
         
         // Search
         if ($request->has('search') && $request->search) {
@@ -23,11 +22,6 @@ class LecturerController extends Controller
                   ->orWhere('nidn', 'like', '%' . $request->search . '%')
                   ->orWhere('email', 'like', '%' . $request->search . '%');
             });
-        }
-        
-        // Faculty filter
-        if ($request->has('faculty') && $request->faculty) {
-            $query->where('faculty_id', $request->faculty);
         }
         
         // Position filter
@@ -40,24 +34,23 @@ class LecturerController extends Controller
             $query->where('is_active', $request->status);
         }
         
-        $lecturers = $query->orderBy('faculty_id', 'asc')
-                          ->orderBy('position', 'asc')
+        $lecturers = $query->orderBy('position', 'asc')
                           ->orderBy('name', 'asc')
                           ->paginate(15);
         
-        $faculties = Faculty::active()->orderBy('name')->get();
         $positions = ['Asisten Ahli', 'Lektor', 'Lektor Kepala', 'Guru Besar'];
+        $structuralPositions = Lecturer::getStructuralPositions();
         
-        return view('admin.lecturers.index', compact('lecturers', 'faculties', 'positions'));
+        return view('admin.lecturers.index', compact('lecturers', 'positions', 'structuralPositions'));
     }
     
     public function create()
     {
-        $faculties = Faculty::active()->orderBy('name')->get();
         $studyPrograms = StudyProgram::active()->orderBy('name')->get();
         $positions = ['Asisten Ahli', 'Lektor', 'Lektor Kepala', 'Guru Besar'];
+        $structuralPositions = Lecturer::getStructuralPositions();
         
-        return view('admin.lecturers.create', compact('faculties', 'studyPrograms', 'positions'));
+        return view('admin.lecturers.create', compact('studyPrograms', 'positions', 'structuralPositions'));
     }
     
     public function store(Request $request)
@@ -65,11 +58,14 @@ class LecturerController extends Controller
         $request->validate([
             'nidn' => 'required|string|unique:lecturers,nidn',
             'name' => 'required|string|max:255',
-            'faculty_id' => 'required|exists:faculties,id',
             'study_program_ids' => 'nullable|array',
             'study_program_ids.*' => 'exists:study_programs,id',
             'gender' => 'required|in:male,female',
             'position' => 'required|in:Asisten Ahli,Lektor,Lektor Kepala,Guru Besar',
+            'structural_position' => 'nullable|string',
+            'structural_description' => 'nullable|string',
+            'structural_start_date' => 'nullable|date',
+            'structural_end_date' => 'nullable|date|after_or_equal:structural_start_date',
             'title_prefix' => 'nullable|string|max:50',
             'title_suffix' => 'nullable|string|max:50',
             'education_background' => 'nullable|string|max:255',
@@ -103,7 +99,6 @@ class LecturerController extends Controller
     
     public function show(Lecturer $lecturer)
     {
-        $lecturer->load(['faculty']);
         $studyPrograms = StudyProgram::whereIn('id', json_decode($lecturer->study_program_ids ?? '[]'))->get();
         
         return view('admin.lecturers.show', compact('lecturer', 'studyPrograms'));
@@ -111,12 +106,12 @@ class LecturerController extends Controller
     
     public function edit(Lecturer $lecturer)
     {
-        $faculties = Faculty::active()->orderBy('name')->get();
         $studyPrograms = StudyProgram::active()->orderBy('name')->get();
         $positions = ['Asisten Ahli', 'Lektor', 'Lektor Kepala', 'Guru Besar'];
+        $structuralPositions = Lecturer::getStructuralPositions();
         $lecturerStudyPrograms = json_decode($lecturer->study_program_ids ?? '[]');
         
-        return view('admin.lecturers.edit', compact('lecturer', 'faculties', 'studyPrograms', 'positions', 'lecturerStudyPrograms'));
+        return view('admin.lecturers.edit', compact('lecturer', 'studyPrograms', 'positions', 'structuralPositions', 'lecturerStudyPrograms'));
     }
     
     public function update(Request $request, Lecturer $lecturer)
@@ -124,11 +119,14 @@ class LecturerController extends Controller
         $request->validate([
             'nidn' => 'required|string|unique:lecturers,nidn,' . $lecturer->id,
             'name' => 'required|string|max:255',
-            'faculty_id' => 'required|exists:faculties,id',
             'study_program_ids' => 'nullable|array',
             'study_program_ids.*' => 'exists:study_programs,id',
             'gender' => 'required|in:male,female',
             'position' => 'required|in:Asisten Ahli,Lektor,Lektor Kepala,Guru Besar',
+            'structural_position' => 'nullable|string',
+            'structural_description' => 'nullable|string',
+            'structural_start_date' => 'nullable|date',
+            'structural_end_date' => 'nullable|date|after_or_equal:structural_start_date',
             'title_prefix' => 'nullable|string|max:50',
             'title_suffix' => 'nullable|string|max:50',
             'education_background' => 'nullable|string|max:255',

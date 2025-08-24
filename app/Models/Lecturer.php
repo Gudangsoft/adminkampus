@@ -12,30 +12,18 @@ class Lecturer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nidn',
         'name',
-        'slug',
-        'faculty_id',
-        'study_program_ids',
-        'gender',
-        'title_prefix',
-        'title_suffix',
-        'position',
-        'education_background',
-        'expertise',
-        'biography',
-        'photo',
         'email',
-        'phone',
-        'office_room',
-        'research_interests',
-        'publications',
-        'awards',
-        'certifications',
-        'google_scholar',
-        'scopus_id',
-        'orcid',
-        'is_active'
+        'nip',
+        'photo',
+        'bio',
+        'study_program_ids',
+        'is_active',
+        'position',
+        'structural_position',
+        'structural_description',
+        'structural_start_date',
+        'structural_end_date',
     ];
 
     protected $casts = [
@@ -44,6 +32,8 @@ class Lecturer extends Model
         'publications' => 'array',
         'awards' => 'array',
         'certifications' => 'array',
+        'structural_start_date' => 'date',
+        'structural_end_date' => 'date',
         'is_active' => 'boolean'
     ];
 
@@ -62,11 +52,6 @@ class Lecturer extends Model
                 $model->slug = Str::slug($model->name);
             }
         });
-    }
-
-    public function faculty()
-    {
-        return $this->belongsTo(Faculty::class);
     }
 
     public function studyPrograms()
@@ -131,6 +116,54 @@ class Lecturer extends Model
     public function scopeByPosition($query, $position)
     {
         return $query->where('position', $position);
+    }
+
+    public function scopeByStructuralPosition($query, $position)
+    {
+        return $query->where('structural_position', $position);
+    }
+
+    public function getStructuralStatusAttribute()
+    {
+        if (!$this->structural_position) {
+            return null;
+        }
+
+        $now = now();
+        if ($this->structural_start_date && $now < $this->structural_start_date) {
+            return 'upcoming';
+        }
+        if ($this->structural_end_date && $now > $this->structural_end_date) {
+            return 'expired';
+        }
+        return 'active';
+    }
+
+    public function getIsStructuralActiveAttribute()
+    {
+        return $this->structural_status === 'active';
+    }
+
+    public static function getStructuralPositions()
+    {
+        return [
+            'Rektor' => 'Rektor',
+            'Wakil Rektor I' => 'Wakil Rektor I (Bidang Akademik)',
+            'Wakil Rektor II' => 'Wakil Rektor II (Bidang Administrasi Umum)',
+            'Wakil Rektor III' => 'Wakil Rektor III (Bidang Kemahasiswaan)',
+            'Wakil Rektor IV' => 'Wakil Rektor IV (Bidang Kerjasama)',
+            'Sekretaris Universitas' => 'Sekretaris Universitas',
+            'Direktur' => 'Direktur',
+            'Wakil Direktur' => 'Wakil Direktur',
+            'Kepala Program Studi' => 'Kepala Program Studi',
+            'Sekretaris Program Studi' => 'Sekretaris Program Studi',
+            'Kepala Lembaga' => 'Kepala Lembaga',
+            'Sekretaris Lembaga' => 'Sekretaris Lembaga',
+            'Kepala Unit' => 'Kepala Unit',
+            'Sekretaris Unit' => 'Sekretaris Unit',
+            'Kepala Bagian' => 'Kepala Bagian',
+            'Kepala Sub Bagian' => 'Kepala Sub Bagian',
+        ];
     }
 
     public function getRouteKeyName()

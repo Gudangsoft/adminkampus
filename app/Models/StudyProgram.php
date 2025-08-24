@@ -13,7 +13,6 @@ class StudyProgram extends Model
     protected $fillable = [
         'name',
         'slug',
-        'faculty_id',
         'degree',
         'description',
         'curriculum',
@@ -54,11 +53,6 @@ class StudyProgram extends Model
         });
     }
 
-    public function faculty()
-    {
-        return $this->belongsTo(Faculty::class);
-    }
-
     public function students()
     {
         return $this->hasMany(Student::class);
@@ -86,8 +80,7 @@ class StudyProgram extends Model
 
     public function getLecturersCountAttribute()
     {
-        return Lecturer::where('faculty_id', $this->faculty_id)
-            ->whereJsonContains('study_program_ids', $this->id)
+        return Lecturer::whereJsonContains('study_program_ids', $this->id)
             ->count();
     }
 

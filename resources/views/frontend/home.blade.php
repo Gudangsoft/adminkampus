@@ -599,6 +599,39 @@
         transform: translateY(-2px) scale(1.05);
         box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
+
+    /* Info Terkini Section Styles */
+    .hover-transform {
+        transition: all 0.3s ease;
+    }
+    .hover-transform:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+    }
+    .hover-bg-white-10 {
+        transition: all 0.3s ease;
+    }
+    .hover-bg-white-10:hover {
+        background-color: rgba(255,255,255,0.1) !important;
+    }
+    .hover-text-light:hover {
+        color: rgba(255,255,255,0.8) !important;
+    }
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    .backdrop-blur {
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Animation untuk badge urgent */
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+    .animate__animated.animate__pulse {
+        animation: pulse 2s infinite;
+    }
 </style>
 @endpush
 
@@ -780,43 +813,67 @@
 
     <!-- Info Terkini / Announcements Section -->
     @if($latestAnnouncements->count() > 0)
-    <section id="announcements" class="py-5 bg-gradient-primary">
-        <div class="container">
+    <section id="announcements" class="py-5 position-relative overflow-hidden">
+        <!-- Background dengan gradient yang lebih menarik -->
+        <div class="position-absolute top-0 start-0 w-100 h-100" 
+             style="background: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #9b59b6 100%);"></div>
+        
+        <!-- Pattern overlay untuk texture -->
+        <div class="position-absolute top-0 start-0 w-100 h-100" 
+             style="background-image: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 2px, transparent 2px),
+                                     radial-gradient(circle at 75% 75%, rgba(255,255,255,0.05) 1px, transparent 1px);
+                    background-size: 50px 50px; opacity: 0.3;"></div>
+        
+        <div class="container position-relative">
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="announcement-content text-white">
+                        <!-- Header yang lebih menarik -->
                         <div class="d-flex align-items-center mb-4">
-                            <div class="announcement-icon bg-white bg-opacity-20 rounded-circle p-3 me-3">
+                            <div class="announcement-icon bg-white bg-opacity-20 rounded-circle p-4 me-4 
+                                        d-flex align-items-center justify-content-center"
+                                 style="width: 80px; height: 80px; backdrop-filter: blur(10px);">
                                 <i class="fas fa-bullhorn text-white fa-2x"></i>
                             </div>
                             <div>
-                                <h2 class="h3 fw-bold mb-1">Info Terkini</h2>
-                                <p class="mb-0 opacity-90">Pengumuman & informasi penting</p>
+                                <h2 class="display-6 fw-bold mb-2">Info Terkini</h2>
+                                <p class="mb-0 opacity-90 fs-5">Pengumuman & informasi penting</p>
                             </div>
                         </div>
                         
-                        <div class="announcement-text">
-                            <h3 class="h4 fw-bold mb-3">{{ $latestAnnouncements->first()->title }}</h3>
-                            <p class="lead mb-4 opacity-90">
+                        <!-- Konten utama dengan styling yang lebih baik -->
+                        <div class="announcement-text bg-white bg-opacity-10 rounded-4 p-4 mb-4"
+                             style="backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                            <h3 class="h4 fw-bold mb-3 text-white">{{ $latestAnnouncements->first()->title }}</h3>
+                            <p class="lead mb-4 opacity-90 text-white" style="line-height: 1.6;">
                                 {{ Str::limit(strip_tags($latestAnnouncements->first()->content), 150) }}
                             </p>
-                            <div class="d-flex align-items-center gap-3 mb-4">
-                                <span class="badge bg-white text-primary px-3 py-2">
+                            
+                            <!-- Badge yang lebih menarik -->
+                            <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+                                <span class="badge bg-white text-primary px-4 py-2 rounded-pill fs-6 fw-semibold">
                                     <i class="fas fa-calendar-alt me-2"></i>
                                     @if($latestAnnouncements->first()->start_date)
                                         {{ $latestAnnouncements->first()->start_date->format('d M Y') }}
                                     @else
-                                        -
+                                        {{ $latestAnnouncements->first()->created_at->format('d M Y') }}
                                     @endif
                                 </span>
                                 @if($latestAnnouncements->first()->priority === 'urgent')
-                                <span class="badge bg-danger px-3 py-2">
+                                <span class="badge bg-danger px-4 py-2 rounded-pill fs-6 fw-semibold animate__animated animate__pulse">
                                     <i class="fas fa-exclamation-triangle me-2"></i>URGENT
+                                </span>
+                                @elseif($latestAnnouncements->first()->priority === 'high')
+                                <span class="badge bg-warning text-dark px-4 py-2 rounded-pill fs-6 fw-semibold">
+                                    <i class="fas fa-star me-2"></i>PENTING
                                 </span>
                                 @endif
                             </div>
+                            
+                            <!-- Button yang lebih menarik -->
                             <a href="{{ route('announcements.show', $latestAnnouncements->first()->slug) }}" 
-                               class="btn btn-white btn-lg px-4 py-2 fw-semibold">
+                               class="btn btn-light btn-lg px-5 py-3 fw-semibold rounded-pill 
+                                      shadow-lg hover-transform">
                                 <i class="fas fa-arrow-right me-2"></i>Baca Selengkapnya
                             </a>
                         </div>
@@ -825,33 +882,41 @@
                 
                 <div class="col-lg-6">
                     <div class="announcement-list">
-                        <div class="card bg-white bg-opacity-10 backdrop-blur border-0">
-                            <div class="card-header bg-transparent border-0 text-white">
-                                <h5 class="mb-0 fw-bold">
-                                    <i class="fas fa-list-ul me-2"></i>Pengumuman Lainnya
+                        <!-- Card dengan styling yang lebih modern -->
+                        <div class="card bg-white bg-opacity-15 backdrop-blur border-0 rounded-4 shadow-lg"
+                             style="backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2);">
+                            <div class="card-header bg-transparent border-0 text-white p-4">
+                                <h5 class="mb-0 fw-bold fs-4">
+                                    <i class="fas fa-list-ul me-3"></i>Pengumuman Lainnya
                                 </h5>
                             </div>
                             <div class="card-body p-0">
                                 @foreach($latestAnnouncements->skip(1) as $announcement)
-                                <div class="announcement-item border-bottom border-white border-opacity-20 p-4">
+                                <div class="announcement-item border-bottom border-white border-opacity-20 p-4 
+                                           hover-bg-white-10 transition-all">
                                     <div class="d-flex align-items-start">
-                                        <div class="announcement-item-icon me-3 mt-1">
-                                            @if($announcement->priority === 'urgent')
-                                                <i class="fas fa-exclamation-circle text-danger"></i>
-                                            @elseif($announcement->priority === 'high')
-                                                <i class="fas fa-exclamation-triangle text-warning"></i>
-                                            @else
-                                                <i class="fas fa-info-circle text-info"></i>
-                                            @endif
+                                        <div class="announcement-item-icon me-3 mt-2">
+                                            <div class="rounded-circle p-2 d-flex align-items-center justify-content-center"
+                                                 style="width: 40px; height: 40px; 
+                                                        background: rgba(255,255,255,0.2); 
+                                                        backdrop-filter: blur(10px);">
+                                                @if($announcement->priority === 'urgent')
+                                                    <i class="fas fa-exclamation-circle text-danger"></i>
+                                                @elseif($announcement->priority === 'high')
+                                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                                @else
+                                                    <i class="fas fa-info-circle text-info"></i>
+                                                @endif
+                                            </div>
                                         </div>
                                         <div class="announcement-item-content flex-grow-1">
-                                            <h6 class="text-white fw-semibold mb-2">
+                                            <h6 class="text-white fw-semibold mb-2 fs-6">
                                                 <a href="{{ route('announcements.show', $announcement->slug) }}" 
-                                                   class="text-white text-decoration-none">
+                                                   class="text-white text-decoration-none hover-text-light">
                                                     {{ $announcement->title }}
                                                 </a>
                                             </h6>
-                                            <p class="text-white-50 small mb-2">
+                                            <p class="text-white-50 small mb-3" style="line-height: 1.5;">
                                                 {{ Str::limit(strip_tags($announcement->content), 80) }}
                                             </p>
                                             <div class="d-flex align-items-center justify-content-between">
@@ -860,12 +925,12 @@
                                                     @if($announcement->start_date)
                                                         {{ $announcement->start_date->format('d M Y') }}
                                                     @else
-                                                        -
+                                                        {{ $announcement->created_at->format('d M Y') }}
                                                     @endif
                                                 </span>
                                                 <a href="{{ route('announcements.show', $announcement->slug) }}" 
-                                                   class="btn btn-sm btn-outline-light">
-                                                    Detail
+                                                   class="btn btn-sm btn-outline-light rounded-pill px-3 hover-transform">
+                                                    <i class="fas fa-arrow-right me-1"></i>Detail
                                                 </a>
                                             </div>
                                         </div>
@@ -875,7 +940,7 @@
                                 
                                 <div class="text-center p-4">
                                     <a href="{{ route('announcements.index') }}" 
-                                       class="btn btn-outline-light btn-sm">
+                                       class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-semibold hover-transform">
                                         <i class="fas fa-list me-2"></i>Lihat Semua Pengumuman
                                     </a>
                                 </div>

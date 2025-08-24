@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Section;
 use App\Models\Slider;
 use App\Models\News;
-use App\Models\Faculty;
 
 class HomeController extends Controller
 {
@@ -32,11 +31,10 @@ class HomeController extends Controller
                 ->get();
 
 
-            // Get all active study programs, same as admin
-            $studyPrograms = \App\Models\StudyProgram::with(['faculty'])
+            // Get all active study programs
+            $studyPrograms = \App\Models\StudyProgram::query()
                 ->withCount(['students'])
                 ->where('is_active', true)
-                ->orderBy('faculty_id', 'asc')
                 ->orderBy('sort_order', 'asc')
                 ->orderBy('name', 'asc')
                 ->get();

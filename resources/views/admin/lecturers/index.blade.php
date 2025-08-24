@@ -25,18 +25,6 @@
                            placeholder="Nama, NIDN, atau email...">
                 </div>
                 <div class="col-md-3">
-                    <label for="faculty" class="form-label">Fakultas</label>
-                    <select class="form-select" id="faculty" name="faculty">
-                        <option value="">Semua Fakultas</option>
-                        @foreach($faculties as $faculty)
-                            <option value="{{ $faculty->id }}" 
-                                    {{ request('faculty') == $faculty->id ? 'selected' : '' }}>
-                                {{ $faculty->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-2">
                     <label for="position" class="form-label">Jabatan</label>
                     <select class="form-select" id="position" name="position">
                         <option value="">Semua Jabatan</option>
@@ -79,8 +67,8 @@
                                 <th>Foto</th>
                                 <th>Nama Dosen</th>
                                 <th>NIDN</th>
-                                <th>Fakultas</th>
-                                <th>Jabatan</th>
+                                <th>Jabatan Akademik</th>
+                                <th>Jabatan Struktural</th>
                                 <th>Email</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -105,9 +93,6 @@
                                     </td>
                                     <td>{{ $lecturer->nidn }}</td>
                                     <td>
-                                        <span class="badge bg-info text-dark">{{ $lecturer->faculty->name }}</span>
-                                    </td>
-                                    <td>
                                         <span class="badge 
                                             @if($lecturer->position == 'Guru Besar') bg-danger
                                             @elseif($lecturer->position == 'Lektor Kepala') bg-warning text-dark
@@ -116,6 +101,28 @@
                                             @endif">
                                             {{ $lecturer->position }}
                                         </span>
+                                    </td>
+                                    <td>
+                                        @if($lecturer->structural_position)
+                                            <span class="badge bg-info">
+                                                {{ $lecturer->structural_position }}
+                                            </span>
+                                            @if($lecturer->structural_status)
+                                                <br>
+                                                <small class="badge 
+                                                    @if($lecturer->structural_status == 'active') bg-success
+                                                    @elseif($lecturer->structural_status == 'upcoming') bg-warning text-dark
+                                                    @else bg-secondary
+                                                    @endif">
+                                                    @if($lecturer->structural_status == 'active') Aktif
+                                                    @elseif($lecturer->structural_status == 'upcoming') Akan Datang
+                                                    @else Berakhir
+                                                    @endif
+                                                </small>
+                                            @endif
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
                                     </td>
                                     <td>{{ $lecturer->email ?? '-' }}</td>
                                     <td>
