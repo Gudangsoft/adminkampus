@@ -186,15 +186,4 @@ class StudentController extends Controller
         return redirect()->back()
                         ->with('success', "Status mahasiswa berhasil {$status}.");
     }
-    
-    public function getStudyPrograms(Request $request)
-    {
-        $facultyId = $request->faculty_id;
-        $studyPrograms = StudyProgram::where('faculty_id', $facultyId)
-                                   ->where('is_active', true)
-                                   ->orderBy('name')
-                                   ->get(['id', 'name']);
-        
-        return response()->json($studyPrograms);
-    }
 }

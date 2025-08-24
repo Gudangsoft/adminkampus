@@ -74,35 +74,20 @@ class StudentSeeder extends Seeder
             $nim = $entryYear . $programCode . $sequential . rand(1, 9);
             
             $name = $studentData['name'];
-            $slug = Str::slug($name);
             
-            // Make slug unique
+            // Check if NIM already exists
             $counter = 1;
-            $originalSlug = $slug;
-            while (Student::where('slug', $slug)->exists()) {
-                $slug = $originalSlug . '-' . $counter;
+            $originalNim = $nim;
+            while (Student::where('nim', $nim)->exists()) {
+                $nim = $originalNim . $counter;
                 $counter++;
             }
 
             Student::create([
                 'nim' => $nim,
                 'name' => $name,
-                'slug' => $slug,
                 'study_program_id' => $studyProgram->id,
-                'gender' => $studentData['gender'],
-                'date_of_birth' => fake()->dateTimeBetween('1998-01-01', '2005-12-31'),
-                'place_of_birth' => fake()->randomElement($cities),
-                'address' => fake()->address(),
-                'phone' => '08' . fake()->numerify('##########'),
-                'email' => strtolower(str_replace(' ', '.', $name)) . '@student.kampus.ac.id',
-                'parent_name' => ($studentData['gender'] == 'L' ? 'Bapak ' : 'Ibu ') . fake()->name(),
-                'parent_phone' => '08' . fake()->numerify('##########'),
-                'school_origin' => fake()->randomElement($schools),
                 'entry_year' => $entryYear,
-                'semester' => $semester,
-                'gpa' => fake()->randomFloat(2, 2.5, 4.0),
-                'credits_taken' => $semester * rand(18, 24),
-                'graduation_date' => $semester >= 8 && rand(0, 1) ? fake()->dateTimeBetween($entryYear + 4 . '-01-01', 'now') : null,
                 'status' => $semester >= 8 && rand(0, 1) ? 'graduate' : 'active',
                 'is_active' => rand(0, 10) > 1, // 90% active students
             ]);

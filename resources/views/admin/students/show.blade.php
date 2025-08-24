@@ -41,10 +41,6 @@
                                 <small class="text-muted">Program Studi:</small><br>
                                 <strong>{{ $student->studyProgram->name }}</strong>
                             </div>
-                            <div class="mb-2">
-                                <small class="text-muted">Fakultas:</small><br>
-                                <strong>{{ $student->studyProgram->faculty->name }}</strong>
-                            </div>
                         </div>
                     @endif
 
@@ -225,10 +221,6 @@
                                 <tr>
                                     <td class="text-muted" width="40%">Program Studi:</td>
                                     <td><strong>{{ $student->studyProgram->name ?? '-' }}</strong></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Fakultas:</td>
-                                    <td><strong>{{ $student->studyProgram->faculty->name ?? '-' }}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted">Tahun Masuk:</td>

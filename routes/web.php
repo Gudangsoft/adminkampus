@@ -350,7 +350,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
 
     // Student Management
     Route::resource('students', AdminStudentController::class);
-    // (tambahkan custom route toggle-status jika dibutuhkan)
+    Route::patch('students/{student}/toggle-status', [AdminStudentController::class, 'toggleStatus'])->name('students.toggle-status');
     });
     
     // System Management (Admin Only)
