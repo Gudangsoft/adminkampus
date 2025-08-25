@@ -13,7 +13,7 @@ class SettingSeeder extends Seeder
             // General Settings
             [
                 'key' => 'site_name',
-                'value' => 'G0-CAMPUS',
+                'value' => 'KESOSI',
                 'type' => 'text',
                 'group' => 'general',
                 'label' => 'Nama Website',
@@ -21,7 +21,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'site_description',
-                'value' => 'Website Resmi Universitas G0-CAMPUS - Kampus Modern untuk Masa Depan Cemerlang',
+                'value' => 'Website Resmi Universitas KESOSI - Kampus Kesehatan Modern untuk Masa Depan Cemerlang',
                 'type' => 'textarea',
                 'group' => 'general',
                 'label' => 'Deskripsi Website',

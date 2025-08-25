@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin') - {{ config('app.name') }}</title>
+    <title>@yield('title', 'Admin') - {{ \App\Models\Setting::get('site_name', config('app.name', 'KESOSI')) }}</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -367,12 +367,24 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <div class="default-logo-container" style="background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px; margin-bottom: 12px;">
-                <div class="default-logo" style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-graduation-cap" style="color: white; font-size: 24px;"></i>
+            @php
+                $logoUrl = \App\Models\Setting::getLogo('admin_logo');
+                $siteName = \App\Models\Setting::get('site_name', 'KESOSI');
+            @endphp
+            
+            @if($logoUrl)
+                <div class="logo-container mb-3">
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="sidebar-logo" style="max-width: 120px; max-height: 60px;">
                 </div>
-            </div>
-            <h4>G0-CAMPUS</h4>
+            @else
+                <div class="default-logo-container" style="background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px; margin-bottom: 12px;">
+                    <div class="default-logo" style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-graduation-cap" style="color: white; font-size: 24px;"></i>
+                    </div>
+                </div>
+            @endif
+            
+            <h4>{{ $siteName }}</h4>
             <small class="text-white-50">Admin Panel</small>
         </div>
         
@@ -537,9 +549,18 @@
                 <button class="sidebar-toggle" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-graduation-cap" style="color: white; font-size: 16px;"></i>
-                </div>
+                @php
+                    $logoUrl = \App\Models\Setting::getLogo('admin_logo');
+                @endphp
+                
+                @if($logoUrl)
+                    <img src="{{ $logoUrl }}" alt="{{ \App\Models\Setting::get('site_name', 'KESOSI') }}" class="topbar-logo me-2" style="max-height: 35px; width: auto;">
+                @else
+                    <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-graduation-cap" style="color: white; font-size: 16px;"></i>
+                    </div>
+                @endif
+                
                 <h5 class="mb-0 d-none d-md-block">@yield('title', 'Dashboard')</h5>
             </div>
             

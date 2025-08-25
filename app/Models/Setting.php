@@ -32,4 +32,18 @@ class Setting extends Model
             ['value' => $value]
         );
     }
+
+    public static function getGroup($group)
+    {
+        return static::where('group', $group)->pluck('value', 'key')->toArray();
+    }
+
+    public static function getLogo($type = 'site_logo', $default = null)
+    {
+        $logo = static::get($type);
+        if ($logo && file_exists(public_path('storage/' . $logo))) {
+            return asset('storage/' . $logo);
+        }
+        return $default;
+    }
 }

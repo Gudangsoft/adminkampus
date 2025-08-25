@@ -88,8 +88,11 @@ class HomeController extends Controller
 
             // Global settings
             $globalSettings = [
-                'site_name' => 'KESOSI',
-                'site_description' => 'Kampus Kesehatan Modern',
+                'site_name' => \App\Models\Setting::get('site_name', 'KESOSI'),
+                'site_description' => \App\Models\Setting::get('site_description', 'Kampus Kesehatan Modern'),
+                'contact_email' => \App\Models\Setting::get('contact_email', 'info@kesosi.ac.id'),
+                'contact_phone' => \App\Models\Setting::get('contact_phone', '+62 21 1234567'),
+                'site_keywords' => \App\Models\Setting::get('site_keywords', 'kampus, universitas, kesehatan, pendidikan'),
             ];
 
             return view('frontend.home', compact('sections', 'sliders', 'latestNews', 'studyPrograms', 'globalSettings', 'latestAnnouncements', 'featuredGalleries', 'campusOfficials'));
