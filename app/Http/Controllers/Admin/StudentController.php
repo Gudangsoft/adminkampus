@@ -183,6 +183,14 @@ class StudentController extends Controller
         
         $status = $student->is_active ? 'diaktifkan' : 'dinonaktifkan';
         
+        if (request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Status mahasiswa berhasil {$status}.",
+                'is_active' => $student->is_active
+            ]);
+        }
+        
         return redirect()->back()
                         ->with('success', "Status mahasiswa berhasil {$status}.");
     }

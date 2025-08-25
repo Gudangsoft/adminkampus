@@ -58,6 +58,51 @@ Route::get('/auto-login', function() {
     return view('auto-login');
 });
 
+// Auto login admin route untuk testing
+Route::get('/auto-login-admin', function() {
+    $user = App\Models\User::where('email', 'admin@g0campus.ac.id')->where('role', 'admin')->first();
+    if ($user) {
+        Auth::login($user);
+        session()->regenerate();
+        return redirect('/admin/students')->with('success', 'Auto login berhasil!');
+    }
+    return redirect('/admin-login.html')->with('error', 'Admin user tidak ditemukan');
+});
+
+// Route untuk handle login form
+Route::post('/admin-login', function(Illuminate\Http\Request $request) {
+    $credentials = $request->only('email', 'password');
+    
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect()->route('admin.students.index');
+    }
+    
+    return back()->withErrors(['email' => 'Kredensial tidak valid']);
+});
+
+// Test route untuk view students tanpa middleware
+Route::get('/test-students-view', function() {
+    $students = App\Models\Student::with(['studyProgram'])->paginate(15);
+    $studyPrograms = App\Models\StudyProgram::active()->orderBy('name')->get();
+    $entryYears = App\Models\Student::selectRaw('DISTINCT entry_year')
+                       ->orderBy('entry_year', 'desc')
+                       ->pluck('entry_year');
+    
+    return view('admin.students.index', compact('students', 'studyPrograms', 'entryYears'));
+});
+
+// Test route untuk view simple
+Route::get('/test-students-simple', function() {
+    $students = App\Models\Student::with(['studyProgram'])->paginate(15);
+    $studyPrograms = App\Models\StudyProgram::active()->orderBy('name')->get();
+    $entryYears = App\Models\Student::selectRaw('DISTINCT entry_year')
+                       ->orderBy('entry_year', 'desc')
+                       ->pluck('entry_year');
+    
+    return view('admin.students.index_simple', compact('students', 'studyPrograms', 'entryYears'));
+});
+
 // Test route untuk debugging
 Route::get('/simple-test', function() {
     return '<h1>Simple Test Works!</h1><p>Server is running fine</p>';
@@ -351,7 +396,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
     // Student Management
     Route::resource('students', AdminStudentController::class);
     Route::patch('students/{student}/toggle-status', [AdminStudentController::class, 'toggleStatus'])->name('students.toggle-status');
-    });
+    
+    }); // End of role:admin,editor group
     
     // System Management (Admin Only)
     Route::middleware('admin')->group(function () {

@@ -224,19 +224,4 @@
                 </table>
             </div>
 
-            <!-- Pagination -->
-            <div class="d-flex justify-content-between align-items-center mt-4">
-                <div>
-                    <p class="text-muted">
-                        Menampilkan {{ $students->firstItem() ?? 0 }} - {{ $students->lastItem() ?? 0 }} 
-                        dari {{ $students->total() }} mahasiswa
-                    </p>
-                </div>
-                <div>
-                    {{ $students->appends(request()->query())->links() }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+            

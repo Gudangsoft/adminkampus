@@ -7,17 +7,10 @@
     <title>@yield('title', 'Admin') - {{ config('app.name') }}</title>
     
     <!-- Favicon -->
-    @if(isset($globalSettings['site_favicon']) && $globalSettings['site_favicon'])
-        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
-    @else
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
-    @endif
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">"
     
     <!-- Web App Manifest -->
     <link rel="manifest" href="{{ asset('manifest.json') }}">
@@ -374,17 +367,12 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
-                <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="sidebar-logo" style="max-height: 60px; max-width: 200px; margin-bottom: 12px; object-fit: contain;">
-                <h5 class="mb-0">{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</h5>
-            @else
-                <div class="default-logo-container" style="background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px; margin-bottom: 12px;">
-                    <div class="default-logo" style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-graduation-cap" style="color: white; font-size: 24px;"></i>
-                    </div>
+            <div class="default-logo-container" style="background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px; margin-bottom: 12px;">
+                <div class="default-logo" style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-graduation-cap" style="color: white; font-size: 24px;"></i>
                 </div>
-                <h4>{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}</h4>
-            @endif
+            </div>
+            <h4>G0-CAMPUS</h4>
             <small class="text-white-50">Admin Panel</small>
         </div>
         
@@ -549,13 +537,9 @@
                 <button class="sidebar-toggle" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                @if(isset($globalSettings['site_logo']) && $globalSettings['site_logo'])
-                    <img src="{{ asset('storage/' . $globalSettings['site_logo']) }}" alt="{{ $globalSettings['site_name'] ?? 'G0-CAMPUS' }}" class="topbar-logo d-none d-lg-inline" style="height: 35px; margin-right: 10px;">
-                @else
-                    <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-graduation-cap" style="color: white; font-size: 16px;"></i>
-                    </div>
-                @endif
+                <div class="topbar-default-logo d-none d-lg-inline" style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 6px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-graduation-cap" style="color: white; font-size: 16px;"></i>
+                </div>
                 <h5 class="mb-0 d-none d-md-block">@yield('title', 'Dashboard')</h5>
             </div>
             

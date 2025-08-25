@@ -28,22 +28,8 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <form method="GET" action="{{ route('program-studi.index') }}">
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <label class="form-label">
-                                    <i class="fas fa-building me-1"></i>
-                                    Fakultas
-                                </label>
-                                <select name="faculty" class="form-select">
-                                    <option value="">Semua Fakultas</option>
-                                    @foreach($faculties as $faculty)
-                                        <option value="{{ $faculty->slug }}" 
-                                                {{ request('faculty') == $faculty->slug ? 'selected' : '' }}>
-                                            {{ $faculty->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        
+                            
                             
                             <div class="col-md-3">
                                 <label class="form-label">

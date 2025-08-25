@@ -600,37 +600,85 @@
         box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
 
-    /* Info Terkini Section Styles */
-    .hover-transform {
-        transition: all 0.3s ease;
+    /* Simple card hover effects */
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .hover-transform:hover {
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+    }
+
+    /* Info Terkini responsive styles */
+    @media (max-width: 768px) {
+        .display-6 {
+            font-size: 1.5rem !important;
+        }
+        .card-body {
+            padding: 1.5rem !important;
+        }
+        .btn-primary {
+            width: 100%;
+            margin-top: 1rem;
+        }
+    }
+
+    /* Campus Officials Horizontal Styles */
+    .officials-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #198754 #f8f9fa;
+    }
+    .officials-scroll::-webkit-scrollbar {
+        height: 6px;
+    }
+    .officials-scroll::-webkit-scrollbar-track {
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+    .officials-scroll::-webkit-scrollbar-thumb {
+        background: #198754;
+        border-radius: 10px;
+    }
+    .officials-scroll::-webkit-scrollbar-thumb:hover {
+        background: #157347;
+    }
+    .official-card-horizontal {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        min-height: 200px;
+    }
+    .official-card-horizontal:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
     }
-    .hover-bg-white-10 {
-        transition: all 0.3s ease;
+    .official-photo-small {
+        position: relative;
     }
-    .hover-bg-white-10:hover {
-        background-color: rgba(255,255,255,0.1) !important;
-    }
-    .hover-text-light:hover {
-        color: rgba(255,255,255,0.8) !important;
-    }
-    .transition-all {
-        transition: all 0.3s ease;
-    }
-    .backdrop-blur {
-        backdrop-filter: blur(10px);
+    .official-photo-small::after {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border: 1px solid rgba(25, 135, 84, 0.2);
+        border-radius: 50%;
+        z-index: -1;
     }
     
-    /* Animation untuk badge urgent */
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
-    }
-    .animate__animated.animate__pulse {
-        animation: pulse 2s infinite;
+    @media (max-width: 768px) {
+        .official-item {
+            min-width: 160px !important;
+        }
+        .official-photo-small {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        .official-card-horizontal .card-body {
+            padding: 1rem 0.5rem !important;
+        }
+        .official-card-horizontal {
+            min-height: 170px !important;
+        }
     }
 </style>
 @endpush
@@ -704,6 +752,82 @@
 
     <!-- Spacer untuk pemisahan -->
     <div class="section-spacer" style="height: 50px; background: #f8f9fa;"></div>
+
+    <!-- Campus Officials Section - Horizontal Layout -->
+    @if(isset($campusOfficials) && $campusOfficials->count() > 0)
+    <section id="campus-officials" class="py-4 bg-white">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <div class="d-inline-flex align-items-center bg-success rounded-pill px-4 py-2 mb-3">
+                        <i class="fas fa-users text-white me-2"></i>
+                        <span class="text-white fw-semibold">Pejabat Kampus</span>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-2">Pimpinan & Pejabat Struktural</h3>
+                    <p class="text-muted mb-0">Mengenal para pemimpin kampus yang mengabdi untuk kemajuan institusi</p>
+                </div>
+            </div>
+
+            <!-- Officials Row - Horizontal Scroll -->
+            <div class="officials-container">
+                <div class="officials-scroll d-flex gap-4 pb-3" style="overflow-x: auto;">
+                    @foreach($campusOfficials->take(6) as $official)
+                    <div class="official-item flex-shrink-0" style="min-width: 200px;">
+                        <div class="card border-0 shadow-sm h-100 text-center official-card-horizontal">
+                            <div class="card-body p-3">
+                                <!-- Profile Photo -->
+                                <div class="mb-3">
+                                    <div class="official-photo-small mx-auto" style="width: 80px; height: 80px;">
+                                        @if($official->photo)
+                                            <img src="{{ $official->photo_url }}" 
+                                                 alt="{{ $official->name }}"
+                                                 class="w-100 h-100 rounded-circle object-fit-cover border border-2 border-success">
+                                        @else
+                                            <div class="w-100 h-100 rounded-circle border border-2 border-success d-flex align-items-center justify-content-center bg-light">
+                                                <i class="fas fa-user fa-2x text-muted"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Official Info -->
+                                <div class="official-info-compact">
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 0.9rem; line-height: 1.3;">
+                                        {{ Str::limit($official->name, 25) }}
+                                    </h6>
+                                    
+                                    <div class="mb-2">
+                                        <span class="badge text-success px-2 py-1" style="font-size: 0.7rem; background-color: rgba(25, 135, 84, 0.1);">
+                                            {{ Str::limit($official->structural_position, 20) }}
+                                        </span>
+                                    </div>
+
+                                    @if($official->email)
+                                    <div class="mt-2">
+                                        <a href="mailto:{{ $official->email }}" 
+                                           class="btn btn-outline-success btn-sm rounded-pill px-3" style="font-size: 0.7rem;">
+                                            <i class="fas fa-envelope me-1"></i>Hubungi
+                                        </a>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Navigation Hint -->
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    <i class="fas fa-arrows-alt-h me-1"></i>Geser untuk melihat pejabat lainnya
+                </small>
+            </div>
+        </div>
+    </section>
+    @endif
 
     <!-- Featured News Section -->
     @if(isset($latestNews) && $latestNews->count() > 0)
@@ -813,137 +937,130 @@
 
     <!-- Info Terkini / Announcements Section -->
     @if($latestAnnouncements->count() > 0)
-    <section id="announcements" class="py-5 position-relative overflow-hidden">
-        <!-- Background dengan gradient yang lebih menarik -->
-        <div class="position-absolute top-0 start-0 w-100 h-100" 
-             style="background: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #9b59b6 100%);"></div>
-        
-        <!-- Pattern overlay untuk texture -->
-        <div class="position-absolute top-0 start-0 w-100 h-100" 
-             style="background-image: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 2px, transparent 2px),
-                                     radial-gradient(circle at 75% 75%, rgba(255,255,255,0.05) 1px, transparent 1px);
-                    background-size: 50px 50px; opacity: 0.3;"></div>
-        
-        <div class="container position-relative">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="announcement-content text-white">
-                        <!-- Header yang lebih menarik -->
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="announcement-icon bg-white bg-opacity-20 rounded-circle p-4 me-4 
-                                        d-flex align-items-center justify-content-center"
-                                 style="width: 80px; height: 80px; backdrop-filter: blur(10px);">
-                                <i class="fas fa-bullhorn text-white fa-2x"></i>
-                            </div>
-                            <div>
-                                <h2 class="display-6 fw-bold mb-2">Info Terkini</h2>
-                                <p class="mb-0 opacity-90 fs-5">Pengumuman & informasi penting</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Konten utama dengan styling yang lebih baik -->
-                        <div class="announcement-text bg-white bg-opacity-10 rounded-4 p-4 mb-4"
-                             style="backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
-                            <h3 class="h4 fw-bold mb-3 text-white">{{ $latestAnnouncements->first()->title }}</h3>
-                            <p class="lead mb-4 opacity-90 text-white" style="line-height: 1.6;">
-                                {{ Str::limit(strip_tags($latestAnnouncements->first()->content), 150) }}
+    <section id="announcements" class="py-5 bg-light">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <div class="d-inline-flex align-items-center bg-primary rounded-pill px-4 py-2 mb-3">
+                        <i class="fas fa-bullhorn text-white me-2"></i>
+                        <span class="text-white fw-semibold">Info Terkini</span>
+                    </div>
+                    <h2 class="display-6 fw-bold text-dark mb-3">Pengumuman & Informasi Penting</h2>
+                    <p class="text-muted fs-5 mb-0">Dapatkan informasi terbaru dari kampus</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Featured Announcement -->
+                <div class="col-lg-8 mb-4">
+                    <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                        <div class="card-body p-4">
+                            <!-- Priority Badge -->
+                            @if($latestAnnouncements->first()->priority === 'urgent')
+                                <span class="badge bg-danger rounded-pill mb-3">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>MENDESAK
+                                </span>
+                            @elseif($latestAnnouncements->first()->priority === 'high')
+                                <span class="badge bg-warning text-dark rounded-pill mb-3">
+                                    <i class="fas fa-star me-1"></i>PENTING
+                                </span>
+                            @else
+                                <span class="badge bg-info rounded-pill mb-3">
+                                    <i class="fas fa-info-circle me-1"></i>INFORMASI
+                                </span>
+                            @endif
+
+                            <!-- Title -->
+                            <h3 class="h4 fw-bold text-dark mb-3">{{ $latestAnnouncements->first()->title }}</h3>
+                            
+                            <!-- Content -->
+                            <p class="text-muted mb-4" style="line-height: 1.6;">
+                                {{ Str::limit(strip_tags($latestAnnouncements->first()->content), 200) }}
                             </p>
                             
-                            <!-- Badge yang lebih menarik -->
-                            <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
-                                <span class="badge bg-white text-primary px-4 py-2 rounded-pill fs-6 fw-semibold">
+                            <!-- Meta Info -->
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                                <div class="d-flex align-items-center text-muted">
                                     <i class="fas fa-calendar-alt me-2"></i>
-                                    @if($latestAnnouncements->first()->start_date)
-                                        {{ $latestAnnouncements->first()->start_date->format('d M Y') }}
-                                    @else
-                                        {{ $latestAnnouncements->first()->created_at->format('d M Y') }}
-                                    @endif
-                                </span>
-                                @if($latestAnnouncements->first()->priority === 'urgent')
-                                <span class="badge bg-danger px-4 py-2 rounded-pill fs-6 fw-semibold animate__animated animate__pulse">
-                                    <i class="fas fa-exclamation-triangle me-2"></i>URGENT
-                                </span>
-                                @elseif($latestAnnouncements->first()->priority === 'high')
-                                <span class="badge bg-warning text-dark px-4 py-2 rounded-pill fs-6 fw-semibold">
-                                    <i class="fas fa-star me-2"></i>PENTING
-                                </span>
-                                @endif
+                                    <span>
+                                        @if($latestAnnouncements->first()->start_date)
+                                            {{ $latestAnnouncements->first()->start_date->format('d F Y') }}
+                                        @else
+                                            {{ $latestAnnouncements->first()->created_at->format('d F Y') }}
+                                        @endif
+                                    </span>
+                                </div>
+                                
+                                <a href="{{ route('announcements.show', $latestAnnouncements->first()->slug) }}" 
+                                   class="btn btn-primary rounded-pill px-4">
+                                    <i class="fas fa-arrow-right me-2"></i>Baca Selengkapnya
+                                </a>
                             </div>
-                            
-                            <!-- Button yang lebih menarik -->
-                            <a href="{{ route('announcements.show', $latestAnnouncements->first()->slug) }}" 
-                               class="btn btn-light btn-lg px-5 py-3 fw-semibold rounded-pill 
-                                      shadow-lg hover-transform">
-                                <i class="fas fa-arrow-right me-2"></i>Baca Selengkapnya
-                            </a>
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-lg-6">
-                    <div class="announcement-list">
-                        <!-- Card dengan styling yang lebih modern -->
-                        <div class="card bg-white bg-opacity-15 backdrop-blur border-0 rounded-4 shadow-lg"
-                             style="backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2);">
-                            <div class="card-header bg-transparent border-0 text-white p-4">
-                                <h5 class="mb-0 fw-bold fs-4">
-                                    <i class="fas fa-list-ul me-3"></i>Pengumuman Lainnya
-                                </h5>
-                            </div>
-                            <div class="card-body p-0">
-                                @foreach($latestAnnouncements->skip(1) as $announcement)
-                                <div class="announcement-item border-bottom border-white border-opacity-20 p-4 
-                                           hover-bg-white-10 transition-all">
+
+                <!-- Other Announcements -->
+                <div class="col-lg-4 mb-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0 pb-0">
+                            <h5 class="fw-bold text-dark mb-0">
+                                <i class="fas fa-list-ul me-2 text-primary"></i>Pengumuman Lainnya
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            @if($latestAnnouncements->skip(1)->count() > 0)
+                                @foreach($latestAnnouncements->skip(1)->take(4) as $announcement)
+                                <div class="p-3 border-bottom">
                                     <div class="d-flex align-items-start">
-                                        <div class="announcement-item-icon me-3 mt-2">
-                                            <div class="rounded-circle p-2 d-flex align-items-center justify-content-center"
-                                                 style="width: 40px; height: 40px; 
-                                                        background: rgba(255,255,255,0.2); 
-                                                        backdrop-filter: blur(10px);">
+                                        <div class="flex-shrink-0 me-3">
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                                 style="width: 40px; height: 40px; background-color: rgba(13, 110, 253, 0.1);">
                                                 @if($announcement->priority === 'urgent')
                                                     <i class="fas fa-exclamation-circle text-danger"></i>
                                                 @elseif($announcement->priority === 'high')
-                                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                                    <i class="fas fa-star text-warning"></i>
                                                 @else
-                                                    <i class="fas fa-info-circle text-info"></i>
+                                                    <i class="fas fa-info-circle text-primary"></i>
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="announcement-item-content flex-grow-1">
-                                            <h6 class="text-white fw-semibold mb-2 fs-6">
+                                        <div class="flex-grow-1">
+                                            <h6 class="fw-semibold mb-2">
                                                 <a href="{{ route('announcements.show', $announcement->slug) }}" 
-                                                   class="text-white text-decoration-none hover-text-light">
-                                                    {{ $announcement->title }}
+                                                   class="text-decoration-none text-dark">
+                                                    {{ Str::limit($announcement->title, 60) }}
                                                 </a>
                                             </h6>
-                                            <p class="text-white-50 small mb-3" style="line-height: 1.5;">
+                                            <p class="text-muted small mb-2" style="line-height: 1.4;">
                                                 {{ Str::limit(strip_tags($announcement->content), 80) }}
                                             </p>
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <span class="text-white-50 small">
-                                                    <i class="fas fa-calendar-alt me-1"></i>
-                                                    @if($announcement->start_date)
-                                                        {{ $announcement->start_date->format('d M Y') }}
-                                                    @else
-                                                        {{ $announcement->created_at->format('d M Y') }}
-                                                    @endif
-                                                </span>
-                                                <a href="{{ route('announcements.show', $announcement->slug) }}" 
-                                                   class="btn btn-sm btn-outline-light rounded-pill px-3 hover-transform">
-                                                    <i class="fas fa-arrow-right me-1"></i>Detail
-                                                </a>
-                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar-alt me-1"></i>
+                                                @if($announcement->start_date)
+                                                    {{ $announcement->start_date->format('d M Y') }}
+                                                @else
+                                                    {{ $announcement->created_at->format('d M Y') }}
+                                                @endif
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
                                 @endforeach
-                                
-                                <div class="text-center p-4">
-                                    <a href="{{ route('announcements.index') }}" 
-                                       class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-semibold hover-transform">
-                                        <i class="fas fa-list me-2"></i>Lihat Semua Pengumuman
-                                    </a>
+                            @else
+                                <div class="p-4 text-center text-muted">
+                                    <i class="fas fa-info-circle mb-2 d-block"></i>
+                                    <p class="mb-0">Tidak ada pengumuman lainnya saat ini</p>
                                 </div>
+                            @endif
+                            
+                            <!-- View All Button -->
+                            <div class="p-3 text-center">
+                                <a href="{{ route('announcements.index') }}" 
+                                   class="btn btn-outline-primary rounded-pill px-4">
+                                    <i class="fas fa-list me-2"></i>Lihat Semua
+                                </a>
                             </div>
                         </div>
                     </div>

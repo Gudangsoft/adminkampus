@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class AnnouncementController extends Controller
 {
@@ -39,8 +40,10 @@ class AnnouncementController extends Controller
     {
         $announcement = Announcement::where('slug', $slug)->published()->with('user')->firstOrFail();
         
-        // Increment views
-        $announcement->increment('views');
+        // Increment views (only if column exists)
+        if (Schema::hasColumn('announcements', 'views')) {
+            $announcement->increment('views');
+        }
         
         // Get previous and next announcements
         $previousAnnouncement = Announcement::published()

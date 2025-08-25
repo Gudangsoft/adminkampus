@@ -18,7 +18,7 @@
     <div class="row">
         <!-- Main Content -->
         <div class="col-lg-8">
-            <article class="card border-0 shadow-sm">
+            <article class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
                 <!-- Priority Alert -->
                 @if($announcement->priority == 'urgent')
                     <div class="alert alert-danger mb-0 rounded-top" role="alert">
@@ -104,9 +104,9 @@
 
                     <!-- Excerpt -->
                     @if($announcement->excerpt)
-                        <div class="alert alert-light border-start border-primary border-3 mb-4">
-                            <h6 class="fw-bold mb-2">Ringkasan:</h6>
-                            <p class="mb-0 text-muted">{{ $announcement->excerpt }}</p>
+                        <div class="alert border-start border-primary border-3 mb-4" style="background: rgba(13, 110, 253, 0.1); color: #333;">
+                            <h6 class="fw-bold mb-2" style="color: #0d6efd;">Ringkasan:</h6>
+                            <p class="mb-0" style="color: #666;">{{ $announcement->excerpt }}</p>
                         </div>
                     @endif
 
@@ -182,7 +182,7 @@
         <div class="col-lg-4">
             <!-- Recent Announcements -->
             @if($recentAnnouncements->count() > 0)
-                <div class="card border-0 shadow-sm mb-4">
+                <div class="card border-0 shadow-sm mb-4" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
                     <div class="card-header bg-primary text-white">
                         <h6 class="card-title mb-0">
                             <i class="fas fa-bullhorn me-2"></i>Pengumuman Terbaru
@@ -224,7 +224,7 @@
             @endif
 
             <!-- Contact Info -->
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
                 <div class="card-header bg-info text-white">
                     <h6 class="card-title mb-0">
                         <i class="fas fa-info-circle me-2"></i>Informasi Kontak
@@ -266,8 +266,14 @@
 </div>
 
 <style>
+/* Custom styling for better text visibility */
+.text-muted {
+    color: #666 !important;
+}
+
 .announcement-content {
     line-height: 1.8;
+    color: #333;
 }
 
 .announcement-content h1,
@@ -283,6 +289,7 @@
 
 .announcement-content p {
     margin-bottom: 1.5rem;
+    color: #444;
     text-align: justify;
 }
 
@@ -308,9 +315,11 @@
     padding-left: 1rem;
     margin: 2rem 0;
     font-style: italic;
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 123, 255, 0.05));
+    color: #333;
     padding: 1rem;
     border-radius: 0 8px 8px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .badge-sm {

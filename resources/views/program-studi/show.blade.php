@@ -24,12 +24,7 @@
                         @endif
                     </div>
                     <h1 class="h2 mb-2">{{ $program->name }}</h1>
-                    <p class="text-muted mb-0">
-                        <i class="fas fa-building me-1"></i>
-                        <a href="{{ route('fakultas.show', $program->faculty->slug) }}" class="text-decoration-none">
-                            {{ $program->faculty->name }}
-                        </a>
-                    </p>
+                    
                 </div>
                 
                 <div class="text-end">
@@ -231,13 +226,7 @@
                         </div>
                     @endif
                     
-                    <div class="mb-3">
-                        <small class="text-muted d-block">Fakultas</small>
-                        <a href="{{ route('fakultas.show', $program->faculty->slug) }}" 
-                           class="text-decoration-none">
-                            {{ $program->faculty->name }}
-                        </a>
-                    </div>
+                    
                     
                     <div class="mb-3">
                         <small class="text-muted d-block">Status</small>

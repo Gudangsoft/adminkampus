@@ -26,10 +26,8 @@
                         </div>
                         <h1 class="display-5 fw-bold mb-3">{{ $studyProgram->name }}</h1>
                         <p class="lead mb-3">
-                            <i class="fas fa-university me-2"></i>
-                            <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" class="text-white">
-                                {{ $studyProgram->faculty->name }}
-                            </a>
+                            <i class="fas fa-graduation-cap me-2"></i>
+                            {{ $studyProgram->degree }} - {{ $studyProgram->name }}
                         </p>
                     </div>
                     
@@ -138,7 +136,7 @@
                         
                         @if($studyProgram->faculty->lecturers()->count() > $lecturers->count())
                             <div class="text-center">
-                                <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" 
+                               
                                    class="btn btn-outline-success">
                                     <i class="fas fa-eye me-1"></i>Lihat Semua Dosen
                                 </a>
@@ -156,15 +154,7 @@
                 <div class="card-header bg-info text-white">
                     <h6 class="mb-0"><i class="fas fa-info me-2"></i>Informasi Program</h6>
                 </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <strong>Fakultas:</strong><br>
-                            <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" 
-                               class="text-decoration-none">
-                                {{ $studyProgram->faculty->name }}
-                            </a>
-                        </div>
+                
                         <div class="col-6">
                             <strong>Jenjang:</strong><br>
                             <span class="badge bg-primary">{{ $studyProgram->degree }}</span>
@@ -219,8 +209,7 @@
                 </div>
                 <div class="card-body text-center">
                     <p class="mb-3">Butuh informasi lebih lanjut tentang program studi ini?</p>
-                    <a href="{{ route('fakultas.show', $studyProgram->faculty->slug) }}" 
-                       class="btn btn-secondary btn-sm">
+                    
                         <i class="fas fa-university me-1"></i>Hubungi Fakultas
                     </a>
                 </div>

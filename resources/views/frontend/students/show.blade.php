@@ -71,17 +71,7 @@
                                     </a>
                                 </p>
                             </div>
-                            @if($student->studyProgram->faculty)
-                                <div class="col-md-6 mb-3">
-                                    <strong>Fakultas:</strong>
-                                    <p class="mb-0">
-                                        <a href="{{ route('fakultas.show', $student->studyProgram->faculty->slug) }}" class="text-decoration-none">
-                                            {{ $student->studyProgram->faculty->name }}
-                                        </a>
-                                    </p>
-                                </div>
-                            @endif
-                        @endif
+                            
                         @if($student->entry_year)
                             <div class="col-md-6 mb-3">
                                 <strong>Tahun Masuk:</strong>
