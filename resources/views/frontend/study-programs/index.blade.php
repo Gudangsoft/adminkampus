@@ -30,18 +30,7 @@
                                    value="{{ request('search') }}" 
                                    placeholder="Nama program studi...">
                         </div>
-                        <div class="col-md-3">
-                            <label for="faculty" class="form-label">Fakultas</label>
-                            <select class="form-select" id="faculty" name="faculty">
-                                <option value="">Semua Fakultas</option>
-                                @foreach($faculties as $faculty)
-                                    <option value="{{ $faculty->slug }}" 
-                                            {{ request('faculty') == $faculty->slug ? 'selected' : '' }}>
-                                        {{ $faculty->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                        
                         <div class="col-md-3">
                             <label for="degree" class="form-label">Jenjang</label>
                             <select class="form-select" id="degree" name="degree">
