@@ -32,33 +32,35 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_url' => 'nullable|url',
-            'link' => 'nullable|url',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_url'   => 'nullable|url',
+            'link'        => 'nullable|url',
             'link_target' => 'in:_self,_blank',
             'button_text' => 'nullable|string|max:50',
-            'sort_order' => 'required|integer|min:0',
-            'is_active' => 'boolean'
+            'sort_order'  => 'required|integer|min:0',
+            'is_active'   => 'boolean'
         ]);
 
-        $data = $request->all();
+        $data = $request->only([
+            'title', 'description', 'link', 'link_target',
+            'button_text', 'sort_order'
+        ]);
 
         // Handle image upload or URL
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('sliders', 'public');
         } elseif ($request->filled('image_url')) {
-            // If image_url is provided, use it as image
             $data['image'] = $request->image_url;
         } else {
-            // Either file upload or URL is required
-            return back()->withErrors(['image' => 'Gambar slider diperlukan. Upload file atau masukkan URL gambar.'])
-                        ->withInput();
+            return back()->withErrors([
+                'image' => 'Gambar slider diperlukan. Upload file atau masukkan URL gambar.'
+            ])->withInput();
         }
 
         // Set default values
-        $data['is_active'] = $request->has('is_active');
+        $data['is_active']   = $request->boolean('is_active');
         $data['link_target'] = $request->link_target ?? '_self';
 
         Slider::create($data);
@@ -89,34 +91,34 @@ class SliderController extends Controller
     public function update(Request $request, Slider $slider)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_url' => 'nullable|url',
-            'link' => 'nullable|url',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_url'   => 'nullable|url',
+            'link'        => 'nullable|url',
             'link_target' => 'in:_self,_blank',
             'button_text' => 'nullable|string|max:50',
-            'sort_order' => 'required|integer|min:0',
-            'is_active' => 'boolean'
+            'sort_order'  => 'required|integer|min:0',
+            'is_active'   => 'boolean'
         ]);
 
-        $data = $request->all();
+        $data = $request->only([
+            'title', 'description', 'link', 'link_target',
+            'button_text', 'sort_order'
+        ]);
 
         // Handle image upload or URL
         if ($request->hasFile('image')) {
-            // Delete old image if it's a local file
             if ($slider->image && !filter_var($slider->image, FILTER_VALIDATE_URL)) {
                 Storage::disk('public')->delete($slider->image);
             }
             $data['image'] = $request->file('image')->store('sliders', 'public');
         } elseif ($request->filled('image_url')) {
-            // If image_url is provided, use it as image
             $data['image'] = $request->image_url;
         }
-        // If neither file nor URL provided, keep existing image
 
         // Set default values
-        $data['is_active'] = $request->has('is_active');
+        $data['is_active']   = $request->boolean('is_active');
         $data['link_target'] = $request->link_target ?? '_self';
 
         $slider->update($data);
@@ -130,8 +132,8 @@ class SliderController extends Controller
      */
     public function destroy(Slider $slider)
     {
-        // Delete image file
-        if ($slider->image) {
+        // Hapus hanya jika file lokal
+        if ($slider->image && !filter_var($slider->image, FILTER_VALIDATE_URL)) {
             Storage::disk('public')->delete($slider->image);
         }
 
@@ -142,7 +144,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Toggle active status
+     * Toggle active status.
      */
     public function toggleActive(Slider $slider)
     {
@@ -154,13 +156,13 @@ class SliderController extends Controller
     }
 
     /**
-     * Update sort order
+     * Update sort order.
      */
     public function updateOrder(Request $request)
     {
         $request->validate([
-            'items' => 'required|array',
-            'items.*.id' => 'required|exists:sliders,id',
+            'items'            => 'required|array',
+            'items.*.id'       => 'required|exists:sliders,id',
             'items.*.sort_order' => 'required|integer|min:0'
         ]);
 
@@ -168,6 +170,9 @@ class SliderController extends Controller
             Slider::where('id', $item['id'])->update(['sort_order' => $item['sort_order']]);
         }
 
-        return response()->json(['success' => true, 'message' => 'Urutan slider berhasil diperbarui!']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Urutan slider berhasil diperbarui!'
+        ]);
     }
 }
