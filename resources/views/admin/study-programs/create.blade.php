@@ -139,35 +139,182 @@
                                     </div>
                                 </div>
                                 
+                                <!-- Tahun Akreditasi -->
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label for="accreditation_year" class="form-label">Tahun Akreditasi</label>
+                                        <input type="number" 
+                                               class="form-control @error('accreditation_year') is-invalid @enderror" 
+                                               id="accreditation_year" 
+                                               name="accreditation_year" 
+                                               value="{{ old('accreditation_year') }}" 
+                                               min="2000" 
+                                               max="{{ date('Y') }}"
+                                               placeholder="{{ date('Y') }}">
+                                        @error('accreditation_year')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                
+                                <!-- Kepala Program -->
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label for="head_of_program" class="form-label">Kepala Program</label>
+                                        <input type="text" 
+                                               class="form-control @error('head_of_program') is-invalid @enderror" 
+                                               id="head_of_program" 
+                                               name="head_of_program" 
+                                               value="{{ old('head_of_program') }}" 
+                                               placeholder="Nama kepala program studi">
+                                        @error('head_of_program')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                
+                                <!-- Total SKS -->
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label for="credit_total" class="form-label">Total SKS</label>
+                                        <input type="number" 
+                                               class="form-control @error('credit_total') is-invalid @enderror" 
+                                               id="credit_total" 
+                                               name="credit_total" 
+                                               value="{{ old('credit_total') }}" 
+                                               min="0" 
+                                               max="200"
+                                               placeholder="144">
+                                        @error('credit_total')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                
+                                <!-- Total Semester -->
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label for="semester_total" class="form-label">Total Semester</label>
+                                        <input type="number" 
+                                               class="form-control @error('semester_total') is-invalid @enderror" 
+                                               id="semester_total" 
+                                               name="semester_total" 
+                                               value="{{ old('semester_total') }}" 
+                                               min="1" 
+                                               max="14"
+                                               placeholder="8">
+                                        @error('semester_total')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                
                                 <!-- Deskripsi -->
-                                <div class="mb-4">
-                                    <label for="description" class="form-label">Deskripsi Program Studi</label>
-                                    <textarea class="form-control @error('description') is-invalid @enderror" 
-                                              id="description" 
-                                              name="description" 
-                                              rows="5"
-                                              placeholder="Deskripsikan visi, misi, dan keunggulan program studi...">{{ old('description') }}</textarea>
-                                    @error('description')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                <div class="col-md-12">
+                                    <div class="mb-4">
+                                        <label for="description" class="form-label">Deskripsi Program Studi</label>
+                                        <textarea class="form-control @error('description') is-invalid @enderror" 
+                                                  id="description" 
+                                                  name="description" 
+                                                  rows="5"
+                                                  placeholder="Deskripsikan visi, misi, dan keunggulan program studi...">{{ old('description') }}</textarea>
+                                        @error('description')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                
+                                <!-- Kurikulum -->
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label for="curriculum" class="form-label">Kurikulum</label>
+                                        <textarea class="form-control @error('curriculum') is-invalid @enderror" 
+                                                  id="curriculum" 
+                                                  name="curriculum" 
+                                                  rows="4"
+                                                  placeholder="Informasi kurikulum program studi">{{ old('curriculum') }}</textarea>
+                                        @error('curriculum')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
                                 
                                 <!-- Prospek Karir -->
-                                <div class="mb-4">
-                                    <label for="career_prospects" class="form-label">Prospek Karir</label>
-                                    <textarea class="form-control @error('career_prospects') is-invalid @enderror" 
-                                              id="career_prospects" 
-                                              name="career_prospects" 
-                                              rows="4"
-                                              placeholder="Prospek karir lulusan (satu per baris)">{{ old('career_prospects') }}</textarea>
-                                    @error('career_prospects')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <small class="form-text text-muted">Masukkan satu prospek karir per baris.</small>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label for="career_prospects" class="form-label">Prospek Karir</label>
+                                        <textarea class="form-control @error('career_prospects') is-invalid @enderror" 
+                                                  id="career_prospects" 
+                                                  name="career_prospects" 
+                                                  rows="4"
+                                                  placeholder="Prospek karir lulusan (satu per baris)">{{ old('career_prospects') }}</textarea>
+                                        @error('career_prospects')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <small class="form-text text-muted">Masukkan satu prospek karir per baris.</small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Fasilitas -->
+                                <div class="col-md-12">
+                                    <div class="mb-4">
+                                        <label for="facilities" class="form-label">Fasilitas</label>
+                                        <textarea class="form-control @error('facilities') is-invalid @enderror" 
+                                                  id="facilities" 
+                                                  name="facilities" 
+                                                  rows="4"
+                                                  placeholder="Fasilitas yang tersedia (satu per baris)">{{ old('facilities') }}</textarea>
+                                        @error('facilities')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <small class="form-text text-muted">Masukkan satu fasilitas per baris.</small>
+                                    </div>
                                 </div>
                             </div>
                             
                             <div class="col-md-4">
+                                <!-- Website -->
+                                <div class="mb-4">
+                                    <label for="website" class="form-label">Website</label>
+                                    <input type="url" 
+                                           class="form-control @error('website') is-invalid @enderror" 
+                                           id="website" 
+                                           name="website" 
+                                           value="{{ old('website') }}" 
+                                           placeholder="https://example.com">
+                                    @error('website')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                
+                                <!-- Email -->
+                                <div class="mb-4">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" 
+                                           class="form-control @error('email') is-invalid @enderror" 
+                                           id="email" 
+                                           name="email" 
+                                           value="{{ old('email') }}" 
+                                           placeholder="prodi@university.ac.id">
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                
+                                <!-- Phone -->
+                                <div class="mb-4">
+                                    <label for="phone" class="form-label">Nomor Telepon</label>
+                                    <input type="text" 
+                                           class="form-control @error('phone') is-invalid @enderror" 
+                                           id="phone" 
+                                           name="phone" 
+                                           value="{{ old('phone') }}" 
+                                           placeholder="(021) 1234-5678">
+                                    @error('phone')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                
                                 <!-- Status -->
                                 <div class="mb-4">
                                     <label class="form-label">Status Publikasi</label>
