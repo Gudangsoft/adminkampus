@@ -50,7 +50,9 @@ class SliderController extends Controller
 
         // Handle image upload or URL
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('sliders', 'public');
+            $uploadedFile = $request->file('image')->store('sliders', 'public');
+            // Remove 'sliders/' prefix to store only filename
+            $data['image'] = basename($uploadedFile);
         } elseif ($request->filled('image_url')) {
             $data['image'] = $request->image_url;
         } else {
@@ -110,9 +112,11 @@ class SliderController extends Controller
         // Handle image upload or URL
         if ($request->hasFile('image')) {
             if ($slider->image && !filter_var($slider->image, FILTER_VALIDATE_URL)) {
-                Storage::disk('public')->delete($slider->image);
+                Storage::disk('public')->delete('sliders/' . $slider->image);
             }
-            $data['image'] = $request->file('image')->store('sliders', 'public');
+            $uploadedFile = $request->file('image')->store('sliders', 'public');
+            // Remove 'sliders/' prefix to store only filename
+            $data['image'] = basename($uploadedFile);
         } elseif ($request->filled('image_url')) {
             $data['image'] = $request->image_url;
         }

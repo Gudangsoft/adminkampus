@@ -19,8 +19,12 @@ class Slider extends Model
     protected $fillable = [
         'title',
         'description',
-        'image',     // path gambar
-        'is_active', // status slider aktif/tidak
+        'image',        // path gambar atau URL
+        'link',         // link tujuan
+        'link_target',  // _self atau _blank
+        'button_text',  // teks tombol
+        'sort_order',   // urutan tampil
+        'is_active',    // status slider aktif/tidak
     ];
 
     // Cast agar lebih mudah digunakan
@@ -49,8 +53,16 @@ class Slider extends Model
      */
     public function getImageUrlAttribute()
     {
-        return $this->image 
-            ? asset('storage/' . $this->image) 
-            : asset('images/default-slider.png');
+        if (!$this->image) {
+            return asset('images/default-slider.png');
+        }
+
+        // Jika URL eksternal, return as is
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        // Jika filename saja, gabung dengan path storage
+        return asset('storage/sliders/' . $this->image);
     }
 }
