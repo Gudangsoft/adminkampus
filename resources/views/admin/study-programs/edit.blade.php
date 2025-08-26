@@ -69,24 +69,21 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group">
-                                   
-
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="degree_level">Jenjang <span class="text-danger">*</span></label>
-                                            <select class="form-control @error('degree_level') is-invalid @enderror" 
-                                                    id="degree_level" 
-                                                    name="degree_level" 
+                                            <label for="degree">Jenjang <span class="text-danger">*</span></label>
+                                            <select class="form-control @error('degree') is-invalid @enderror" 
+                                                    id="degree" 
+                                                    name="degree" 
                                                     required>
                                                 <option value="">Pilih Jenjang</option>
-                                                <option value="Diploma 3" {{ old('degree_level', $studyProgram->degree_level) == 'Diploma 3' ? 'selected' : '' }}>Diploma 3</option>
-                                                <option value="Sarjana" {{ old('degree_level', $studyProgram->degree_level) == 'Sarjana' ? 'selected' : '' }}>Sarjana (S1)</option>
-                                                <option value="Magister" {{ old('degree_level', $studyProgram->degree_level) == 'Magister' ? 'selected' : '' }}>Magister (S2)</option>
-                                                <option value="Doktor" {{ old('degree_level', $studyProgram->degree_level) == 'Doktor' ? 'selected' : '' }}>Doktor (S3)</option>
+                                                <option value="D3" {{ old('degree', $studyProgram->degree) == 'D3' ? 'selected' : '' }}>Diploma 3 (D3)</option>
+                                                <option value="S1" {{ old('degree', $studyProgram->degree) == 'S1' ? 'selected' : '' }}>Sarjana (S1)</option>
+                                                <option value="S2" {{ old('degree', $studyProgram->degree) == 'S2' ? 'selected' : '' }}>Magister (S2)</option>
+                                                <option value="S3" {{ old('degree', $studyProgram->degree) == 'S3' ? 'selected' : '' }}>Doktor (S3)</option>
                                             </select>
-                                            @error('degree_level')
+                                            @error('degree')
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -136,61 +133,145 @@
                                     @enderror
                                     <small class="form-text text-muted">Masukkan satu prospek karir per baris.</small>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="curriculum">Kurikulum</label>
+                                    <textarea class="form-control @error('curriculum') is-invalid @enderror" 
+                                              id="curriculum" 
+                                              name="curriculum" 
+                                              rows="4" 
+                                              placeholder="Informasi kurikulum program studi">{{ old('curriculum', $studyProgram->curriculum) }}</textarea>
+                                    @error('curriculum')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="facilities">Fasilitas</label>
+                                    <textarea class="form-control @error('facilities') is-invalid @enderror" 
+                                              id="facilities" 
+                                              name="facilities" 
+                                              rows="4" 
+                                              placeholder="Fasilitas program studi (satu per baris)">{{ old('facilities', is_array($studyProgram->facilities) ? implode("\n", $studyProgram->facilities) : $studyProgram->facilities) }}</textarea>
+                                    @error('facilities')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                    <small class="form-text text-muted">Masukkan satu fasilitas per baris.</small>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="website">Website</label>
+                                            <input type="url" 
+                                                   class="form-control @error('website') is-invalid @enderror" 
+                                                   id="website" 
+                                                   name="website" 
+                                                   value="{{ old('website', $studyProgram->website) }}" 
+                                                   placeholder="https://example.com">
+                                            @error('website')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="email" 
+                                                   class="form-control @error('email') is-invalid @enderror" 
+                                                   id="email" 
+                                                   name="email" 
+                                                   value="{{ old('email', $studyProgram->email) }}" 
+                                                   placeholder="prodi@example.com">
+                                            @error('email')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phone">Telepon</label>
+                                            <input type="text" 
+                                                   class="form-control @error('phone') is-invalid @enderror" 
+                                                   id="phone" 
+                                                   name="phone" 
+                                                   value="{{ old('phone', $studyProgram->phone) }}" 
+                                                   placeholder="021-12345678">
+                                            @error('phone')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="head_of_program">Kepala Program</label>
+                                            <input type="text" 
+                                                   class="form-control @error('head_of_program') is-invalid @enderror" 
+                                                   id="head_of_program" 
+                                                   name="head_of_program" 
+                                                   value="{{ old('head_of_program', $studyProgram->head_of_program) }}" 
+                                                   placeholder="Dr. Nama Kepala Program">
+                                            @error('head_of_program')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="credit_total">Total SKS</label>
+                                            <input type="number" 
+                                                   class="form-control @error('credit_total') is-invalid @enderror" 
+                                                   id="credit_total" 
+                                                   name="credit_total" 
+                                                   value="{{ old('credit_total', $studyProgram->credit_total) }}" 
+                                                   placeholder="144" 
+                                                   min="0">
+                                            @error('credit_total')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="semester_total">Total Semester</label>
+                                            <input type="number" 
+                                                   class="form-control @error('semester_total') is-invalid @enderror" 
+                                                   id="semester_total" 
+                                                   name="semester_total" 
+                                                   value="{{ old('semester_total', $studyProgram->semester_total) }}" 
+                                                   placeholder="8" 
+                                                   min="1">
+                                            @error('semester_total')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="accreditation_year">Tahun Akreditasi</label>
+                                            <input type="number" 
+                                                   class="form-control @error('accreditation_year') is-invalid @enderror" 
+                                                   id="accreditation_year" 
+                                                   name="accreditation_year" 
+                                                   value="{{ old('accreditation_year', $studyProgram->accreditation_year) }}" 
+                                                   placeholder="2023" 
+                                                   min="2000" 
+                                                   max="{{ date('Y') + 1 }}">
+                                            @error('accreditation_year')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="image">Gambar Program</label>
-                                    <div class="custom-file">
-                                        <input type="file" 
-                                               class="custom-file-input @error('image') is-invalid @enderror" 
-                                               id="image" 
-                                               name="image" 
-                                               accept="image/*">
-                                        <label class="custom-file-label" for="image">Choose file</label>
-                                    </div>
-                                    @error('image')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                    <small class="form-text text-muted">Format: JPG, PNG, GIF. Maksimal 2MB.</small>
-                                    
-                                    @if($studyProgram->image)
-                                    <div class="mt-2">
-                                        <img src="{{ $studyProgram->image_url }}" 
-                                             alt="Current image" 
-                                             class="img-thumbnail" 
-                                             style="max-width: 200px;">
-                                        <p class="small text-muted mt-1">Gambar saat ini</p>
-                                    </div>
-                                    @endif
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="duration">Durasi Studi</label>
-                                    <input type="text" 
-                                           class="form-control @error('duration') is-invalid @enderror" 
-                                           id="duration" 
-                                           name="duration" 
-                                           value="{{ old('duration', $studyProgram->duration) }}" 
-                                           placeholder="Contoh: 4 Tahun">
-                                    @error('duration')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="tuition_fee">Biaya Kuliah (Rp)</label>
-                                    <input type="number" 
-                                           class="form-control @error('tuition_fee') is-invalid @enderror" 
-                                           id="tuition_fee" 
-                                           name="tuition_fee" 
-                                           value="{{ old('tuition_fee', $studyProgram->tuition_fee) }}" 
-                                           placeholder="5000000">
-                                    @error('tuition_fee')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
                                 <div class="form-group">
                                     <label for="sort_order">Urutan</label>
                                     <input type="number" 

@@ -52,8 +52,17 @@ class StudyProgramController extends Controller
             'name' => 'required|string|max:255',
             'degree' => 'required|string|max:50',
             'description' => 'nullable|string',
-            'accreditation' => 'nullable|string|max:10',
+            'curriculum' => 'nullable|string',
+            'accreditation' => 'nullable|string|max:50',
+            'accreditation_year' => 'nullable|integer|min:2000|max:' . (date('Y') + 1),
+            'head_of_program' => 'nullable|string|max:255',
+            'credit_total' => 'nullable|integer|min:0',
+            'semester_total' => 'nullable|integer|min:1',
             'career_prospects' => 'nullable|string',
+            'facilities' => 'nullable|string',
+            'website' => 'nullable|url|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:50',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ]);
@@ -69,13 +78,33 @@ class StudyProgramController extends Controller
             );
         }
         
+        // Convert facilities from textarea string to array
+        $facilities = null;
+        if ($request->facilities) {
+            $facilities = array_filter(
+                array_map('trim', explode("\n", $request->facilities)),
+                function($value) {
+                    return !empty($value);
+                }
+            );
+        }
+        
         $studyProgram = StudyProgram::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'degree' => $request->degree,
             'description' => $request->description,
+            'curriculum' => $request->curriculum,
             'accreditation' => $request->accreditation,
+            'accreditation_year' => $request->accreditation_year,
+            'head_of_program' => $request->head_of_program,
+            'credit_total' => $request->credit_total,
+            'semester_total' => $request->semester_total,
             'career_prospects' => $careerProspects,
+            'facilities' => $facilities,
+            'website' => $request->website,
+            'email' => $request->email,
+            'phone' => $request->phone,
             'is_active' => $request->has('is_active'),
             'sort_order' => $request->sort_order ?? 0,
         ]);
@@ -104,8 +133,17 @@ class StudyProgramController extends Controller
             'name' => 'required|string|max:255',
             'degree' => 'required|string|max:50',
             'description' => 'nullable|string',
-            'accreditation' => 'nullable|string|max:10',
+            'curriculum' => 'nullable|string',
+            'accreditation' => 'nullable|string|max:50',
+            'accreditation_year' => 'nullable|integer|min:2000|max:' . (date('Y') + 1),
+            'head_of_program' => 'nullable|string|max:255',
+            'credit_total' => 'nullable|integer|min:0',
+            'semester_total' => 'nullable|integer|min:1',
             'career_prospects' => 'nullable|string',
+            'facilities' => 'nullable|string',
+            'website' => 'nullable|url|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:50',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ]);
@@ -121,13 +159,33 @@ class StudyProgramController extends Controller
             );
         }
         
+        // Convert facilities from textarea string to array
+        $facilities = null;
+        if ($request->facilities) {
+            $facilities = array_filter(
+                array_map('trim', explode("\n", $request->facilities)),
+                function($value) {
+                    return !empty($value);
+                }
+            );
+        }
+        
         $studyProgram->update([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'degree' => $request->degree,
             'description' => $request->description,
+            'curriculum' => $request->curriculum,
             'accreditation' => $request->accreditation,
+            'accreditation_year' => $request->accreditation_year,
+            'head_of_program' => $request->head_of_program,
+            'credit_total' => $request->credit_total,
+            'semester_total' => $request->semester_total,
             'career_prospects' => $careerProspects,
+            'facilities' => $facilities,
+            'website' => $request->website,
+            'email' => $request->email,
+            'phone' => $request->phone,
             'is_active' => $request->has('is_active'),
             'sort_order' => $request->sort_order ?? 0,
         ]);

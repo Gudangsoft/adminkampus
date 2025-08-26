@@ -23,6 +23,34 @@
                 </div>
                 
                 <div class="card-body">
+                    <!-- Flash Messages -->
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <!-- Filter & Search -->
                     <div class="row mb-4">
                         <div class="col-12">
@@ -151,10 +179,11 @@
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form method="POST" action="{{ route('admin.study-programs.destroy', $program) }}" 
-                                                      class="d-inline" onsubmit="return confirm('Yakin ingin menghapus program studi ini?')">
+                                                      class="d-inline delete-form" data-program-name="{{ $program->name }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger delete-btn" 
+                                                            title="Hapus" data-program-name="{{ $program->name }}">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -208,6 +237,19 @@
 .sortable-ghost {
     opacity: 0.5;
 }
+.delete-btn:hover {
+    background-color: #dc3545 !important;
+    color: white !important;
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+.btn-group .btn {
+    transition: all 0.2s ease;
+}
+.btn-group .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 </style>
 @endpush
 
@@ -252,6 +294,40 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Handle delete confirmation
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.delete-btn')) {
+            e.preventDefault();
+            
+            const button = e.target.closest('.delete-btn');
+            const form = button.closest('.delete-form');
+            const programName = button.getAttribute('data-program-name');
+            
+            if (confirm(`Yakin ingin menghapus program studi "${programName}"?\n\nTindakan ini tidak dapat dibatalkan.`)) {
+                // Show loading state
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                button.disabled = true;
+                
+                // Submit the form
+                form.submit();
+            }
+        }
+    });
+    
+    // Handle toggle status with loading
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.btn-toggle')) {
+            const button = e.target.closest('.btn-toggle');
+            const originalHtml = button.innerHTML;
+            
+            // Show loading state
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            button.disabled = true;
+            
+            // Let the form submit naturally, it will reload the page
+        }
+    });
 });
 </script>
 @endpush
