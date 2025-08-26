@@ -4,50 +4,53 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Slider extends Model
 {
     use HasFactory;
 
+    // Nama tabel (jika tidak mengikuti default plural)
+    protected $table = 'sliders';
+
+    // Primary key
+    protected $primaryKey = 'id';
+
+    // Field yang boleh diisi (mass assignment)
     protected $fillable = [
         'title',
         'description',
-        'image',
-        'link',
-        'link_target',
-        'button_text',
-        'is_active',
-        'sort_order'
+        'image',     // path gambar
+        'is_active', // status slider aktif/tidak
     ];
 
+    // Cast agar lebih mudah digunakan
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
     ];
 
-    public function getImageUrlAttribute()
-    {
-        if ($this->image) {
-            // Jika image adalah URL lengkap, gunakan langsung
-            if (filter_var($this->image, FILTER_VALIDATE_URL)) {
-                return $this->image;
-            }
-            
-            // Jika file lokal, gunakan storage URL
-            return Storage::url($this->image);
-        }
-        
-        // Default placeholder
-        return 'https://via.placeholder.com/1920x800/e9ecef/6c757d?text=Slider+Image';
-    }
-
+    /**
+     * Scope untuk hanya ambil slider yang aktif
+     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     * Scope untuk order slider berdasarkan created_at
+     */
     public function scopeOrdered($query)
     {
-        return $query->orderBy('sort_order');
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Accessor untuk path gambar penuh
+     */
+    public function getImageUrlAttribute()
+    {
+        return $this->image 
+            ? asset('storage/' . $this->image) 
+            : asset('images/default-slider.png');
     }
 }
