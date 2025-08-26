@@ -88,8 +88,7 @@
                                             <button type="submit" class="btn btn-outline-primary">
                                                 <i class="fas fa-search"></i> Cari
                                             </button>
-                                                                                    @endif
-                                        @if(request()->hasAny(['search', 'degree', 'status']))
+                                            @if(request()->hasAny(['search', 'degree', 'status']))
                                                 <a href="{{ route('admin.study-programs.index') }}" class="btn btn-outline-secondary">
                                                     <i class="fas fa-times"></i> Reset
                                                 </a>
