@@ -7,10 +7,16 @@
     <title>@yield('title', 'Admin') - {{ \App\Models\Setting::get('site_name', config('app.name', 'KESOSI')) }}</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">"
+    @if(isset($globalSettings['site_favicon']) && $globalSettings['site_favicon'])
+        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('storage/' . $globalSettings['site_favicon']) }}">
+    @else
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    @endif
     
     <!-- Web App Manifest -->
     <link rel="manifest" href="{{ asset('manifest.json') }}">
