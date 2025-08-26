@@ -257,13 +257,13 @@
                         
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="office_room" class="form-label">Ruang Kerja</label>
+                                <label for="office_location" class="form-label">Ruang Kerja</label>
                                 <input type="text" 
-                                       class="form-control @error('office_room') is-invalid @enderror" 
-                                       id="office_room" 
-                                       name="office_room" 
-                                       value="{{ old('office_room', $lecturer->office_room) }}">
-                                @error('office_room')
+                                       class="form-control @error('office_location') is-invalid @enderror" 
+                                       id="office_location" 
+                                       name="office_location" 
+                                       value="{{ old('office_location', $lecturer->office_location) }}">
+                                @error('office_location')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

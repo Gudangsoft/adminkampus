@@ -48,10 +48,10 @@
                         </div>
                     @endif
                     
-                    @if($lecturer->office_room)
+                    @if($lecturer->office_location)
                         <div class="d-flex align-items-center justify-content-center">
                             <i class="fas fa-map-marker-alt text-muted me-2"></i>
-                            <span>{{ $lecturer->office_room }}</span>
+                            <span>{{ $lecturer->office_location }}</span>
                         </div>
                     @endif
                 </div>
