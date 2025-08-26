@@ -7,194 +7,114 @@ use App\Models\StudyProgram;
 use App\Models\Lecturer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
+use Illuminate\Validation\Rule;
 
 class StudyProgramController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Display a listing of the study programs.
+     */
+    public function index(Request $request): View
     {
         $query = StudyProgram::withCount(['students']);
         
-        // Search
-        if ($request->has('search') && $request->search) {
-            $query->where(function($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
-            });
-        }
+        // Apply search filter
+        $this->applySearchFilter($query, $request);
         
-        // Degree filter
-        if ($request->has('degree') && $request->degree) {
-            $query->where('degree', $request->degree);
-        }
+        // Apply degree filter
+        $this->applyDegreeFilter($query, $request);
         
-        // Status filter
-        if ($request->has('status') && $request->status !== '') {
-            $query->where('is_active', $request->status);
-        }
+        // Apply status filter
+        $this->applyStatusFilter($query, $request);
         
         $studyPrograms = $query->orderBy('sort_order', 'asc')
                              ->orderBy('name', 'asc')
                              ->paginate(15);
         
-        $degrees = StudyProgram::distinct()->pluck('degree')->filter()->sort();
+        $degrees = StudyProgram::distinct()
+                              ->pluck('degree')
+                              ->filter()
+                              ->sort()
+                              ->values();
         
         return view('admin.study-programs.index', compact('studyPrograms', 'degrees'));
     }
-    
-    public function create()
+
+    /**
+     * Show the form for creating a new study program.
+     */
+    public function create(): View
     {
         return view('admin.study-programs.create');
     }
-    
-    public function store(Request $request)
+
+    /**
+     * Store a newly created study program in storage.
+     */
+    public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'degree' => 'required|string|max:50',
-            'description' => 'nullable|string',
-            'curriculum' => 'nullable|string',
-            'accreditation' => 'nullable|string|max:50',
-            'accreditation_year' => 'nullable|integer|min:2000|max:' . (date('Y') + 1),
-            'head_of_program' => 'nullable|string|max:255',
-            'credit_total' => 'nullable|integer|min:0',
-            'semester_total' => 'nullable|integer|min:1',
-            'career_prospects' => 'nullable|string',
-            'facilities' => 'nullable|string',
-            'website' => 'nullable|url|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:50',
-            'is_active' => 'boolean',
-            'sort_order' => 'nullable|integer|min:0',
-        ]);
+        $validatedData = $this->validateStudyProgramData($request);
         
-        // Convert career_prospects from textarea string to array
-        $careerProspects = null;
-        if ($request->career_prospects) {
-            $careerProspects = array_filter(
-                array_map('trim', explode("\n", $request->career_prospects)),
-                function($value) {
-                    return !empty($value);
-                }
-            );
-        }
+        $data = $this->prepareStudyProgramData($validatedData);
+        $data['slug'] = Str::slug($validatedData['name']);
         
-        // Convert facilities from textarea string to array
-        $facilities = null;
-        if ($request->facilities) {
-            $facilities = array_filter(
-                array_map('trim', explode("\n", $request->facilities)),
-                function($value) {
-                    return !empty($value);
-                }
-            );
-        }
-        
-        $studyProgram = StudyProgram::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'degree' => $request->degree,
-            'description' => $request->description,
-            'curriculum' => $request->curriculum,
-            'accreditation' => $request->accreditation,
-            'accreditation_year' => $request->accreditation_year,
-            'head_of_program' => $request->head_of_program,
-            'credit_total' => $request->credit_total,
-            'semester_total' => $request->semester_total,
-            'career_prospects' => $careerProspects,
-            'facilities' => $facilities,
-            'website' => $request->website,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'is_active' => $request->has('is_active'),
-            'sort_order' => $request->sort_order ?? 0,
-        ]);
+        StudyProgram::create($data);
         
         return redirect()->route('admin.study-programs.index')
                         ->with('success', 'Program studi berhasil ditambahkan.');
     }
-    
-    public function show(StudyProgram $studyProgram)
+
+    /**
+     * Display the specified study program.
+     */
+    public function show(StudyProgram $studyProgram): View
     {
         $studyProgram->load(['students']);
-        $students = $studyProgram->students()->latest()->limit(10)->get();
-        $lecturers = collect(); // Empty collection for now
+        
+        $students = $studyProgram->students()
+                                ->latest()
+                                ->limit(10)
+                                ->get();
+        
+        // Get lecturers related to this study program
+        $lecturers = Lecturer::whereJsonContains('study_program_ids', $studyProgram->id)
+                           ->limit(10)
+                           ->get();
         
         return view('admin.study-programs.show', compact('studyProgram', 'students', 'lecturers'));
     }
-    
-    public function edit(StudyProgram $studyProgram)
+
+    /**
+     * Show the form for editing the specified study program.
+     */
+    public function edit(StudyProgram $studyProgram): View
     {
         return view('admin.study-programs.edit', compact('studyProgram'));
     }
-    
-    public function update(Request $request, StudyProgram $studyProgram)
+
+    /**
+     * Update the specified study program in storage.
+     */
+    public function update(Request $request, StudyProgram $studyProgram): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'degree' => 'required|string|max:50',
-            'description' => 'nullable|string',
-            'curriculum' => 'nullable|string',
-            'accreditation' => 'nullable|string|max:50',
-            'accreditation_year' => 'nullable|integer|min:2000|max:' . (date('Y') + 1),
-            'head_of_program' => 'nullable|string|max:255',
-            'credit_total' => 'nullable|integer|min:0',
-            'semester_total' => 'nullable|integer|min:1',
-            'career_prospects' => 'nullable|string',
-            'facilities' => 'nullable|string',
-            'website' => 'nullable|url|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:50',
-            'is_active' => 'boolean',
-            'sort_order' => 'nullable|integer|min:0',
-        ]);
+        $validatedData = $this->validateStudyProgramData($request, $studyProgram->id);
         
-        // Convert career_prospects from textarea string to array
-        $careerProspects = null;
-        if ($request->career_prospects) {
-            $careerProspects = array_filter(
-                array_map('trim', explode("\n", $request->career_prospects)),
-                function($value) {
-                    return !empty($value);
-                }
-            );
-        }
+        $data = $this->prepareStudyProgramData($validatedData);
+        $data['slug'] = Str::slug($validatedData['name']);
         
-        // Convert facilities from textarea string to array
-        $facilities = null;
-        if ($request->facilities) {
-            $facilities = array_filter(
-                array_map('trim', explode("\n", $request->facilities)),
-                function($value) {
-                    return !empty($value);
-                }
-            );
-        }
-        
-        $studyProgram->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'degree' => $request->degree,
-            'description' => $request->description,
-            'curriculum' => $request->curriculum,
-            'accreditation' => $request->accreditation,
-            'accreditation_year' => $request->accreditation_year,
-            'head_of_program' => $request->head_of_program,
-            'credit_total' => $request->credit_total,
-            'semester_total' => $request->semester_total,
-            'career_prospects' => $careerProspects,
-            'facilities' => $facilities,
-            'website' => $request->website,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'is_active' => $request->has('is_active'),
-            'sort_order' => $request->sort_order ?? 0,
-        ]);
+        $studyProgram->update($data);
         
         return redirect()->route('admin.study-programs.index')
                         ->with('success', 'Program studi berhasil diperbarui.');
     }
-    
-    public function destroy(StudyProgram $studyProgram)
+
+    /**
+     * Remove the specified study program from storage.
+     */
+    public function destroy(StudyProgram $studyProgram): RedirectResponse
     {
         // Check if study program has students
         if ($studyProgram->students()->count() > 0) {
@@ -207,8 +127,11 @@ class StudyProgramController extends Controller
         return redirect()->route('admin.study-programs.index')
                         ->with('success', 'Program studi berhasil dihapus.');
     }
-    
-    public function toggleStatus(StudyProgram $studyProgram)
+
+    /**
+     * Toggle the status of the specified study program.
+     */
+    public function toggleStatus(StudyProgram $studyProgram): RedirectResponse
     {
         $studyProgram->update([
             'is_active' => !$studyProgram->is_active
@@ -219,8 +142,11 @@ class StudyProgramController extends Controller
         return redirect()->back()
                         ->with('success', "Program studi berhasil {$status}.");
     }
-    
-    public function updateOrder(Request $request)
+
+    /**
+     * Update the sort order of study programs.
+     */
+    public function updateOrder(Request $request): JsonResponse
     {
         $request->validate([
             'items' => 'required|array',
@@ -229,9 +155,122 @@ class StudyProgramController extends Controller
         ]);
         
         foreach ($request->items as $item) {
-            StudyProgram::where('id', $item['id'])->update(['sort_order' => $item['sort_order']]);
+            StudyProgram::where('id', $item['id'])
+                       ->update(['sort_order' => $item['sort_order']]);
         }
         
         return response()->json(['success' => true]);
+    }
+
+    /**
+     * Apply search filter to the query.
+     */
+    private function applySearchFilter($query, Request $request): void
+    {
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                  ->orWhere('description', 'like', "%{$searchTerm}%")
+                  ->orWhere('degree', 'like', "%{$searchTerm}%");
+            });
+        }
+    }
+
+    /**
+     * Apply degree filter to the query.
+     */
+    private function applyDegreeFilter($query, Request $request): void
+    {
+        if ($request->filled('degree')) {
+            $query->where('degree', $request->degree);
+        }
+    }
+
+    /**
+     * Apply status filter to the query.
+     */
+    private function applyStatusFilter($query, Request $request): void
+    {
+        if ($request->has('status') && $request->status !== '') {
+            $query->where('is_active', (bool) $request->status);
+        }
+    }
+
+    /**
+     * Validate study program data.
+     */
+    private function validateStudyProgramData(Request $request, ?int $studyProgramId = null): array
+    {
+        $currentYear = date('Y');
+        
+        return $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('study_programs')->ignore($studyProgramId)
+            ],
+            'degree' => 'required|string|max:50',
+            'description' => 'nullable|string|max:1000',
+            'curriculum' => 'nullable|string',
+            'accreditation' => 'nullable|string|max:50',
+            'accreditation_year' => "nullable|integer|min:2000|max:{$currentYear}",
+            'head_of_program' => 'nullable|string|max:255',
+            'credit_total' => 'nullable|integer|min:0|max:200',
+            'semester_total' => 'nullable|integer|min:1|max:14',
+            'career_prospects' => 'nullable|string',
+            'facilities' => 'nullable|string',
+            'website' => 'nullable|url|max:255',
+            'email' => [
+                'nullable',
+                'email',
+                'max:255',
+                Rule::unique('study_programs')->ignore($studyProgramId)
+            ],
+            'phone' => 'nullable|string|max:50',
+            'is_active' => 'boolean',
+            'sort_order' => 'nullable|integer|min:0',
+        ]);
+    }
+
+    /**
+     * Prepare study program data for storage.
+     */
+    private function prepareStudyProgramData(array $validatedData): array
+    {
+        return [
+            'name' => $validatedData['name'],
+            'degree' => $validatedData['degree'],
+            'description' => $validatedData['description'],
+            'curriculum' => $validatedData['curriculum'],
+            'accreditation' => $validatedData['accreditation'],
+            'accreditation_year' => $validatedData['accreditation_year'],
+            'head_of_program' => $validatedData['head_of_program'],
+            'credit_total' => $validatedData['credit_total'],
+            'semester_total' => $validatedData['semester_total'],
+            'career_prospects' => $this->convertTextareaToArray($validatedData['career_prospects'] ?? null),
+            'facilities' => $this->convertTextareaToArray($validatedData['facilities'] ?? null),
+            'website' => $validatedData['website'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'is_active' => $validatedData['is_active'] ?? false,
+            'sort_order' => $validatedData['sort_order'] ?? 0,
+        ];
+    }
+
+    /**
+     * Convert textarea string to array.
+     */
+    private function convertTextareaToArray(?string $text): ?array
+    {
+        if (empty($text)) {
+            return null;
+        }
+
+        return array_filter(
+            array_map('trim', explode("\n", $text)),
+            fn($value) => !empty($value)
+        );
     }
 }
