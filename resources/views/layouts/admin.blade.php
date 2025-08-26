@@ -168,13 +168,19 @@
             background: rgba(255,255,255,0.1);
         }
         
-        .dropdown-nav .dropdown-toggle .fa-chevron-down {
+        .dropdown-nav .dropdown-toggle .fa-chevron-down,
+        .dropdown-nav .dropdown-toggle .fa-chevron-up {
             transition: transform 0.3s ease;
             font-size: 0.8rem;
         }
         
         .dropdown-nav .nav-link.dropdown-toggle[aria-expanded="true"] .fa-chevron-down {
             transform: rotate(180deg);
+        }
+        
+        .dropdown-nav .nav-link.dropdown-toggle.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
         }
         
         .submenu {
@@ -212,16 +218,19 @@
         
         /* Collapse animation */
         .collapse {
-            transition: height 0.3s ease, opacity 0.3s ease;
-        }
-        
-        .collapse:not(.show) {
-            height: 0 !important;
+            transition: max-height 0.35s ease, opacity 0.25s ease;
+            max-height: 0;
             opacity: 0;
+            overflow: hidden;
         }
         
         .collapse.show {
+            max-height: 300px;
             opacity: 1;
+        }
+        
+        .collapsing {
+            transition: max-height 0.35s ease;
         }
         
         /* Content Wrapper */
@@ -690,6 +699,29 @@
             // Handle dropdown toggle clicks
             const dropdownToggles = document.querySelectorAll('.dropdown-nav .dropdown-toggle');
             
+            // Load saved menu states
+            dropdownToggles.forEach(toggle => {
+                const targetId = toggle.getAttribute('data-bs-target');
+                const menuId = targetId ? targetId.replace('#', '') : '';
+                const savedState = localStorage.getItem('menu_' + menuId);
+                
+                if (savedState === 'open') {
+                    const targetElement = document.querySelector(targetId);
+                    const chevronIcon = toggle.querySelector('.fa-chevron-down');
+                    
+                    if (targetElement && !targetElement.classList.contains('show')) {
+                        targetElement.classList.add('show');
+                        toggle.setAttribute('aria-expanded', 'true');
+                        toggle.classList.add('active');
+                        
+                        if (chevronIcon) {
+                            chevronIcon.classList.remove('fa-chevron-down');
+                            chevronIcon.classList.add('fa-chevron-up');
+                        }
+                    }
+                }
+            });
+            
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -697,31 +729,77 @@
                     const targetId = this.getAttribute('data-bs-target');
                     const targetElement = document.querySelector(targetId);
                     const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    const chevronIcon = this.querySelector('.fa-chevron-down, .fa-chevron-up');
+                    const menuId = targetId ? targetId.replace('#', '') : '';
                     
                     // Close all other dropdowns
                     dropdownToggles.forEach(otherToggle => {
                         if (otherToggle !== this) {
                             const otherTargetId = otherToggle.getAttribute('data-bs-target');
                             const otherTarget = document.querySelector(otherTargetId);
-                            if (otherTarget) {
+                            const otherChevron = otherToggle.querySelector('.fa-chevron-down, .fa-chevron-up');
+                            const otherMenuId = otherTargetId ? otherTargetId.replace('#', '') : '';
+                            
+                            if (otherTarget && otherTarget.classList.contains('show')) {
                                 otherTarget.classList.remove('show');
                                 otherToggle.setAttribute('aria-expanded', 'false');
                                 otherToggle.classList.remove('active');
+                                
+                                // Reset chevron icon
+                                if (otherChevron) {
+                                    otherChevron.classList.remove('fa-chevron-up');
+                                    otherChevron.classList.add('fa-chevron-down');
+                                }
+                                
+                                // Save state
+                                localStorage.setItem('menu_' + otherMenuId, 'closed');
                             }
                         }
                     });
                     
                     // Toggle current dropdown
                     if (isExpanded) {
+                        // Close dropdown
                         targetElement.classList.remove('show');
                         this.setAttribute('aria-expanded', 'false');
                         this.classList.remove('active');
+                        
+                        // Change icon to down
+                        if (chevronIcon) {
+                            chevronIcon.classList.remove('fa-chevron-up');
+                            chevronIcon.classList.add('fa-chevron-down');
+                        }
+                        
+                        // Save state
+                        localStorage.setItem('menu_' + menuId, 'closed');
                     } else {
+                        // Open dropdown
                         targetElement.classList.add('show');
                         this.setAttribute('aria-expanded', 'true');
                         this.classList.add('active');
+                        
+                        // Change icon to up
+                        if (chevronIcon) {
+                            chevronIcon.classList.remove('fa-chevron-down');
+                            chevronIcon.classList.add('fa-chevron-up');
+                        }
+                        
+                        // Save state
+                        localStorage.setItem('menu_' + menuId, 'open');
                     }
                 });
+            });
+            
+            // Initialize chevron icons for already expanded menus
+            dropdownToggles.forEach(toggle => {
+                const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+                const chevronIcon = toggle.querySelector('.fa-chevron-down');
+                
+                if (isExpanded && chevronIcon) {
+                    chevronIcon.classList.remove('fa-chevron-down');
+                    chevronIcon.classList.add('fa-chevron-up');
+                    toggle.classList.add('active');
+                }
             });
         });
     </script>
