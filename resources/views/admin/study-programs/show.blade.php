@@ -69,10 +69,6 @@
                                             <td>: {{ $studyProgram->slug }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Fakultas</strong></td>
-                                            <td>: {{ $studyProgram->faculty->name }}</td>
-                                        </tr>
-                                        <tr>
                                             <td><strong>Jenjang</strong></td>
                                             <td>: 
                                                 <span class="badge bg-primary">{{ $studyProgram->degree_level }}</span>

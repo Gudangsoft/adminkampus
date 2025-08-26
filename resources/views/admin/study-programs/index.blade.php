@@ -88,7 +88,8 @@
                                             <button type="submit" class="btn btn-outline-primary">
                                                 <i class="fas fa-search"></i> Cari
                                             </button>
-                                            @if(request()->hasAny(['search', 'faculty', 'degree', 'status']))
+                                                                                    @endif
+                                        @if(request()->hasAny(['search', 'degree', 'status']))
                                                 <a href="{{ route('admin.study-programs.index') }}" class="btn btn-outline-secondary">
                                                     <i class="fas fa-times"></i> Reset
                                                 </a>
@@ -118,7 +119,6 @@
                                         <i class="fas fa-sort text-muted" title="Drag untuk mengurutkan"></i>
                                     </th>
                                     <th>Program Studi</th>
-                                    <th>Fakultas</th>
                                     <th>Jenjang</th>
                                     <th>Akreditasi</th>
                                     <th>Mahasiswa</th>
@@ -142,7 +142,6 @@
                                             </div>
                                         </td>
                                         <td>
-                                            
                                             <span class="badge bg-primary">{{ $program->degree }}</span>
                                         </td>
                                         <td>
@@ -195,13 +194,13 @@
                                         <td colspan="9" class="text-center py-4">
                                             <i class="fas fa-graduation-cap fa-2x text-muted mb-2"></i>
                                             <div class="text-muted">
-                                                @if(request()->hasAny(['search', 'faculty', 'degree', 'status']))
+                                                @if(request()->hasAny(['search', 'degree', 'status']))
                                                     Tidak ada program studi yang sesuai dengan filter
                                                 @else
                                                     Belum ada data program studi
                                                 @endif
                                             </div>
-                                            @if(!request()->hasAny(['search', 'faculty', 'degree', 'status']))
+                                            @if(!request()->hasAny(['search', 'degree', 'status']))
                                                 <a href="{{ route('admin.study-programs.create') }}" class="btn btn-primary btn-sm mt-2">
                                                     <i class="fas fa-plus me-1"></i>Tambah Program Studi Pertama
                                                 </a>
