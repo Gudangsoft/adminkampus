@@ -80,8 +80,9 @@ class StudyProgram extends Model
 
     public function getLecturersCountAttribute()
     {
-        return Lecturer::whereJsonContains('study_program_ids', $this->id)
-            ->count();
+        return Lecturer::where('study_program_ids', 'LIKE', '%' . $this->id . '%')
+                      ->where('is_active', true)
+                      ->count();
     }
 
     public function getRouteKeyName()

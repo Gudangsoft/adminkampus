@@ -34,6 +34,14 @@ class StudyProgramController extends Controller
                              ->orderBy('name', 'asc')
                              ->paginate(15);
         
+        // Add lecturer count for each study program
+        $studyPrograms->getCollection()->transform(function ($studyProgram) {
+            $studyProgram->lecturers_count = Lecturer::where('study_program_ids', 'LIKE', '%' . $studyProgram->id . '%')
+                                                   ->where('is_active', true)
+                                                   ->count();
+            return $studyProgram;
+        });
+        
         $degrees = StudyProgram::distinct()
                               ->pluck('degree')
                               ->filter()
