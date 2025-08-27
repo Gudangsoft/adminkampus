@@ -24,7 +24,7 @@
                            value="{{ request('search') }}" 
                            placeholder="Nama, NIDN, atau email...">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="position" class="form-label">Jabatan</label>
                     <select class="form-select" id="position" name="position">
                         <option value="">Semua Jabatan</option>
@@ -32,6 +32,18 @@
                             <option value="{{ $position }}" 
                                     {{ request('position') == $position ? 'selected' : '' }}>
                                 {{ $position }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="structural_position" class="form-label">Jabatan Struktural</label>
+                    <select class="form-select" id="structural_position" name="structural_position">
+                        <option value="">Semua Jabatan Struktural</option>
+                        @foreach($structuralPositions as $key => $structuralPosition)
+                            <option value="{{ $key }}" 
+                                    {{ request('structural_position') == $key ? 'selected' : '' }}>
+                                {{ $structuralPosition }}
                             </option>
                         @endforeach
                     </select>
@@ -143,6 +155,13 @@
                                                class="btn btn-sm btn-outline-info" title="Lihat">
                                                 <i class="fas fa-eye"></i>
                                             </a>
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-outline-primary" 
+                                                    title="Kelola Jabatan Struktural"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#structuralModal{{ $lecturer->id }}">
+                                                <i class="fas fa-user-tie"></i>
+                                            </button>
                                             <a href="{{ route('admin.lecturers.edit', $lecturer) }}" 
                                                class="btn btn-sm btn-outline-warning" title="Edit">
                                                 <i class="fas fa-edit"></i>
@@ -185,4 +204,77 @@
         </div>
     </div>
 </div>
+
+<!-- Structural Position Modals -->
+@foreach($lecturers as $lecturer)
+<div class="modal fade" id="structuralModal{{ $lecturer->id }}" tabindex="-1" aria-labelledby="structuralModalLabel{{ $lecturer->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('admin.lecturers.update-structural', $lecturer) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="structuralModalLabel{{ $lecturer->id }}">
+                        <i class="fas fa-user-tie me-2"></i>Kelola Jabatan Struktural
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <strong>Dosen:</strong> {{ $lecturer->full_name }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="structural_position{{ $lecturer->id }}" class="form-label">Jabatan Struktural</label>
+                        <select class="form-select" id="structural_position{{ $lecturer->id }}" name="structural_position">
+                            <option value="">Tidak Ada Jabatan Struktural</option>
+                            @foreach($structuralPositions as $key => $position)
+                                <option value="{{ $key }}" 
+                                        {{ $lecturer->structural_position == $key ? 'selected' : '' }}>
+                                    {{ $position }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="structural_description{{ $lecturer->id }}" class="form-label">Deskripsi Jabatan</label>
+                        <textarea class="form-control" 
+                                  id="structural_description{{ $lecturer->id }}" 
+                                  name="structural_description" 
+                                  rows="3"
+                                  placeholder="Deskripsi tugas dan tanggung jawab">{{ $lecturer->structural_description }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="structural_start_date{{ $lecturer->id }}" class="form-label">Tanggal Mulai</label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   id="structural_start_date{{ $lecturer->id }}" 
+                                   name="structural_start_date"
+                                   value="{{ $lecturer->structural_start_date ? $lecturer->structural_start_date->format('Y-m-d') : '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="structural_end_date{{ $lecturer->id }}" class="form-label">Tanggal Berakhir</label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   id="structural_end_date{{ $lecturer->id }}" 
+                                   name="structural_end_date"
+                                   value="{{ $lecturer->structural_end_date ? $lecturer->structural_end_date->format('Y-m-d') : '' }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i>Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
 @endsection

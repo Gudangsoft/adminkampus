@@ -29,6 +29,11 @@ class LecturerController extends Controller
             $query->where('position', $request->position);
         }
         
+        // Structural position filter
+        if ($request->has('structural_position') && $request->structural_position) {
+            $query->where('structural_position', $request->structural_position);
+        }
+        
         // Status filter
         if ($request->has('status') && $request->status !== '') {
             $query->where('is_active', $request->status);
@@ -185,5 +190,24 @@ class LecturerController extends Controller
         
         return redirect()->back()
                         ->with('success', "Dosen berhasil {$status}.");
+    }
+    
+    public function updateStructural(Request $request, Lecturer $lecturer)
+    {
+        $validatedData = $request->validate([
+            'structural_position' => 'nullable|string',
+            'structural_description' => 'nullable|string',
+            'structural_start_date' => 'nullable|date',
+            'structural_end_date' => 'nullable|date|after_or_equal:structural_start_date',
+        ]);
+        
+        $lecturer->update($validatedData);
+        
+        $message = $validatedData['structural_position'] 
+            ? 'Jabatan struktural berhasil diperbarui.' 
+            : 'Jabatan struktural berhasil dihapus.';
+        
+        return redirect()->back()
+                        ->with('success', $message);
     }
 }

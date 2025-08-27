@@ -392,6 +392,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
     // Lecturer Management  
     Route::resource('lecturers', AdminLecturerController::class);
     Route::patch('lecturers/{lecturer}/toggle-status', [AdminLecturerController::class, 'toggleStatus'])->name('lecturers.toggle-status');
+    Route::patch('lecturers/{lecturer}/update-structural', [AdminLecturerController::class, 'updateStructural'])->name('lecturers.update-structural');
 
     // Student Management
     Route::resource('students', AdminStudentController::class);
