@@ -49,7 +49,7 @@ class HomeController extends Controller
                 ->get();
 
             // Get campus officials/leaders (pejabat kampus)
-            $campusOfficials = \App\Models\Lecturer::active()
+            $campusOfficials = \App\Models\Lecturer::where('lecturers.is_active', 1)
                 ->whereNotNull('structural_position_id')
                 ->with('structuralPosition')
                 ->where(function($query) {
@@ -57,7 +57,8 @@ class HomeController extends Controller
                           ->orWhere('structural_end_date', '>=', now()->subYears(1)); // Include recent officials
                 })
                 ->whereHas('structuralPosition', function($query) {
-                    $query->whereIn('name', [
+                    $query->where('structural_positions.is_active', 1)
+                          ->whereIn('name', [
                         'Rektor', 
                         'Wakil Rektor I', 
                         'Wakil Rektor II', 

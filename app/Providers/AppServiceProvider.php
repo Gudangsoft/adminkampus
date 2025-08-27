@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Set default pagination view for better UI
+        \Illuminate\Pagination\Paginator::defaultView('vendor.pagination.bootstrap-4');
+        \Illuminate\Pagination\Paginator::defaultSimpleView('vendor.pagination.simple-bootstrap-4');
+        
         // Register helper functions
         if (!function_exists('setting')) {
             function setting($key, $default = null)
