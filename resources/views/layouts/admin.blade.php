@@ -446,13 +446,13 @@
             
             <!-- Akademik Menu with Dropdown -->
             <div class="nav-item dropdown-nav">
-                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'active' : '' }}" 
-                   href="#" data-bs-toggle="collapse" data-bs-target="#akademikMenu" aria-expanded="{{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'true' : 'false' }}">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') || request()->routeIs('admin.structural-positions.*') ? 'active' : '' }}" 
+                   href="#" data-bs-toggle="collapse" data-bs-target="#akademikMenu" aria-expanded="{{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') || request()->routeIs('admin.structural-positions.*') ? 'true' : 'false' }}">
                     <i class="fas fa-university"></i>
                     Akademik
                     <i class="fas fa-chevron-down ms-auto"></i>
                 </a>
-                <div class="collapse {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') ? 'show' : '' }}" id="akademikMenu">
+                <div class="collapse {{ request()->routeIs('admin.faculties.*') || request()->routeIs('admin.study-programs.*') || request()->routeIs('admin.lecturers.*') || request()->routeIs('admin.students.*') || request()->routeIs('admin.structural-positions.*') ? 'show' : '' }}" id="akademikMenu">
                     <div class="submenu">
                        
                         <a class="nav-link {{ request()->routeIs('admin.study-programs.*') ? 'active' : '' }}" 
@@ -464,6 +464,11 @@
                            href="{{ route('admin.lecturers.index') }}">
                             <i class="fas fa-chalkboard-teacher"></i>
                             Dosen
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('admin.structural-positions.*') ? 'active' : '' }}" 
+                           href="{{ route('admin.structural-positions.index') }}">
+                            <i class="fas fa-sitemap"></i>
+                            Jabatan Struktural
                         </a>
                         <a class="nav-link {{ request()->routeIs('admin.students.*') ? 'active' : '' }}" 
                            href="{{ route('admin.students.index') }}">

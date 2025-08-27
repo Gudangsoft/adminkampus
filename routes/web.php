@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementContro
 use App\Http\Controllers\Admin\StudyProgramController as AdminStudyProgramController;
 use App\Http\Controllers\Admin\LecturerController as AdminLecturerController;
 use App\Http\Controllers\Admin\StudentController as AdminStudentController;
+use App\Http\Controllers\Admin\StructuralPositionController as AdminStructuralPositionController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingsController;
 use App\Http\Controllers\Admin\SliderController as AdminSliderController;
@@ -397,6 +398,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,editor']
     // Student Management
     Route::resource('students', AdminStudentController::class);
     Route::patch('students/{student}/toggle-status', [AdminStudentController::class, 'toggleStatus'])->name('students.toggle-status');
+    
+    // Structural Position Management
+    Route::resource('structural-positions', AdminStructuralPositionController::class);
+    Route::patch('structural-positions/{structuralPosition}/toggle-status', [AdminStructuralPositionController::class, 'toggleStatus'])->name('structural-positions.toggle-status');
     
     }); // End of role:admin,editor group
     

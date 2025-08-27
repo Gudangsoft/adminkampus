@@ -32,7 +32,7 @@ class Lecturer extends Model
         'photo',
         'study_program_ids',
         'is_active',
-        'structural_position',
+        'structural_position_id',
         'structural_description',
         'structural_start_date',
         'structural_end_date',
@@ -69,6 +69,11 @@ class Lecturer extends Model
     public function studyPrograms()
     {
         return $this->belongsToMany(StudyProgram::class, 'lecturer_study_programs');
+    }
+
+    public function structuralPosition()
+    {
+        return $this->belongsTo(StructuralPosition::class);
     }
 
     public function getPhotoUrlAttribute()
@@ -132,12 +137,12 @@ class Lecturer extends Model
 
     public function scopeByStructuralPosition($query, $position)
     {
-        return $query->where('structural_position', $position);
+        return $query->where('structural_position_id', $position);
     }
 
     public function getStructuralStatusAttribute()
     {
-        if (!$this->structural_position) {
+        if (!$this->structural_position_id) {
             return null;
         }
 
@@ -158,24 +163,7 @@ class Lecturer extends Model
 
     public static function getStructuralPositions()
     {
-        return [
-            'Rektor' => 'Rektor',
-            'Wakil Rektor I' => 'Wakil Rektor I (Bidang Akademik)',
-            'Wakil Rektor II' => 'Wakil Rektor II (Bidang Administrasi Umum)',
-            'Wakil Rektor III' => 'Wakil Rektor III (Bidang Kemahasiswaan)',
-            'Wakil Rektor IV' => 'Wakil Rektor IV (Bidang Kerjasama)',
-            'Sekretaris Universitas' => 'Sekretaris Universitas',
-            'Direktur' => 'Direktur',
-            'Wakil Direktur' => 'Wakil Direktur',
-            'Kepala Program Studi' => 'Kepala Program Studi',
-            'Sekretaris Program Studi' => 'Sekretaris Program Studi',
-            'Kepala Lembaga' => 'Kepala Lembaga',
-            'Sekretaris Lembaga' => 'Sekretaris Lembaga',
-            'Kepala Unit' => 'Kepala Unit',
-            'Sekretaris Unit' => 'Sekretaris Unit',
-            'Kepala Bagian' => 'Kepala Bagian',
-            'Kepala Sub Bagian' => 'Kepala Sub Bagian',
-        ];
+        return StructuralPosition::active()->orderBy('sort_order')->pluck('name', 'id')->toArray();
     }
 
     public function getRouteKeyName()
