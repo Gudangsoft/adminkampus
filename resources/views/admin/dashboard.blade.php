@@ -87,6 +87,103 @@
         </div>
     </div>
 
+    <!-- Academic Statistics -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-left-primary">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total Dosen
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ number_format($stats['total_lecturers'] ?? 0) }}
+                            </div>
+                            <div class="small text-muted">
+                                {{ $stats['active_lecturers'] ?? 0 }} aktif
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-left-success">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Jabatan Struktural
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ $stats['structural_lecturers'] ?? 0 }}
+                            </div>
+                            <div class="small text-muted">
+                                {{ $stats['active_structural'] ?? 0 }} aktif
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <a href="{{ route('admin.lecturers.structural') }}" class="btn btn-sm btn-outline-success">
+                            <i class="fas fa-eye"></i> Lihat Detail
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-left-info">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Program Studi
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ $stats['total_study_programs'] ?? 0 }}
+                            </div>
+                            <div class="small text-muted">
+                                {{ $stats['active_study_programs'] ?? 0 }} aktif
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-graduation-cap fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-left-warning">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Galeri Foto
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ number_format($stats['total_galleries'] ?? 0) }}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-images fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <!-- Recent News -->
         <div class="col-lg-8 mb-4">
@@ -203,6 +300,58 @@
                             <span class="badge bg-info">{{ $stats['total_galleries'] ?? 0 }} Item</span>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Structural Positions Widget -->
+            <div class="card mt-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-success">Jabatan Struktural</h6>
+                    <a href="{{ route('admin.lecturers.structural') }}" class="btn btn-sm btn-outline-success">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="border-right">
+                                <h4 class="text-success mb-1">{{ $stats['structural_lecturers'] ?? 0 }}</h4>
+                                <small class="text-muted">Total</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h4 class="text-primary mb-1">{{ $stats['active_structural'] ?? 0 }}</h4>
+                            <small class="text-muted">Aktif</small>
+                        </div>
+                    </div>
+                    @if(!empty($recentStructuralLecturers) && count($recentStructuralLecturers) > 0)
+                        <hr class="my-3">
+                        <h6 class="text-muted mb-2">Terbaru:</h6>
+                        @foreach($recentStructuralLecturers->take(3) as $lecturer)
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0">
+                                    @if($lecturer->photo)
+                                        <img src="{{ $lecturer->photo_url }}" alt="{{ $lecturer->name }}" 
+                                             class="rounded-circle" width="32" height="32">
+                                    @else
+                                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" 
+                                             style="width: 32px; height: 32px;">
+                                            <small class="text-white">{{ substr($lecturer->name, 0, 2) }}</small>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="flex-grow-1 ms-2 small">
+                                    <div class="fw-bold">{{ Str::limit($lecturer->name, 20) }}</div>
+                                    <div class="text-muted">{{ $lecturer->structuralPosition->name ?? 'Unknown' }}</div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="text-center py-3">
+                            <i class="fas fa-user-tie fa-2x text-muted mb-2"></i>
+                            <p class="text-muted small mb-0">Belum ada jabatan struktural</p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
