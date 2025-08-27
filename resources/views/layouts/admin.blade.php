@@ -460,11 +460,26 @@
                             <i class="fas fa-graduation-cap"></i>
                             Program Studi
                         </a>
-                        <a class="nav-link {{ request()->routeIs('admin.lecturers.*') ? 'active' : '' }}" 
-                           href="{{ route('admin.lecturers.index') }}">
+                        <a class="nav-link dropdown-toggle {{ request()->routeIs('admin.lecturers.*') ? 'active' : '' }}" 
+                           href="#" data-bs-toggle="collapse" data-bs-target="#lecturerMenu" 
+                           aria-expanded="{{ request()->routeIs('admin.lecturers.*') ? 'true' : 'false' }}">
                             <i class="fas fa-chalkboard-teacher"></i>
                             Dosen
                         </a>
+                        <div class="collapse {{ request()->routeIs('admin.lecturers.*') ? 'show' : '' }}" id="lecturerMenu">
+                            <div class="nav nav-sm flex-column">
+                                <a class="nav-link {{ request()->routeIs('admin.lecturers.index') ? 'active' : '' }}" 
+                                   href="{{ route('admin.lecturers.index') }}">
+                                    <i class="fas fa-list"></i>
+                                    Semua Dosen
+                                </a>
+                                <a class="nav-link {{ request()->routeIs('admin.lecturers.structural') ? 'active' : '' }}" 
+                                   href="{{ route('admin.lecturers.structural') }}">
+                                    <i class="fas fa-user-tie"></i>
+                                    Jabatan Struktural
+                                </a>
+                            </div>
+                        </div>
                         <a class="nav-link {{ request()->routeIs('admin.structural-positions.*') ? 'active' : '' }}" 
                            href="{{ route('admin.structural-positions.index') }}">
                             <i class="fas fa-sitemap"></i>

@@ -49,7 +49,93 @@ class LecturerController extends Controller
         
         return view('admin.lecturers.index', compact('lecturers', 'positions', 'structuralPositions'));
     }
-    
+
+    public function structural(Request $request)
+    {
+        $query = Lecturer::with(['structuralPosition', 'studyPrograms'])
+            ->whereNotNull('structural_position_id')
+            ->where('is_active', true);
+        
+        // Search
+        if ($request->has('search') && $request->search) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('nidn', 'like', '%' . $request->search . '%')
+                  ->orWhereHas('structuralPosition', function($sq) use ($request) {
+                      $sq->where('name', 'like', '%' . $request->search . '%');
+                  });
+            });
+        }
+        
+        // Structural position filter
+        if ($request->has('structural_position') && $request->structural_position) {
+            $query->where('structural_position_id', $request->structural_position);
+        }
+        
+        // Category filter
+        if ($request->has('category') && $request->category) {
+            $query->whereHas('structuralPosition', function($q) use ($request) {
+                $q->where('category', $request->category);
+            });
+        }
+        
+        // Status filter (active, upcoming, expired)
+        if ($request->has('status') && $request->status) {
+            $now = now();
+            switch ($request->status) {
+                case 'active':
+                    $query->where(function($q) use ($now) {
+                        $q->where(function($sq) use ($now) {
+                            $sq->whereNull('structural_start_date')
+                               ->orWhere('structural_start_date', '<=', $now);
+                        })->where(function($sq) use ($now) {
+                            $sq->whereNull('structural_end_date')
+                               ->orWhere('structural_end_date', '>=', $now);
+                        });
+                    });
+                    break;
+                case 'upcoming':
+                    $query->where('structural_start_date', '>', $now);
+                    break;
+                case 'expired':
+                    $query->where('structural_end_date', '<', $now);
+                    break;
+            }
+        }
+        
+        $lecturers = $query->orderBy('structural_position_id')
+                          ->orderBy('name')
+                          ->paginate(15);
+        
+        $structuralPositions = StructuralPosition::active()->orderBy('sort_order')->pluck('name', 'id');
+        $categories = StructuralPosition::getCategories();
+        
+        // Statistics
+        $stats = [
+            'total' => Lecturer::whereNotNull('structural_position_id')->where('is_active', true)->count(),
+            'active' => Lecturer::whereNotNull('structural_position_id')
+                ->where('is_active', true)
+                ->where(function($q) {
+                    $now = now();
+                    $q->where(function($sq) use ($now) {
+                        $sq->whereNull('structural_start_date')
+                           ->orWhere('structural_start_date', '<=', $now);
+                    })->where(function($sq) use ($now) {
+                        $sq->whereNull('structural_end_date')
+                           ->orWhere('structural_end_date', '>=', $now);
+                    });
+                })->count(),
+            'upcoming' => Lecturer::whereNotNull('structural_position_id')
+                ->where('is_active', true)
+                ->where('structural_start_date', '>', now())->count(),
+            'expired' => Lecturer::whereNotNull('structural_position_id')
+                ->where('is_active', true)
+                ->where('structural_end_date', '<', now())->count(),
+        ];
+        
+        return view('admin.lecturers.structural', compact('lecturers', 'structuralPositions', 'categories', 'stats'));
+    }
+
     public function create()
     {
         $studyPrograms = StudyProgram::active()->orderBy('name')->get();

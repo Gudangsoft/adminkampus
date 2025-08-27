@@ -43,7 +43,7 @@ class StructuralPosition extends Model
 
     public function lecturers()
     {
-        return $this->hasMany(Lecturer::class, 'structural_position', 'name');
+        return $this->hasMany(Lecturer::class, 'structural_position_id');
     }
 
     public function scopeActive($query)
