@@ -165,19 +165,19 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="structural_position" class="form-label">Jabatan Struktural</label>
-                                <select class="form-select @error('structural_position') is-invalid @enderror" 
-                                        id="structural_position" 
-                                        name="structural_position">
+                                <label for="structural_position_id" class="form-label">Jabatan Struktural</label>
+                                <select class="form-select @error('structural_position_id') is-invalid @enderror" 
+                                        id="structural_position_id" 
+                                        name="structural_position_id">
                                     <option value="">Tidak Ada Jabatan Struktural</option>
                                     @foreach($structuralPositions as $key => $position)
                                         <option value="{{ $key }}" 
-                                                {{ old('structural_position', $lecturer->structural_position) == $key ? 'selected' : '' }}>
+                                                {{ old('structural_position_id', $lecturer->structural_position_id) == $key ? 'selected' : '' }}>
                                             {{ $position }}
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('structural_position')
+                                @error('structural_position_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Lecturer;
 use App\Models\StudyProgram;
+use App\Models\StructuralPosition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ class LecturerController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Lecturer::query();
+        $query = Lecturer::with('structuralPosition');
         
         // Search
         if ($request->has('search') && $request->search) {
@@ -31,7 +32,7 @@ class LecturerController extends Controller
         
         // Structural position filter
         if ($request->has('structural_position') && $request->structural_position) {
-            $query->where('structural_position', $request->structural_position);
+            $query->where('structural_position_id', $request->structural_position);
         }
         
         // Status filter
@@ -67,7 +68,7 @@ class LecturerController extends Controller
             'study_program_ids.*' => 'exists:study_programs,id',
             'gender' => 'required|in:male,female',
             'position' => 'required|in:Asisten Ahli,Lektor,Lektor Kepala,Guru Besar',
-            'structural_position' => 'nullable|string',
+            'structural_position_id' => 'nullable|exists:structural_positions,id',
             'structural_description' => 'nullable|string',
             'structural_start_date' => 'nullable|date',
             'structural_end_date' => 'nullable|date|after_or_equal:structural_start_date',
@@ -128,7 +129,7 @@ class LecturerController extends Controller
             'study_program_ids.*' => 'exists:study_programs,id',
             'gender' => 'required|in:male,female',
             'position' => 'required|in:Asisten Ahli,Lektor,Lektor Kepala,Guru Besar',
-            'structural_position' => 'nullable|string',
+            'structural_position_id' => 'nullable|exists:structural_positions,id',
             'structural_description' => 'nullable|string',
             'structural_start_date' => 'nullable|date',
             'structural_end_date' => 'nullable|date|after_or_equal:structural_start_date',
@@ -195,7 +196,7 @@ class LecturerController extends Controller
     public function updateStructural(Request $request, Lecturer $lecturer)
     {
         $validatedData = $request->validate([
-            'structural_position' => 'nullable|string',
+            'structural_position_id' => 'nullable|exists:structural_positions,id',
             'structural_description' => 'nullable|string',
             'structural_start_date' => 'nullable|date',
             'structural_end_date' => 'nullable|date|after_or_equal:structural_start_date',
@@ -203,7 +204,7 @@ class LecturerController extends Controller
         
         $lecturer->update($validatedData);
         
-        $message = $validatedData['structural_position'] 
+        $message = $validatedData['structural_position_id'] 
             ? 'Jabatan struktural berhasil diperbarui.' 
             : 'Jabatan struktural berhasil dihapus.';
         

@@ -115,9 +115,9 @@
                                         </span>
                                     </td>
                                     <td>
-                                        @if($lecturer->structural_position)
+                                        @if($lecturer->structuralPosition)
                                             <span class="badge bg-info">
-                                                {{ $lecturer->structural_position }}
+                                                {{ $lecturer->structuralPosition->name }}
                                             </span>
                                             @if($lecturer->structural_status)
                                                 <br>
@@ -226,11 +226,11 @@
                     
                     <div class="mb-3">
                         <label for="structural_position{{ $lecturer->id }}" class="form-label">Jabatan Struktural</label>
-                        <select class="form-select" id="structural_position{{ $lecturer->id }}" name="structural_position">
+                        <select class="form-select" id="structural_position{{ $lecturer->id }}" name="structural_position_id">
                             <option value="">Tidak Ada Jabatan Struktural</option>
                             @foreach($structuralPositions as $key => $position)
                                 <option value="{{ $key }}" 
-                                        {{ $lecturer->structural_position == $key ? 'selected' : '' }}>
+                                        {{ $lecturer->structural_position_id == $key ? 'selected' : '' }}>
                                     {{ $position }}
                                 </option>
                             @endforeach
