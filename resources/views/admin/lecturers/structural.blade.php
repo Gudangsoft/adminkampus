@@ -109,9 +109,14 @@
                             <p class="card-title-desc">Kelola dan monitor jabatan struktural dosen</p>
                         </div>
                         <div class="col-auto">
-                            <a href="{{ route('admin.lecturers.index') }}" class="btn btn-outline-primary">
-                                <i class="bx bx-list-ul"></i> Semua Dosen
-                            </a>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('admin.lecturers.index') }}" class="btn btn-outline-primary">
+                                    <i class="bx bx-list-ul me-1"></i> Semua Dosen
+                                </a>
+                                <a href="{{ route('admin.lecturers.create') }}" class="btn btn-primary">
+                                    <i class="bx bx-plus me-1"></i> Tambah Dosen
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -259,13 +264,24 @@
                                     <td>
                                         <div class="d-flex gap-2">
                                             <a href="{{ route('admin.lecturers.show', $lecturer) }}" 
-                                               class="btn btn-sm btn-outline-secondary" title="Lihat Detail">
-                                                <i class="bx bx-show"></i>
+                                               class="btn btn-sm btn-outline-info" 
+                                               title="Lihat Detail Dosen"
+                                               data-bs-toggle="tooltip">
+                                                <i class="bx bx-show me-1"></i>Detail
                                             </a>
                                             <a href="{{ route('admin.lecturers.edit', $lecturer) }}" 
-                                               class="btn btn-sm btn-outline-primary" title="Edit">
-                                                <i class="bx bx-edit"></i>
+                                               class="btn btn-sm btn-outline-primary" 
+                                               title="Edit Data Dosen"
+                                               data-bs-toggle="tooltip">
+                                                <i class="bx bx-edit me-1"></i>Edit
                                             </a>
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-outline-success" 
+                                                    title="Kelola Jabatan Struktural"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#structuralModal{{ $lecturer->id }}">
+                                                <i class="bx bx-user-plus me-1"></i>Jabatan
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -304,6 +320,126 @@
         </div>
     </div>
 </div>
+
+<!-- Structural Position Modals -->
+@foreach($lecturers as $lecturer)
+<div class="modal fade" id="structuralModal{{ $lecturer->id }}" tabindex="-1" aria-labelledby="structuralModalLabel{{ $lecturer->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="{{ route('admin.lecturers.update-structural', $lecturer) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="structuralModalLabel{{ $lecturer->id }}">
+                        <i class="bx bx-user-plus me-2"></i>Kelola Jabatan Struktural
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            @if($lecturer->photo)
+                                <img src="{{ $lecturer->photo_url }}" alt="{{ $lecturer->name }}" 
+                                     class="img-thumbnail rounded" style="width: 100%; max-width: 120px;">
+                            @else
+                                <div class="bg-primary rounded d-flex align-items-center justify-content-center text-white" 
+                                     style="width: 120px; height: 120px; font-size: 2rem;">
+                                    {{ substr($lecturer->name, 0, 2) }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="col-md-9">
+                            <h5 class="mb-1">{{ $lecturer->full_name }}</h5>
+                            <p class="text-muted mb-1">
+                                @if($lecturer->nidn)
+                                    NIDN: {{ $lecturer->nidn }}
+                                @else
+                                    NIDN belum diisi
+                                @endif
+                            </p>
+                            <p class="text-muted mb-0">{{ $lecturer->email ?? 'Email belum diisi' }}</p>
+                            @if($lecturer->structuralPosition)
+                                <div class="mt-2">
+                                    <span class="badge bg-info">Jabatan Saat Ini: {{ $lecturer->structuralPosition->name }}</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="structural_position{{ $lecturer->id }}" class="form-label">
+                                <i class="bx bx-briefcase me-1"></i>Jabatan Struktural
+                            </label>
+                            <select class="form-select" id="structural_position{{ $lecturer->id }}" name="structural_position_id">
+                                <option value="">Tidak Ada Jabatan Struktural</option>
+                                @foreach($structuralPositions as $key => $position)
+                                    <option value="{{ $key }}" 
+                                            {{ $lecturer->structural_position_id == $key ? 'selected' : '' }}>
+                                        {{ $position }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="structural_status{{ $lecturer->id }}" class="form-label">
+                                <i class="bx bx-info-circle me-1"></i>Status
+                            </label>
+                            <input type="text" class="form-control" value="{{ ucfirst($lecturer->structural_status ?? 'Tidak Ada') }}" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="structural_description{{ $lecturer->id }}" class="form-label">
+                            <i class="bx bx-detail me-1"></i>Deskripsi Jabatan
+                        </label>
+                        <textarea class="form-control" 
+                                  id="structural_description{{ $lecturer->id }}" 
+                                  name="structural_description" 
+                                  rows="3"
+                                  placeholder="Deskripsi tugas dan tanggung jawab jabatan struktural">{{ $lecturer->structural_description }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="structural_start_date{{ $lecturer->id }}" class="form-label">
+                                <i class="bx bx-calendar me-1"></i>Tanggal Mulai
+                            </label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   id="structural_start_date{{ $lecturer->id }}" 
+                                   name="structural_start_date"
+                                   value="{{ $lecturer->structural_start_date ? $lecturer->structural_start_date->format('Y-m-d') : '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="structural_end_date{{ $lecturer->id }}" class="form-label">
+                                <i class="bx bx-calendar-x me-1"></i>Tanggal Berakhir
+                            </label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   id="structural_end_date{{ $lecturer->id }}" 
+                                   name="structural_end_date"
+                                   value="{{ $lecturer->structural_end_date ? $lecturer->structural_end_date->format('Y-m-d') : '' }}">
+                            <div class="form-text">Kosongkan jika tidak ada batas waktu</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bx bx-x me-1"></i>Batal
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bx bx-save me-1"></i>Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
 @endsection
 
 @push('styles')
@@ -330,5 +466,40 @@
 .table-centered td {
     vertical-align: middle;
 }
+
+.modal-header.bg-primary {
+    border-bottom: none;
+}
+
+.badge {
+    font-size: 0.75em;
+}
 </style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    // Auto-submit form on filter change
+    document.querySelectorAll('select[name="structural_position"], select[name="category"], select[name="status"]').forEach(function(select) {
+        select.addEventListener('change', function() {
+            this.closest('form').submit();
+        });
+    });
+    
+    // Enhanced modal functionality
+    document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Add any custom modal behavior here
+            console.log('Opening structural position modal');
+        });
+    });
+});
+</script>
 @endpush

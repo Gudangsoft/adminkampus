@@ -6,9 +6,14 @@
 <div class="container-fluid px-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3 mb-0">Kelola Dosen</h1>
-        <a href="{{ route('admin.lecturers.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus me-1"></i> Tambah Dosen
-        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.lecturers.structural') }}" class="btn btn-outline-success">
+                <i class="fas fa-user-tie me-1"></i> Dosen Struktural
+            </a>
+            <a href="{{ route('admin.lecturers.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i> Tambah Dosen
+            </a>
+        </div>
     </div>
 
     <!-- Filter Section -->

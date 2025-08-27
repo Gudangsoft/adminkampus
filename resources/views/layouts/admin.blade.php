@@ -814,6 +814,9 @@
         });
     </script>
     
+    <!-- Admin Buttons Enhancement -->
+    <script src="{{ asset('js/admin-buttons.js') }}"></script>
+    
     @stack('scripts')
 </body>
 </html>
