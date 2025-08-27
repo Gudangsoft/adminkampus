@@ -799,7 +799,7 @@
                                     
                                     <div class="mb-2">
                                         <span class="badge text-success px-2 py-1" style="font-size: 0.7rem; background-color: rgba(25, 135, 84, 0.1);">
-                                            {{ Str::limit($official->structural_position, 20) }}
+                                            {{ Str::limit($official->structuralPosition ? $official->structuralPosition->name : '-', 20) }}
                                         </span>
                                     </div>
 

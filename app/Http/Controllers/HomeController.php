@@ -50,39 +50,31 @@ class HomeController extends Controller
 
             // Get campus officials/leaders (pejabat kampus)
             $campusOfficials = \App\Models\Lecturer::active()
-                ->whereNotNull('structural_position')
+                ->whereNotNull('structural_position_id')
+                ->with('structuralPosition')
                 ->where(function($query) {
                     $query->whereNull('structural_end_date')
                           ->orWhere('structural_end_date', '>=', now()->subYears(1)); // Include recent officials
                 })
-                ->whereIn('structural_position', [
-                    'Rektor', 
-                    'Wakil Rektor I', 
-                    'Wakil Rektor II', 
-                    'Wakil Rektor III', 
-                    'Wakil Rektor IV',
-                    'Direktur',
-                    'Wakil Direktur',
-                    'Sekretaris Universitas',
-                    'Dekan Fakultas Teknik',
-                    'Ketua Program Studi Teknik Informatika',
-                    'Ketua Program Studi Teknik Sipil',
-                    'Ketua Program Studi Manajemen'
-                ])
-                ->orderByRaw("
-                    CASE structural_position 
-                        WHEN 'Rektor' THEN 1
-                        WHEN 'Wakil Rektor I' THEN 2  
-                        WHEN 'Wakil Rektor II' THEN 3
-                        WHEN 'Wakil Rektor III' THEN 4
-                        WHEN 'Wakil Rektor IV' THEN 5
-                        WHEN 'Direktur' THEN 6
-                        WHEN 'Wakil Direktur' THEN 7
-                        WHEN 'Sekretaris Universitas' THEN 8
-                        WHEN 'Dekan Fakultas Teknik' THEN 9
-                        ELSE 10
-                    END
-                ")
+                ->whereHas('structuralPosition', function($query) {
+                    $query->whereIn('name', [
+                        'Rektor', 
+                        'Wakil Rektor I', 
+                        'Wakil Rektor II', 
+                        'Wakil Rektor III', 
+                        'Wakil Rektor IV',
+                        'Direktur',
+                        'Wakil Direktur',
+                        'Sekretaris Universitas',
+                        'Dekan Fakultas Teknik',
+                        'Ketua Program Studi Teknik Informatika',
+                        'Ketua Program Studi Teknik Sipil',
+                        'Ketua Program Studi Manajemen'
+                    ]);
+                })
+                ->join('structural_positions', 'lecturers.structural_position_id', '=', 'structural_positions.id')
+                ->orderBy('structural_positions.sort_order')
+                ->select('lecturers.*')
                 ->take(6)
                 ->get();
 

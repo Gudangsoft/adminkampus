@@ -94,7 +94,7 @@
             </div>
             
             <!-- Structural Position Info -->
-            @if($lecturer->structural_position)
+            @if($lecturer->structuralPosition)
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-warning text-dark">
                     <h6 class="mb-0"><i class="fas fa-sitemap me-2"></i>Jabatan Struktural</h6>
@@ -102,7 +102,7 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <strong>Jabatan:</strong><br>
-                        <span class="badge bg-info fs-6">{{ $lecturer->structural_position }}</span>
+                        <span class="badge bg-info fs-6">{{ $lecturer->structuralPosition->name }}</span>
                         @if($lecturer->structural_status)
                             <span class="badge 
                                 @if($lecturer->structural_status == 'active') bg-success

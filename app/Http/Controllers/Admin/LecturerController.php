@@ -105,6 +105,7 @@ class LecturerController extends Controller
     
     public function show(Lecturer $lecturer)
     {
+        $lecturer->load('structuralPosition');
         $studyPrograms = StudyProgram::whereIn('id', json_decode($lecturer->study_program_ids ?? '[]'))->get();
         
         return view('admin.lecturers.show', compact('lecturer', 'studyPrograms'));
