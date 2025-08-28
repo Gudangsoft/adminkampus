@@ -190,6 +190,7 @@
                                     <th>Nama & NIDN</th>
                                     <th>Jabatan Struktural</th>
                                     <th>Periode</th>
+                                    <th>Status Jabatan</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -262,32 +263,51 @@
                                         <span class="badge {{ $badgeClass }}">{{ $statusText }}</span>
                                     </td>
                                     <td>
-                                        <div class="d-flex gap-2">
+                                        <form action="{{ route('admin.lecturers.toggle-status', $lecturer) }}" 
+                                              method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" 
+                                                    class="btn btn-sm {{ $lecturer->is_active ? 'btn-success' : 'btn-secondary' }}"
+                                                    title="{{ $lecturer->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
+                                                <i class="fas {{ $lecturer->is_active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
                                             <a href="{{ route('admin.lecturers.show', $lecturer) }}" 
-                                               class="btn btn-sm btn-outline-info" 
-                                               title="Lihat Detail Dosen"
-                                               data-bs-toggle="tooltip">
-                                                <i class="bx bx-show me-1"></i>Detail
-                                            </a>
-                                            <a href="{{ route('admin.lecturers.edit', $lecturer) }}" 
-                                               class="btn btn-sm btn-outline-primary" 
-                                               title="Edit Data Dosen"
-                                               data-bs-toggle="tooltip">
-                                                <i class="bx bx-edit me-1"></i>Edit
+                                               class="btn btn-sm btn-outline-info" title="Lihat">
+                                                <i class="fas fa-eye"></i>
                                             </a>
                                             <button type="button" 
-                                                    class="btn btn-sm btn-outline-success" 
+                                                    class="btn btn-sm btn-outline-primary" 
                                                     title="Kelola Jabatan Struktural"
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#structuralModal{{ $lecturer->id }}">
-                                                <i class="bx bx-user-plus me-1"></i>Jabatan
+                                                <i class="fas fa-user-tie"></i>
                                             </button>
+                                            <a href="{{ route('admin.lecturers.edit', $lecturer) }}" 
+                                               class="btn btn-sm btn-outline-warning" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('admin.lecturers.destroy', $lecturer) }}" 
+                                                  method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                        class="btn btn-sm btn-outline-danger" 
+                                                        title="Hapus"
+                                                        onclick="return confirm('Yakin ingin menghapus dosen {{ $lecturer->name }}?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="6" class="text-center py-4">
+                                    <td colspan="7" class="text-center py-4">
                                         <div class="text-muted">
                                             <i class="bx bx-search font-size-48"></i>
                                             <p class="mt-2">Tidak ada dosen dengan jabatan struktural ditemukan</p>
