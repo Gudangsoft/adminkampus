@@ -118,6 +118,7 @@
                                         <i class="fas fa-sort text-muted" title="Drag untuk mengurutkan"></i>
                                     </th>
                                     <th>Program Studi</th>
+                                    <th>Kode</th>
                                     <th>Jenjang</th>
                                     <th>Akreditasi</th>
                                     <th>Mahasiswa</th>
@@ -139,6 +140,13 @@
                                                     <small class="text-muted">{{ Str::limit($program->description, 60) }}</small>
                                                 @endif
                                             </div>
+                                        </td>
+                                        <td>
+                                            @if($program->code)
+                                                <span class="badge bg-info">{{ $program->code }}</span>
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
                                         </td>
                                         <td>
                                             <span class="badge bg-primary">{{ $program->degree }}</span>

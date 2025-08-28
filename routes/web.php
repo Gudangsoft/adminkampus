@@ -52,6 +52,7 @@ use App\Http\Controllers\AdvancedSearchController;
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', function() { return view('frontend.about'); })->name('about');
+Route::get('/pejabat-struktural', [HomeController::class, 'campusOfficials'])->name('campus.officials');
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
 
 // Auto login route untuk testing (hapus di production)

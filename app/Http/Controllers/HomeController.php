@@ -57,26 +57,12 @@ class HomeController extends Controller
                           ->orWhere('structural_end_date', '>=', now()->subYears(1)); // Include recent officials
                 })
                 ->whereHas('structuralPosition', function($query) {
-                    $query->where('structural_positions.is_active', 1)
-                          ->whereIn('name', [
-                        'Rektor', 
-                        'Wakil Rektor I', 
-                        'Wakil Rektor II', 
-                        'Wakil Rektor III', 
-                        'Wakil Rektor IV',
-                        'Direktur',
-                        'Wakil Direktur',
-                        'Sekretaris Universitas',
-                        'Dekan Fakultas Teknik',
-                        'Ketua Program Studi Teknik Informatika',
-                        'Ketua Program Studi Teknik Sipil',
-                        'Ketua Program Studi Manajemen'
-                    ]);
+                    $query->where('structural_positions.is_active', 1);
                 })
                 ->join('structural_positions', 'lecturers.structural_position_id', '=', 'structural_positions.id')
                 ->orderBy('structural_positions.sort_order')
                 ->select('lecturers.*')
-                ->take(6)
+                ->take(10) // Increase limit to show more officials
                 ->get();
 
             // Global settings
@@ -95,6 +81,58 @@ class HomeController extends Controller
             \Log::error('HomeController error: ' . $e->getMessage());
             return response('<h1>Homepage Works!</h1><p>Loading sections...</p><p>Error: ' . $e->getMessage() . '</p>');
         }
+    }
+
+    public function campusOfficials()
+    {
+        $campusOfficials = \App\Models\Lecturer::where('lecturers.is_active', 1)
+            ->whereNotNull('structural_position_id')
+            ->with('structuralPosition')
+            ->where(function($query) {
+                $query->whereNull('structural_end_date')
+                      ->orWhere('structural_end_date', '>=', now());
+            })
+            ->whereHas('structuralPosition', function($query) {
+                $query->where('structural_positions.is_active', 1);
+            })
+            ->join('structural_positions', 'lecturers.structural_position_id', '=', 'structural_positions.id')
+            ->orderBy('structural_positions.sort_order')
+            ->select('lecturers.*')
+            ->get();
+
+        // Define hierarchy order - from highest to lowest level
+        $hierarchyOrder = [
+            'Rektor' => 1,           // Pimpinan Sekolah Tinggi (Rektor & Wakil Rektor)
+            'Direktur' => 2,         // Pimpinan Sekolah Tinggi level Direktur
+            'Lembaga' => 3,          // Pimpinan Lembaga (LPPM, dll)
+            'Program Studi' => 4,    // Pimpinan Program Studi
+            'Dekan' => 5,            // Dekan (jika ada)
+            'Unit' => 6,             // Unit kerja
+            'Bagian' => 7,           // Bagian
+            'Lainnya' => 8           // Level bawah lainnya
+        ];
+
+        // Group by category for better organization
+        $groupedOfficials = $campusOfficials->groupBy(function($official) {
+            return $official->structuralPosition->category;
+        });
+        
+        // Sort groups by hierarchy order
+        $groupedOfficials = $groupedOfficials->sortBy(function($officials, $category) use ($hierarchyOrder) {
+            return $hierarchyOrder[$category] ?? 999; // Default to last if category not found
+        });
+
+        // Global settings
+        $globalSettings = [
+            'site_name' => \App\Models\Setting::get('site_name', 'KESOSI'),
+            'site_description' => \App\Models\Setting::get('site_description', 'Kampus Kesehatan Modern'),
+            'site_logo' => \App\Models\Setting::get('site_logo', ''),
+            'contact_email' => \App\Models\Setting::get('contact_email', 'info@kesosi.ac.id'),
+            'contact_phone' => \App\Models\Setting::get('contact_phone', '+62 21 1234567'),
+            'site_keywords' => \App\Models\Setting::get('site_keywords', 'kampus, universitas, kesehatan, pendidikan'),
+        ];
+
+        return view('frontend.campus-officials', compact('campusOfficials', 'groupedOfficials', 'globalSettings'));
     }
 
     public function about()

@@ -219,6 +219,12 @@ class StudyProgramController extends Controller
                 'max:255',
                 Rule::unique('study_programs')->ignore($studyProgramId)
             ],
+            'code' => [
+                'required',
+                'string',
+                'max:10',
+                Rule::unique('study_programs')->ignore($studyProgramId)
+            ],
             'degree' => 'required|string|max:50',
             'description' => 'nullable|string|max:1000',
             'curriculum' => 'nullable|string',
@@ -249,6 +255,7 @@ class StudyProgramController extends Controller
     {
         return [
             'name' => $validatedData['name'],
+            'code' => strtoupper($validatedData['code']),
             'degree' => $validatedData['degree'],
             'description' => $validatedData['description'] ?? null,
             'curriculum' => $validatedData['curriculum'] ?? null,

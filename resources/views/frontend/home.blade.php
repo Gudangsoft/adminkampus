@@ -772,7 +772,7 @@
             <!-- Officials Row - Horizontal Scroll -->
             <div class="officials-container">
                 <div class="officials-scroll d-flex gap-4 pb-3" style="overflow-x: auto;">
-                    @foreach($campusOfficials->take(6) as $official)
+                    @foreach($campusOfficials->take(10) as $official)
                     <div class="official-item flex-shrink-0" style="min-width: 200px;">
                         <div class="card border-0 shadow-sm h-100 text-center official-card-horizontal">
                             <div class="card-body p-3">
@@ -824,6 +824,11 @@
                 <small class="text-muted">
                     <i class="fas fa-arrows-alt-h me-1"></i>Geser untuk melihat pejabat lainnya
                 </small>
+                <div class="mt-3">
+                    <a href="{{ route('campus.officials') }}" class="btn btn-success rounded-pill px-4">
+                        <i class="fas fa-users me-2"></i>Lihat Semua Pejabat
+                    </a>
+                </div>
             </div>
         </div>
     </section>

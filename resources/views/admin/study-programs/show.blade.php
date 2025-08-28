@@ -65,6 +65,16 @@
                                             <td>: {{ $studyProgram->name }}</td>
                                         </tr>
                                         <tr>
+                                            <td><strong>Kode Program</strong></td>
+                                            <td>: 
+                                                @if($studyProgram->code)
+                                                    <span class="badge bg-info">{{ $studyProgram->code }}</span>
+                                                @else
+                                                    <span class="text-muted">-</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td><strong>Slug</strong></td>
                                             <td>: {{ $studyProgram->slug }}</td>
                                         </tr>

@@ -57,6 +57,23 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="code">Kode Program Studi <span class="text-danger">*</span></label>
+                                    <input type="text" 
+                                           class="form-control @error('code') is-invalid @enderror" 
+                                           id="code" 
+                                           name="code" 
+                                           value="{{ old('code', $studyProgram->code) }}" 
+                                           placeholder="Contoh: TI, SI, MI, TE"
+                                           maxlength="10"
+                                           style="text-transform: uppercase;"
+                                           required>
+                                    @error('code')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                    <small class="form-text text-muted">Kode unik untuk program studi (maksimal 10 karakter)</small>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="slug">Slug <span class="text-danger">*</span></label>
                                     <input type="text" 
                                            class="form-control @error('slug') is-invalid @enderror" 
@@ -73,15 +90,16 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="degree">Jenjang <span class="text-danger">*</span></label>
-                                            <select class="form-control @error('degree') is-invalid @enderror" 
+                                            <select class="form-select @error('degree') is-invalid @enderror" 
                                                     id="degree" 
                                                     name="degree" 
                                                     required>
                                                 <option value="">Pilih Jenjang</option>
-                                                <option value="D3" {{ old('degree', $studyProgram->degree) == 'D3' ? 'selected' : '' }}>Diploma 3 (D3)</option>
-                                                <option value="S1" {{ old('degree', $studyProgram->degree) == 'S1' ? 'selected' : '' }}>Sarjana (S1)</option>
-                                                <option value="S2" {{ old('degree', $studyProgram->degree) == 'S2' ? 'selected' : '' }}>Magister (S2)</option>
-                                                <option value="S3" {{ old('degree', $studyProgram->degree) == 'S3' ? 'selected' : '' }}>Doktor (S3)</option>
+                                                <option value="D3" {{ old('degree', $studyProgram->degree) == 'D3' ? 'selected' : '' }}>D3 (Diploma 3)</option>
+                                                <option value="D4" {{ old('degree', $studyProgram->degree) == 'D4' ? 'selected' : '' }}>D4 (Diploma 4)</option>
+                                                <option value="S1" {{ old('degree', $studyProgram->degree) == 'S1' ? 'selected' : '' }}>S1 (Sarjana)</option>
+                                                <option value="S2" {{ old('degree', $studyProgram->degree) == 'S2' ? 'selected' : '' }}>S2 (Magister)</option>
+                                                <option value="S3" {{ old('degree', $studyProgram->degree) == 'S3' ? 'selected' : '' }}>S3 (Doktor)</option>
                                             </select>
                                             @error('degree')
                                                 <span class="invalid-feedback">{{ $message }}</span>
@@ -91,14 +109,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="accreditation">Akreditasi</label>
-                                            <select class="form-control @error('accreditation') is-invalid @enderror" 
+                                            <select class="form-select @error('accreditation') is-invalid @enderror" 
                                                     id="accreditation" 
                                                     name="accreditation">
                                                 <option value="">Pilih Akreditasi</option>
-                                                <option value="A" {{ old('accreditation', $studyProgram->accreditation) == 'A' ? 'selected' : '' }}>A</option>
-                                                <option value="B" {{ old('accreditation', $studyProgram->accreditation) == 'B' ? 'selected' : '' }}>B</option>
-                                                <option value="C" {{ old('accreditation', $studyProgram->accreditation) == 'C' ? 'selected' : '' }}>C</option>
-                                                <option value="Unggul" {{ old('accreditation', $studyProgram->accreditation) == 'Unggul' ? 'selected' : '' }}>Unggul</option>
+                                                <option value="A" {{ old('accreditation', $studyProgram->accreditation) == 'A' ? 'selected' : '' }}>A (Unggul)</option>
+                                                <option value="B" {{ old('accreditation', $studyProgram->accreditation) == 'B' ? 'selected' : '' }}>B (Baik Sekali)</option>
+                                                <option value="C" {{ old('accreditation', $studyProgram->accreditation) == 'C' ? 'selected' : '' }}>C (Baik)</option>
                                                 <option value="Baik Sekali" {{ old('accreditation', $studyProgram->accreditation) == 'Baik Sekali' ? 'selected' : '' }}>Baik Sekali</option>
                                                 <option value="Baik" {{ old('accreditation', $studyProgram->accreditation) == 'Baik' ? 'selected' : '' }}>Baik</option>
                                             </select>
@@ -325,6 +342,11 @@ $(document).ready(function() {
                       .replace(/-+/g, '-')
                       .trim('-');
         $('#slug').val(slug);
+    });
+
+    // Auto-uppercase for code input
+    $('#code').on('input', function() {
+        this.value = this.value.toUpperCase();
     });
 
     // Custom file input label
